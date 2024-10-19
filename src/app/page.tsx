@@ -77,14 +77,9 @@ export default function LandingPage() {
           <h2 className="text-4xl font-bold mb-12 text-center">Powerful Features</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <FeatureCard
-              icon={<Code className="h-8 w-8 text-primary" />}
+              icon={<Cpu className="h-8 w-8 text-primary" />}
               title="Kotlin Multiplatform"
               description="Seamless cross-platform game development using Kotlin."
-            />
-            <FeatureCard
-              icon={<Cpu className="h-8 w-8 text-primary" />}
-              title="Cross-Platform"
-              description="Deploy your games on multiple platforms with ease."
             />
             <FeatureCard
               icon={<Layers className="h-8 w-8 text-primary" />}
