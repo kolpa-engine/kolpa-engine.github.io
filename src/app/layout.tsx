@@ -41,7 +41,12 @@ export const metadata: Metadata = {
     site: "@kolpaengine",
     title: "Kolpa Engine",
     description: "Redefining game development with Kotlin Multiplatform.",
-    image: "/favicon.ico"
+    images: [
+      {
+        url: "/favicon.ico",
+        alt: "Kolpa Engine Logo"
+      }
+    ]
   },
 }
 
