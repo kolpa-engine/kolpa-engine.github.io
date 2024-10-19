@@ -63,6 +63,12 @@ export default function About() {
               avatar="https://github.com/Irineu333.png"
               github="https://github.com/Irineu333"
             />
+            <TeamMember
+              name="Ana D. Oliveira"
+              role="Contributor @ kolpa-engine"
+              avatar="https://github.com/AnneOfMars.png"
+              github="https://github.com/AnneOfMars"
+            />
           </div>
         </section>
 
