@@ -43,7 +43,7 @@ export default function LandingPage() {
       <main>
         <section className="container mx-auto px-4 py-20 text-center">
           <h1 className="text-5xl md:text-7xl font-bold mb-6">
-            Unleash Your Game's Potential
+            Unleash Your Game&apos;s Potential
           </h1>
           <p className="text-xl md:text-2xl mb-8 text-muted-foreground">
             Kolpa Engine: The next-gen game development platform for creators who dare to dream big.
@@ -166,7 +166,7 @@ export default function LandingPage() {
         <section id="contact" className="bg-muted py-20">
           <div className="container mx-auto px-4">
             <h2 className="text-4xl font-bold mb-8 text-center">Get in Touch</h2>
-            <p className="text-xl text-center mb-12 text-muted-foreground">Have questions? We're here to help you create amazing games.</p>
+            <p className="text-xl text-center mb-12 text-muted-foreground">Have questions? We&apos;re here to help you create amazing games.</p>
             <form className="max-w-lg mx-auto">
               <div className="grid grid-cols-1 gap-6">
                 <Input type="text" placeholder="Your Name" />
