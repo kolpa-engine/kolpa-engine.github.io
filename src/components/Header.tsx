@@ -16,10 +16,10 @@ export default function Header() {
                     <span className="text-2xl font-bold">Kolpa Engine</span>
                 </div>
                 <div className="hidden md:flex space-x-6">
-                    <Link href="#features" className="text-muted-foreground hover:text-primary transition-colors">Features</Link>
-                    <Link href="#showcase" className="text-muted-foreground hover:text-primary transition-colors">Showcase</Link>
-                    <Link href="#pricing" className="text-muted-foreground hover:text-primary transition-colors">Pricing</Link>
-                    <Link href="#contact" className="text-muted-foreground hover:text-primary transition-colors">Contact</Link>
+                    <Link href="/#features" className="text-muted-foreground hover:text-primary transition-colors">Features</Link>
+                    <Link href="/#showcase" className="text-muted-foreground hover:text-primary transition-colors">Showcase</Link>
+                    <Link href="/#pricing" className="text-muted-foreground hover:text-primary transition-colors">Pricing</Link>
+                    <Link href="/#contact" className="text-muted-foreground hover:text-primary transition-colors">Contact</Link>
                     <Link href="/about" className="text-muted-foreground hover:text-primary transition-colors">About</Link>
                 </div>
                 <Button className="hidden md:inline-flex">Get Started</Button>
@@ -29,10 +29,10 @@ export default function Header() {
             </nav>
             {isMenuOpen && (
                 <div className="mt-4 flex flex-col space-y-4 md:hidden">
-                    <Link href="#features" className="text-muted-foreground hover:text-primary transition-colors">Features</Link>
-                    <Link href="#showcase" className="text-muted-foreground hover:text-primary transition-colors">Showcase</Link>
-                    <Link href="#pricing" className="text-muted-foreground hover:text-primary transition-colors">Pricing</Link>
-                    <Link href="#contact" className="text-muted-foreground hover:text-primary transition-colors">Contact</Link>
+                    <Link href="/#features" className="text-muted-foreground hover:text-primary transition-colors">Features</Link>
+                    <Link href="/#showcase" className="text-muted-foreground hover:text-primary transition-colors">Showcase</Link>
+                    <Link href="/#pricing" className="text-muted-foreground hover:text-primary transition-colors">Pricing</Link>
+                    <Link href="/#contact" className="text-muted-foreground hover:text-primary transition-colors">Contact</Link>
                     <Link href="/about" className="text-muted-foreground hover:text-primary transition-colors">About</Link>
                     <Button>Get Started</Button>
                 </div>
