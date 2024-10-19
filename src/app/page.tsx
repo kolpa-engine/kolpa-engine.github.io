@@ -1,7 +1,7 @@
 "use client"
 
-import { ReactNode, useState } from 'react'
-import Image from 'next/image'
+import { ReactNode, useState } from "react"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent } from "@/components/ui/card"
@@ -62,10 +62,10 @@ export default function LandingPage() {
       <main>
         <section className="container mx-auto px-4 py-20 text-center">
           <h1 className="text-5xl md:text-7xl font-bold mb-6">
-            Unleash Your Game&apos;s Potential
+            Free and open source game engine for everyone.
           </h1>
           <p className="text-xl md:text-2xl mb-8 text-muted-foreground">
-            Kolpa Engine: The next-gen game development platform for creators who dare to dream big.
+            Kolpa Engine: Pioneering the Future of Game Development with Kotlin Multiplatform.
           </p>
           <div className="flex justify-center space-x-4">
             <Button size="lg">Download Now</Button>
@@ -77,19 +77,9 @@ export default function LandingPage() {
           <h2 className="text-4xl font-bold mb-12 text-center">Powerful Features</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <FeatureCard
-              icon={<Zap className="h-8 w-8 text-primary" />}
-              title="Lightning Fast"
-              description="Optimized performance for smooth gameplay and rapid development."
-            />
-            <FeatureCard
-              icon={<Layers className="h-8 w-8 text-primary" />}
-              title="Flexible Architecture"
-              description="Modular design allows for easy customization and expansion."
-            />
-            <FeatureCard
               icon={<Code className="h-8 w-8 text-primary" />}
-              title="Developer Friendly"
-              description="Intuitive API and comprehensive documentation for all skill levels."
+              title="Kotlin Multiplatform"
+              description="Seamless cross-platform game development using Kotlin."
             />
             <FeatureCard
               icon={<Cpu className="h-8 w-8 text-primary" />}
@@ -97,14 +87,29 @@ export default function LandingPage() {
               description="Deploy your games on multiple platforms with ease."
             />
             <FeatureCard
-              icon={<Gamepad2 className="h-8 w-8 text-primary" />}
-              title="Advanced Physics"
-              description="Realistic physics simulation for immersive gameplay experiences."
+              icon={<Layers className="h-8 w-8 text-primary" />}
+              title="Modular Design"
+              description="Add only the components your project needs."
             />
             <FeatureCard
               icon={<Zap className="h-8 w-8 text-primary" />}
-              title="Real-Time Editing"
-              description="Make changes on the fly without interrupting your workflow."
+              title="Optimized Rendering"
+              description="Smooth performance across all platforms."
+            />
+            <FeatureCard
+              icon={<Code className="h-8 w-8 text-primary" />}
+              title="Open-Source"
+              description="Full control with open-source flexibility."
+            />
+            <FeatureCard
+              icon={<Zap className="h-8 w-8 text-primary" />}
+              title="Efficient Memory Usage"
+              description="Optimized memory management for large assets."
+            />
+            <FeatureCard
+              icon={<Gamepad2 className="h-8 w-8 text-primary" />}
+              title="Built-in Physics"
+              description="Precision physics for realistic movement."
             />
           </div>
         </section>
@@ -120,24 +125,24 @@ export default function LandingPage() {
                 <TabsTrigger value="simulation">Simulation</TabsTrigger>
               </TabsList>
               <TabsContent value="action" className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <GameCard title="Neon Blitz" image="/placeholder.svg?height=200&width=300" />
-                <GameCard title="Cyber Assault" image="/placeholder.svg?height=200&width=300" />
-                <GameCard title="Quantum Break" image="/placeholder.svg?height=200&width=300" />
+                <GameCard title="Example" image="/favicon.ico" />
+                <GameCard title="Example" image="/favicon.ico" />
+                <GameCard title="Example" image="/favicon.ico" />
               </TabsContent>
               <TabsContent value="adventure" className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <GameCard title="Mystic Quest" image="/placeholder.svg?height=200&width=300" />
-                <GameCard title="Ethereal Realms" image="/placeholder.svg?height=200&width=300" />
-                <GameCard title="Chronos Shift" image="/placeholder.svg?height=200&width=300" />
+                <GameCard title="Example" image="/favicon.ico" />
+                <GameCard title="Example" image="/favicon.ico" />
+                <GameCard title="Example" image="/favicon.ico" />
               </TabsContent>
               <TabsContent value="strategy" className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <GameCard title="Galactic Empires" image="/placeholder.svg?height=200&width=300" />
-                <GameCard title="Tactical Minds" image="/placeholder.svg?height=200&width=300" />
-                <GameCard title="Civilization X" image="/placeholder.svg?height=200&width=300" />
+                <GameCard title="Example" image="/favicon.ico" />
+                <GameCard title="Example" image="/favicon.ico" />
+                <GameCard title="Example" image="/favicon.ico" />
               </TabsContent>
               <TabsContent value="simulation" className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <GameCard title="City Architect" image="/placeholder.svg?height=200&width=300" />
-                <GameCard title="Flight Master" image="/placeholder.svg?height=200&width=300" />
-                <GameCard title="Eco Tycoon" image="/placeholder.svg?height=200&width=300" />
+                <GameCard title="Example" image="/favicon.ico" />
+                <GameCard title="Example" image="/favicon.ico" />
+                <GameCard title="Example" image="/favicon.ico" />
               </TabsContent>
             </Tabs>
           </div>
@@ -148,23 +153,23 @@ export default function LandingPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <PricingCard
               title="Indie"
-              price="$19"
+              price="$2"
               features={[
                 "Core engine features",
                 "Community support",
                 "Basic asset library",
-                "1 project"
+                "10 projects"
               ]}
             />
             <PricingCard
               title="Pro"
-              price="$49"
+              price="$22"
               features={[
                 "All Indie features",
                 "Advanced physics",
                 "Extended asset library",
                 "Priority support",
-                "5 projects"
+                "1.000 projects"
               ]}
               highlighted={true}
             />
@@ -249,7 +254,7 @@ function GameCard({ title, image }: GameCardProps) {
 
 function PricingCard({ title, price, features, highlighted = false }: PricingCardProps) {
   return (
-    <Card className={highlighted ? 'border-primary' : ''}>
+    <Card className={highlighted ? "border-primary" : ""}>
       <CardContent className="p-6">
         <h3 className="text-2xl font-bold mb-4">{title}</h3>
         <p className="text-4xl font-bold mb-6">{price}<span className="text-xl font-normal">/month</span></p>
