@@ -1,12 +1,12 @@
-"use client"
-
-import { ReactNode, useState } from "react"
+import { ReactNode } from "react"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Code, Cpu, Gamepad2, Layers, Menu, Zap } from "lucide-react"
+import { Code, Cpu, Gamepad2, Layers, MemoryStick, Zap } from "lucide-react"
+import Footer from "@/components/Footer"
+import Header from "@/components/Header"
+import FooterContact from "@/components/FooterContact"
 
 interface FeatureCardProps {
   icon: ReactNode
@@ -26,38 +26,10 @@ interface PricingCardProps {
   highlighted?: boolean
 }
 
-export default function LandingPage() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-
+export default function Index() {
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <header className="container mx-auto px-4 py-6">
-        <nav className="flex justify-between items-center">
-          <div className="flex items-center space-x-4">
-            <Gamepad2 className="h-8 w-8 text-primary" />
-            <span className="text-2xl font-bold">Kolpa Engine</span>
-          </div>
-          <div className="hidden md:flex space-x-6">
-            <a href="#features" className="hover:text-primary transition-colors">Features</a>
-            <a href="#showcase" className="hover:text-primary transition-colors">Showcase</a>
-            <a href="#pricing" className="hover:text-primary transition-colors">Pricing</a>
-            <a href="#contact" className="hover:text-primary transition-colors">Contact</a>
-          </div>
-          <Button className="hidden md:inline-flex">Get Started</Button>
-          <Button variant="ghost" className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-            <Menu />
-          </Button>
-        </nav>
-        {isMenuOpen && (
-          <div className="mt-4 flex flex-col space-y-4 md:hidden">
-            <a href="#features" className="hover:text-primary transition-colors">Features</a>
-            <a href="#showcase" className="hover:text-primary transition-colors">Showcase</a>
-            <a href="#pricing" className="hover:text-primary transition-colors">Pricing</a>
-            <a href="#contact" className="hover:text-primary transition-colors">Contact</a>
-            <Button>Get Started</Button>
-          </div>
-        )}
-      </header>
+      <Header />
 
       <main>
         <section className="container mx-auto px-4 py-20 text-center">
@@ -97,7 +69,7 @@ export default function LandingPage() {
               description="Full control with open-source flexibility."
             />
             <FeatureCard
-              icon={<Zap className="h-8 w-8 text-primary" />}
+              icon={<MemoryStick className="h-8 w-8 text-primary" />}
               title="Efficient Memory Usage"
               description="Optimized memory management for large assets."
             />
@@ -148,17 +120,17 @@ export default function LandingPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <PricingCard
               title="Indie"
-              price="$2"
+              price="$0"
               features={[
                 "Core engine features",
                 "Community support",
                 "Basic asset library",
-                "10 projects"
+                "25 projects"
               ]}
             />
             <PricingCard
               title="Pro"
-              price="$22"
+              price="$18"
               features={[
                 "All Indie features",
                 "Advanced physics",
@@ -182,44 +154,10 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section id="contact" className="bg-muted py-20">
-          <div className="container mx-auto px-4">
-            <h2 className="text-4xl font-bold mb-8 text-center">Get in Touch</h2>
-            <p className="text-xl text-center mb-12 text-muted-foreground">Have questions? We&apos;re here to help you create amazing games.</p>
-            <form className="max-w-lg mx-auto">
-              <div className="grid grid-cols-1 gap-6">
-                <Input type="text" placeholder="Your Name" />
-                <Input type="email" placeholder="Your Email" />
-                <textarea
-                  className="w-full px-3 py-2 text-foreground bg-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring"
-                  rows={4}
-                  placeholder="Your Message"
-                ></textarea>
-                <Button type="submit" size="lg">Send Message</Button>
-              </div>
-            </form>
-          </div>
-        </section>
+        <FooterContact />
       </main>
 
-      <footer className="bg-muted py-8">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="flex items-center space-x-4 mb-4 md:mb-0">
-              <Gamepad2 className="h-8 w-8 text-primary" />
-              <span className="text-2xl font-bold">Kolpa Engine</span>
-            </div>
-            <div className="flex space-x-6">
-              <a href="#" className="hover:text-primary transition-colors">Privacy Policy</a>
-              <a href="#" className="hover:text-primary transition-colors">Terms of Service</a>
-              <a href="#" className="hover:text-primary transition-colors">Contact</a>
-            </div>
-          </div>
-          <div className="mt-8 text-center text-muted-foreground">
-            © {new Date().getFullYear()} Kolpa Engine. All rights reserved.
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   )
 }
