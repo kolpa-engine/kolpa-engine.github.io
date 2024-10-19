@@ -1,11 +1,30 @@
 "use client"
 
-import { useState } from 'react'
+import { ReactNode, useState } from 'react'
+import Image from 'next/image'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Code, Cpu, Gamepad2, Layers, Menu, Zap } from "lucide-react"
+
+interface FeatureCardProps {
+  icon: ReactNode
+  title: string
+  description: string
+}
+
+interface GameCardProps {
+  title: string
+  image: string
+}
+
+interface PricingCardProps {
+  title: string
+  price: string
+  features: string[]
+  highlighted?: boolean
+}
 
 export default function LandingPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -57,32 +76,32 @@ export default function LandingPage() {
         <section id="features" className="container mx-auto px-4 py-20">
           <h2 className="text-4xl font-bold mb-12 text-center">Powerful Features</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <FeatureCard 
+            <FeatureCard
               icon={<Zap className="h-8 w-8 text-primary" />}
               title="Lightning Fast"
               description="Optimized performance for smooth gameplay and rapid development."
             />
-            <FeatureCard 
+            <FeatureCard
               icon={<Layers className="h-8 w-8 text-primary" />}
               title="Flexible Architecture"
               description="Modular design allows for easy customization and expansion."
             />
-            <FeatureCard 
+            <FeatureCard
               icon={<Code className="h-8 w-8 text-primary" />}
               title="Developer Friendly"
               description="Intuitive API and comprehensive documentation for all skill levels."
             />
-            <FeatureCard 
+            <FeatureCard
               icon={<Cpu className="h-8 w-8 text-primary" />}
               title="Cross-Platform"
               description="Deploy your games on multiple platforms with ease."
             />
-            <FeatureCard 
+            <FeatureCard
               icon={<Gamepad2 className="h-8 w-8 text-primary" />}
               title="Advanced Physics"
               description="Realistic physics simulation for immersive gameplay experiences."
             />
-            <FeatureCard 
+            <FeatureCard
               icon={<Zap className="h-8 w-8 text-primary" />}
               title="Real-Time Editing"
               description="Make changes on the fly without interrupting your workflow."
@@ -127,7 +146,7 @@ export default function LandingPage() {
         <section id="pricing" className="container mx-auto px-4 py-20">
           <h2 className="text-4xl font-bold mb-12 text-center">Choose Your Plan</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <PricingCard 
+            <PricingCard
               title="Indie"
               price="$19"
               features={[
@@ -137,7 +156,7 @@ export default function LandingPage() {
                 "1 project"
               ]}
             />
-            <PricingCard 
+            <PricingCard
               title="Pro"
               price="$49"
               features={[
@@ -149,7 +168,7 @@ export default function LandingPage() {
               ]}
               highlighted={true}
             />
-            <PricingCard 
+            <PricingCard
               title="Enterprise"
               price="Custom"
               features={[
@@ -171,9 +190,9 @@ export default function LandingPage() {
               <div className="grid grid-cols-1 gap-6">
                 <Input type="text" placeholder="Your Name" />
                 <Input type="email" placeholder="Your Email" />
-                <textarea 
-                  className="w-full px-3 py-2 text-foreground bg-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring" 
-                  rows={4} 
+                <textarea
+                  className="w-full px-3 py-2 text-foreground bg-background border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring"
+                  rows={4}
                   placeholder="Your Message"
                 ></textarea>
                 <Button type="submit" size="lg">Send Message</Button>
@@ -205,7 +224,7 @@ export default function LandingPage() {
   )
 }
 
-function FeatureCard({ icon, title, description }) {
+function FeatureCard({ icon, title, description }: FeatureCardProps) {
   return (
     <Card>
       <CardContent className="p-6">
@@ -217,10 +236,10 @@ function FeatureCard({ icon, title, description }) {
   )
 }
 
-function GameCard({ title, image }) {
+function GameCard({ title, image }: GameCardProps) {
   return (
     <Card className="overflow-hidden">
-      <img src={image} alt={title} className="w-full h-48 object-cover" />
+      <Image src={image} alt={title} width={300} height={200} className="w-full h-48 object-cover" />
       <CardContent className="p-4">
         <h3 className="text-lg font-semibold">{title}</h3>
       </CardContent>
@@ -228,7 +247,7 @@ function GameCard({ title, image }) {
   )
 }
 
-function PricingCard({ title, price, features, highlighted = false }) {
+function PricingCard({ title, price, features, highlighted = false }: PricingCardProps) {
   return (
     <Card className={highlighted ? 'border-primary' : ''}>
       <CardContent className="p-6">
