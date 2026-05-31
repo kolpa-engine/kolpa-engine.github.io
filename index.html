@@ -1,0 +1,1345 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#000000" />
+
+    <title>Kolpa Engine - Modern C# Game Development</title>
+
+    <meta
+      name="description"
+      content="Kolpa Engine is a modern C# real-time 3D engine and editor focused entirely on performance, intuitive tooling, and an uninterrupted workflow."
+    />
+
+    <meta
+      name="keywords"
+      content="Kolpa Engine, C#, .NET, game engine, 3D engine, game development, Clustered Forward Rendering, Hot Reload, Jolt Physics, GLSL, CSG, Gabriel Aplok"
+    />
+
+    <meta name="author" content="Gabriel Aplok" />
+    <meta name="application-name" content="Kolpa Engine" />
+    <meta name="generator" content="Kolpa Engine Website" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://kolpa-engine.github.io/" />
+
+    <!-- Language -->
+    <link rel="alternate" hreflang="en" href="https://kolpa-engine.github.io/" />
+    <link
+      rel="alternate"
+      hreflang="pt-BR"
+      href="https://kolpa-engine.github.io/?lang=pt-br"
+    />
+    <link rel="alternate" hreflang="x-default" href="https://kolpa-engine.github.io/" />
+
+    <!-- Open Graph -->
+    <meta
+      property="og:title"
+      content="Kolpa Engine - Modern C# Game Development"
+    />
+
+    <meta
+      property="og:description"
+      content="Build bigger, iterate faster with Kolpa Engine. A modern C# game engine focused entirely on performance and intuitive tooling."
+    />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://kolpa-engine.github.io/" />
+    <meta property="og:site_name" content="Kolpa Engine" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="pt_BR" />
+
+    <meta property="og:image" content="https://kolpa-engine.github.io/icon.png" />
+    <meta
+      property="og:image:secure_url"
+      content="https://kolpa-engine.github.io/icon.png"
+    />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
+    <meta property="og:image:alt" content="Kolpa Engine Logo" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <meta
+      name="twitter:title"
+      content="Kolpa Engine - Modern C# Game Development"
+    />
+
+    <meta
+      name="twitter:description"
+      content="Modern C# game development framework focused on performance, intuitive tooling, and an uninterrupted workflow."
+    />
+
+    <meta name="twitter:image" content="https://kolpa-engine.github.io/icon.png" />
+    <meta name="twitter:image:alt" content="Kolpa Engine Logo" />
+
+    <!-- PWA / Mobile -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+
+    <meta name="apple-mobile-web-app-title" content="Kolpa Engine" />
+
+    <!-- Icons -->
+    <link rel="icon" href="/icon.png" sizes="512x512" type="image/png" />
+    <link rel="shortcut icon" href="/icon.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/icon.png" />
+
+    <!-- Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Schema.org JSON-LD -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Kolpa Engine",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": [
+          "Windows",
+          "Linux",
+          "macOS"
+        ],
+        "programmingLanguage": ["C#", ".NET", "GLSL"],
+        "url": "https://kolpa-engine.github.io/",
+        "image": "https://kolpa-engine.github.io/icon.png",
+        "author": {
+          "@type": "Person",
+          "name": "Gabriel Aplok"
+        },
+        "description": "Kolpa Engine is a modern C# real-time 3D engine and editor focused entirely on performance, intuitive tooling, and an uninterrupted workflow."
+      }
+    </script>
+
+    <style>
+      /* root variables */
+      :root {
+        --bg-base: #000000;
+        --bg-surface: #080808;
+
+        --text-primary: #ffffff;
+        --text-secondary: #888888;
+        --text-muted: #555555;
+
+        --accent: #00ff55;
+        --accent-hover: #33ff85;
+
+        --border: #222222;
+        --border-hover: #333333;
+
+        --radius: 4px; /* sharp, minimal corners */
+        --font-main:
+          "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        --font-mono:
+          ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: var(--font-main);
+        background-color: var(--bg-base);
+        color: var(--text-primary);
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+        transition:
+          color 0.2s ease,
+          background-color 0.2s ease,
+          border-color 0.2s ease;
+      }
+
+      /* accessibility */
+      .skip-link {
+        position: absolute;
+        top: -40px;
+        left: 0;
+        background: var(--accent);
+        color: var(--bg-base);
+        padding: 8px;
+        z-index: 9999;
+      }
+      .skip-link:focus {
+        top: 0;
+      }
+
+      /* layout */
+      .shell {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+      }
+
+      /* buttons */
+      .btn-group {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2.5rem;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.8rem 1.75rem;
+        border-radius: var(--radius);
+        font-weight: 600;
+        font-size: 0.95rem;
+        cursor: pointer;
+        border: 1px solid transparent;
+      }
+      .btn-primary {
+        background: var(--accent);
+        color: var(--bg-base);
+      }
+      .btn-primary:hover {
+        background: var(--accent-hover);
+      }
+      .btn-outline {
+        border-color: var(--accent);
+        color: var(--accent);
+        background: transparent;
+      }
+      .btn-outline:hover {
+        background: var(--accent);
+        color: var(--bg-base);
+      }
+
+      /* header & pure css mobile nav (why use js when you can use pure css lol?) */
+      .site-header {
+        position: sticky;
+        top: 0;
+        background: var(--bg-base);
+        border-bottom: 1px solid var(--border);
+        z-index: 100;
+      }
+      .header-inner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 70px;
+      }
+      .logo {
+        font-size: 1.25rem;
+        text-transform: uppercase;
+      }
+      .logo-mark {
+        color: var(--accent);
+      }
+
+      /* mobile toggle checkbox */
+      .nav-toggle {
+        display: none;
+      }
+      .nav-toggle-label {
+        display: none;
+        cursor: pointer;
+        width: 30px;
+        height: 20px;
+        position: relative;
+        z-index: 101;
+      }
+      .nav-toggle-label span,
+      .nav-toggle-label span::before,
+      .nav-toggle-label span::after {
+        display: block;
+        background: var(--text-primary);
+        height: 2px;
+        width: 100%;
+        position: absolute;
+        transition: all 0.2s ease;
+      }
+      .nav-toggle-label span {
+        top: 9px;
+      }
+      .nav-toggle-label span::before {
+        content: "";
+        top: -9px;
+      }
+      .nav-toggle-label span::after {
+        content: "";
+        bottom: -9px;
+      }
+
+      .nav {
+        display: flex;
+        gap: 1.5rem;
+        align-items: center;
+      }
+      .nav a {
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: var(--text-secondary);
+      }
+      .nav a:hover {
+        color: var(--accent);
+      }
+      .nav-cta {
+        border: 1px solid var(--border);
+        padding: 0.4rem 1rem;
+        border-radius: var(--radius);
+        color: var(--text-primary);
+      }
+      .nav-cta:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+
+      @media (max-width: 850px) {
+        .nav-toggle-label {
+          display: block;
+        }
+        .nav {
+          position: absolute;
+          top: 70px;
+          left: 0;
+          width: 100%;
+          background: var(--bg-base);
+          flex-direction: column;
+          align-items: flex-start;
+          padding: 0;
+          max-height: 0;
+          overflow: hidden;
+          transition: max-height 0.3s ease;
+          border-bottom: 1px solid transparent;
+        }
+        .nav a {
+          width: 100%;
+          padding: 1rem 2rem;
+          border-bottom: 1px solid var(--border);
+        }
+        .nav .nav-cta {
+          border: none;
+          border-radius: 0;
+          color: var(--accent);
+        }
+
+        .nav-toggle:checked ~ .nav {
+          max-height: 400px;
+          border-bottom-color: var(--border);
+        }
+        .nav-toggle:checked ~ .nav-toggle-label span {
+          background: transparent;
+        }
+        .nav-toggle:checked ~ .nav-toggle-label span::before {
+          transform: rotate(45deg);
+          top: 0;
+        }
+        .nav-toggle:checked ~ .nav-toggle-label span::after {
+          transform: rotate(-45deg);
+          bottom: 0;
+        }
+      }
+
+      /* ==========================================================================
+         hero section
+         ========================================================================== */
+      .hero {
+        padding: 8rem 0 6rem 0;
+        border-bottom: 1px solid var(--border);
+      }
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        align-items: center;
+      }
+      .eyebrow {
+        color: var(--accent);
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 1.5rem;
+        font-weight: 600;
+      }
+      .hero-copy h1 {
+        font-size: 4rem;
+        font-weight: 800;
+        line-height: 1.1;
+        margin-bottom: 1.5rem;
+        letter-spacing: -0.03em;
+      }
+      .lede {
+        font-size: 1.15rem;
+        color: var(--text-secondary);
+      }
+      .lede strong {
+        color: var(--text-primary);
+      }
+
+      /* ==========================================================================
+         section
+         ========================================================================== */
+      .section-block {
+        padding: 5rem 0;
+        border-bottom: 1px solid var(--border);
+      }
+      .section-header {
+        margin-bottom: 3rem;
+      }
+      .section-title {
+        font-size: 2rem;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        margin-bottom: 1rem;
+      }
+      .section-subtitle {
+        color: var(--text-secondary);
+        font-size: 1.1rem;
+        max-width: 700px;
+      }
+
+      /* quick overview cards */
+      .overview-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+      }
+      .overview-card {
+        background: var(--bg-surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 2rem;
+      }
+      .overview-card h3 {
+        color: var(--text-primary);
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+      }
+      .overview-card p {
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+      }
+      .creator-credit {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--border);
+        width: 100%;
+      }
+      .creator-credit strong {
+        color: var(--accent);
+      }
+
+      .tag-pill {
+        display: inline-block;
+        border: 1px solid var(--border);
+        padding: 0.5rem 1.25rem;
+        border-radius: 50px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: var(--text-secondary);
+        background: var(--bg-surface);
+        cursor: default;
+      }
+      .tag-pill:hover {
+        border-color: var(--accent);
+        color: var(--text-primary);
+      }
+
+      /* ==========================================================================
+         features section
+         ========================================================================== */
+      .feature-nav {
+        padding: 3rem 0;
+      }
+      .feature-pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        list-style: none;
+      }
+      .feature-pill {
+        display: inline-block;
+        border: 1px solid var(--border);
+        padding: 0.5rem 1rem;
+        border-radius: 50px;
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+      }
+      .feature-pill:hover {
+        border-color: var(--accent);
+        color: var(--text-primary);
+      }
+
+      .feature-band {
+        padding: 5rem 0;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        flex-direction: column;
+      }
+      .feature-row {
+        display: flex;
+        flex-direction: column;
+        gap: 4rem;
+        align-items: center;
+      }
+      @media (min-width: 768px) {
+        .feature-row {
+          flex-direction: row;
+        }
+        .feature-band--flip .feature-row {
+          flex-direction: row-reverse;
+        }
+        .feature-shot,
+        .feature-text {
+          flex: 1;
+          min-width: 0;
+          width: 100%;
+        }
+      }
+      .feature-text h3 {
+        font-size: 1.75rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+      }
+      .accent {
+        color: var(--accent);
+      }
+      .feature-text p {
+        color: var(--text-secondary);
+        font-size: 1.05rem;
+      }
+      .feature-text strong {
+        color: var(--text-primary);
+      }
+
+      /* shots & media fallbacks */
+      .shot-frame {
+        margin: 0;
+        background: var(--bg-surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        overflow: hidden;
+        aspect-ratio: 16/9;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--text-muted);
+        position: relative;
+      }
+      /* fallback gradient if images don't load */
+      .shot-frame::before {
+        content: "Engine Viewport Placeholder";
+        position: absolute;
+        font-size: 0.85rem;
+        font-family: var(--font-mono);
+        color: var(--border-hover);
+        z-index: 0;
+      }
+      .shot-frame img,
+      .shot-frame video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        position: relative;
+        z-index: 1;
+        background: var(--bg-surface);
+      }
+
+      /* code windows */
+      .code-window {
+        background: var(--bg-surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        overflow: hidden;
+      }
+      .code-window-bar {
+        background: var(--bg-base);
+        padding: 0.6rem 1rem;
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        border-bottom: 1px solid var(--border);
+        font-family: var(--font-mono);
+      }
+      .code-block {
+        margin: 0;
+        padding: 1.5rem;
+        overflow-x: auto;
+        font-family: var(--font-mono);
+        font-size: 0.85rem;
+        line-height: 1.6;
+      }
+      .code-block--compact {
+        padding: 1rem 1.5rem;
+      }
+
+      /* syntax highlighting */
+      .tk-k {
+        color: var(--accent);
+      }
+      .tk-t {
+        color: var(--text-primary);
+      }
+      .tk-c {
+        color: var(--text-muted);
+      }
+      .tk-s {
+        color: #cccccc;
+      }
+      .tk-v {
+        color: var(--text-secondary);
+      }
+      .tk-f {
+        color: var(--text-primary);
+      }
+      .tk-n {
+        color: var(--accent);
+      }
+
+      /* gitHub cards */
+      .github-repo-card {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 2rem;
+        text-decoration: none;
+        height: 100%;
+        box-sizing: border-box;
+        transition: border-color 0.2s;
+        z-index: 1;
+        background: var(--bg-surface);
+      }
+      .github-repo-card:hover {
+        border-color: var(--accent);
+      }
+      .github-repo-card__top {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+        color: var(--text-muted);
+        font-size: 0.8rem;
+      }
+      .github-repo-card__pill {
+        border: 1px solid var(--border);
+        padding: 0.1rem 0.5rem;
+        border-radius: 12px;
+      }
+      .github-repo-card__slug {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin: 0 0 0.5rem 0;
+        color: var(--accent);
+      }
+      .github-repo-card__owner {
+        color: var(--text-primary);
+      }
+      .github-repo-card__slash {
+        color: var(--text-muted);
+        margin: 0 0.2rem;
+      }
+      .github-repo-card__desc {
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+        margin: 0 0 1.5rem 0;
+      }
+      .github-repo-card__footer {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+      }
+      .github-repo-card__lang-dot {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        background: var(--accent);
+        border-radius: 50%;
+        margin-right: 0.3rem;
+      }
+
+      /* ==========================================================================
+         footer
+         ========================================================================== */
+      .site-footer {
+        padding: 4rem 0;
+        text-align: left;
+      }
+      .footer-grid {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 2rem;
+      }
+      .footer-brand {
+        font-weight: 700;
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+      }
+      .footer-note {
+        color: var(--text-muted);
+        font-size: 0.85rem;
+      }
+      .footer-links {
+        display: flex;
+        gap: 1.5rem;
+      }
+      .footer-links a {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+      }
+      .footer-links a:hover {
+        color: var(--accent);
+      }
+
+      /* scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--bg-base);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--border);
+        border-radius: 0;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: var(--border-hover);
+      }
+
+      @media (max-width: 768px) {
+        .hero-grid {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+        }
+        .hero-copy h1 {
+          font-size: 3.2rem;
+        }
+        .btn-group {
+          flex-direction: column;
+        }
+        .footer-grid {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#features">Skip to features</a>
+
+    <header class="site-header">
+      <div class="shell header-inner">
+        <a class="logo" href="#">Kolpa <span class="logo-mark">Engine</span></a>
+
+        <input type="checkbox" id="nav-toggle" class="nav-toggle" />
+        <label for="nav-toggle" class="nav-toggle-label">
+          <span></span>
+        </label>
+
+        <nav class="nav" aria-label="Primary">
+          <a href="#overview">Overview</a>
+          <a href="#features">Features</a>
+          <a href="#pipeline">Pipeline</a>
+          <a href="#download" class="nav-cta">Download</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="shell hero-grid">
+          <div class="hero-copy">
+            <p class="eyebrow">v1.0 Preview Release</p>
+            <h1>Kolpa Engine</h1>
+            <p class="lede">
+              A modern <strong>C#</strong> game engine focused entirely on
+              performance, intuitive tooling, and an uninterrupted workflow.
+              It's small enough to be understood, deep enough to build real
+              things.
+            </p>
+            <div class="btn-group">
+              <a href="#features" class="btn btn-primary">Features</a>
+              <a href="#" class="btn btn-outline">Docs</a>
+            </div>
+          </div>
+          <div class="hero-visual">
+            <figure class="shot-frame">
+              <img
+                src="content/features/editor.png"
+                alt="Kolpa Engine editor viewport"
+                loading="eager"
+                decoding="async"
+              />
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section id="overview" class="section-block">
+        <div class="shell">
+          <div class="section-header">
+            <h2 class="section-title">
+              From a <span class="accent">Dev</span> to a
+              <span class="accent">Dev</span>
+            </h2>
+            <p class="section-subtitle">
+              Kopla Engine was designed to be used without any issues, without
+              worrying about someone trying to take your money because you used
+              their tool and just want to create your own game.
+            </p>
+          </div>
+          <div class="overview-grid">
+            <div class="overview-card">
+              <h3>Open Source</h3>
+              <p>
+                Did you have any issues or you just love the engine and want to
+                contribute? You can help us develop this ecosystem much better,
+                see our <a href="https://github.com/kolpa-engine">GitHub</a>.
+              </p>
+              <div class="creator-credit">
+                <p>Made by <strong>Gabriel Aplok</strong></p>
+              </div>
+            </div>
+            <div class="overview-card">
+              <h3>Code is First-Class</h3>
+              <p>
+                Forget messy visual scripting graphs. Embrace the power of raw,
+                type-safe C# tightly integrated with the engine core to manage
+                memory, multithreading, and logic deterministically.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="features" id="features">
+        <nav class="feature-nav shell" aria-label="Jump to feature">
+          <ul class="feature-pills">
+            <li>
+              <a class="feature-pill" href="#feature-csharp">C# Workflow</a>
+            </li>
+            <li>
+              <a class="feature-pill" href="#feature-clustered-forward"
+                >Rendering</a
+              >
+            </li>
+            <li>
+              <a class="feature-pill" href="#feature-hot-reload">Hot Reload</a>
+            </li>
+            <li><a class="feature-pill" href="#feature-input">Input</a></li>
+            <li>
+              <a class="feature-pill" href="#feature-lightmaps">Lightmaps</a>
+            </li>
+            <li>
+              <a class="feature-pill" href="#feature-materials">Materials</a>
+            </li>
+            <li><a class="feature-pill" href="#feature-glsl">GLSL</a></li>
+            <li><a class="feature-pill" href="#feature-jolt">Physics</a></li>
+            <li>
+              <a class="feature-pill" href="#feature-animation">Animation</a>
+            </li>
+            <li>
+              <a class="feature-pill" href="#feature-quickui">UI Framework</a>
+            </li>
+            <li>
+              <a class="feature-pill" href="#feature-code-editor"
+                >Built-in IDE</a
+              >
+            </li>
+            <li><a class="feature-pill" href="#feature-csg">CSG</a></li>
+            <li>
+              <a class="feature-pill" href="#feature-packaging">Packaging</a>
+            </li>
+            <li>
+              <a class="feature-pill" href="#feature-pipeline">Pipeline</a>
+            </li>
+          </ul>
+        </nav>
+
+        <article class="feature-band" id="feature-clustered-forward">
+          <div class="shell feature-row">
+            <div class="feature-shot">
+              <figure class="shot-frame">
+                <img
+                  src="content/features/msaa.png"
+                  alt="Kolpa Engine: Clustered Forward viewport"
+                  loading="lazy"
+                />
+              </figure>
+            </div>
+            <div class="feature-text">
+              <h3>Clustered Forward Rendering</h3>
+              <p>
+                The renderer is built around a crisp
+                <strong>Clustered Forward</strong> path. It handles thousands of
+                dynamic lights without giving up on sharp geometry, supporting
+                depth pre-passes, ambient occlusion, shadows, probes, and strict
+                anti-aliasing.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article
+          class="feature-band feature-band--flip"
+          id="feature-hot-reload"
+        >
+          <div class="shell feature-row">
+            <div class="feature-shot">
+              <figure class="shot-frame">
+                <img
+                  src="content/features/hotreload.png"
+                  alt="Hot reload in action"
+                  loading="lazy"
+                />
+              </figure>
+            </div>
+            <div class="feature-text">
+              <h3>Hot Reload</h3>
+              <p>
+                Instantaneous C# script compilation. Stay in the scene while the
+                code changes around it. Save a component, and modify your game
+                logic while the engine is running without dropping a single
+                frame.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="feature-band" id="feature-input">
+          <div class="shell feature-row">
+            <div class="feature-text">
+              <h3>Input System</h3>
+              <p>
+                Input is intentionally simple and action-based. Get one clear
+                snapshot each frame for controllers, keyboard, and mouse, shared
+                seamlessly by the editor and standalone builds.
+              </p>
+            </div>
+            <div class="feature-shot">
+              <div
+                class="code-window"
+                role="img"
+                aria-label="Example: reading GameInput in gameplay code"
+              >
+                <div class="code-window-bar">
+                  <span>PlayerController.cs</span>
+                </div>
+                <pre
+                  class="code-block code-block--compact"
+                ><code><span class="tk-c">/// Action-based, scalable input routing.</span>
+<span class="tk-k">if</span> (<span class="tk-v">Input</span>!.<span class="tk-f">IsActionPressed</span>(<span class="tk-s">"Jump"</span>))
+    <span class="tk-v">Velocity</span>.<span class="tk-v">Y</span> <span class="tk-k">=</span> <span class="tk-v">JumpForce</span>;
+
+<span class="tk-t">var</span> <span class="tk-v">moveDir</span> <span class="tk-k">=</span> <span class="tk-v">Input</span>.<span class="tk-f">GetAxis2D</span>(<span class="tk-s">"MoveX"</span>, <span class="tk-s">"MoveY"</span>);</code></pre>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="feature-band feature-band--flip" id="feature-lightmaps">
+          <div class="shell feature-row">
+            <div class="feature-shot">
+              <figure class="shot-frame">
+                <video
+                  controls
+                  autoplay
+                  muted
+                  loop
+                  playsinline
+                  src="content/features/lightmaps.mp4"
+                ></video>
+              </figure>
+            </div>
+            <div class="feature-text">
+              <h3>Light Mapping</h3>
+              <p>
+                Bake high-quality global illumination and soft shadows directly
+                into your scenes. The baker handles direct light, bounced
+                <strong>GI</strong>, and denoising for incredibly optimized
+                static lighting that still responds to dynamic inputs.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="feature-band" id="feature-materials">
+          <div class="shell feature-row">
+            <div class="feature-shot">
+              <figure class="shot-frame">
+                <img
+                  src="content/features/materials.png"
+                  alt="PBR shading"
+                  loading="lazy"
+                />
+              </figure>
+            </div>
+            <div class="feature-text">
+              <h3>Material System</h3>
+              <p>
+                A flexible node-based and code-based
+                <strong>PBR</strong> material architecture. Start with familiar
+                surface controls, and extend them to allow for highly customized
+                visual outputs.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="feature-band feature-band--flip" id="feature-glsl">
+          <div class="shell feature-row">
+            <div class="feature-shot">
+              <div
+                class="code-window"
+                role="img"
+                aria-label="GLSL Material example"
+              >
+                <div class="code-window-bar">
+                  <span>Shaders/CustomRim.glsl</span>
+                </div>
+                <pre
+                  class="code-block code-block--compact"
+                ><code><span class="tk-c">// Write native GLSL directly in engine.</span>
+<span class="tk-t">vec4</span> <span class="tk-f">EvaluateUnlit</span>(<span class="tk-t">MaterialInput</span> <span class="tk-v">input</span>)
+{
+    <span class="tk-t">float</span> <span class="tk-v">rim</span> <span class="tk-k">=</span> <span class="tk-f">pow</span>(<span class="tk-n">1.0</span> <span class="tk-k">-</span> <span class="tk-f">clamp</span>(<span class="tk-f">dot</span>(
+        <span class="tk-f">normalize</span>(<span class="tk-v">input</span>.<span class="tk-v">Normal</span>), <span class="tk-v">input</span>.<span class="tk-v">ViewDir</span>), <span class="tk-n">0.0</span>, <span class="tk-n">1.0</span>), <span class="tk-n">3.0</span>);
+        
+    <span class="tk-k">return</span> <span class="tk-t">vec4</span>(<span class="tk-v">input</span>.<span class="tk-v">BaseColor</span> <span class="tk-k">+</span> <span class="tk-v">rim</span> <span class="tk-k">*</span> <span class="tk-t">vec3</span>(<span class="tk-n">0.2</span>, <span class="tk-n">1.0</span>, <span class="tk-n">0.4</span>), <span class="tk-n">1.0</span>);
+}</code></pre>
+              </div>
+            </div>
+            <div class="feature-text">
+              <h3>GLSL Shader Workflow</h3>
+              <p>
+                Shader work belongs in the project, not behind a mystery wall.
+                Write native <strong>GLSL</strong> for lit materials, unlit
+                effects, and fullscreen passes directly within the engine,
+                enjoying immediate compilation and feedback.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="feature-band" id="feature-jolt">
+          <div class="shell feature-row">
+            <div class="feature-shot">
+              <figure class="shot-frame">
+                <a
+                  class="github-repo-card"
+                  href="https://github.com/jrouwe/JoltPhysics"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <div class="github-repo-card__top">
+                    <svg
+                      xmlns="http://w3.org"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"
+                      />
+                    </svg>
+
+                    <span class="github-repo-card__pill">Public</span>
+                  </div>
+                  <p class="github-repo-card__slug">
+                    <span class="github-repo-card__owner">jrouwe</span
+                    ><span class="github-repo-card__slash">/</span
+                    ><span class="github-repo-card__repo">JoltPhysics</span>
+                  </p>
+                  <p class="github-repo-card__desc">
+                    A multi core friendly rigid body physics and collision
+                    detection library. Written in C++. Used by Horizon Forbidden
+                    West and Death Stranding 2.
+                  </p>
+                  <div class="github-repo-card__footer">
+                    <span class="github-repo-card__lang"
+                      ><span class="github-repo-card__lang-dot"></span>
+                      C++</span
+                    >
+                  </div>
+                </a>
+              </figure>
+            </div>
+            <div class="feature-text">
+              <h3>Jolt Physics Integration</h3>
+              <p>
+                Powered by the lightning-fast
+                <strong>Jolt Physics</strong> engine, delivering stable
+                multi-threaded rigid body dynamics. Colliders and character
+                capsules act as native engine components for a seamless
+                integration. the engine also includes a backend agnostic physics
+                solver.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="feature-band feature-band--flip" id="feature-animation">
+          <div class="shell feature-row">
+            <div class="feature-shot">
+              <figure class="shot-frame">
+                <video
+                  controls
+                  autoplay
+                  muted
+                  loop
+                  playsinline
+                  src="content/features/animgraph.mp4"
+                ></video>
+              </figure>
+            </div>
+            <div class="feature-text">
+              <h3>Animation Graph</h3>
+              <p>
+                Visually construct complex state machines and cinematic
+                sequences. Import clips, blend trees, and tune playback while
+                Kolpa Engine handles the skinning paths automatically with
+                absolute precision.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="feature-band" id="feature-quickui">
+          <div class="shell feature-row">
+            <div class="feature-shot">
+              <div class="code-window" role="img">
+                <div class="code-window-bar"><span>Inventory.UI.cs</span></div>
+                <pre
+                  class="code-block code-block--compact"
+                ><code><span class="tk-c">/// Build data-bound UI rapidly.</span>
+<span class="tk-v">_UI</span>.<span class="tk-f">Draw</span>(() =>
+{
+    <span class="tk-k">using</span> (<span class="tk-t">UI</span>.<span class="tk-f">Panel</span>(<span class="tk-s">"Inventory"</span>))
+    {
+        <span class="tk-t">UI</span>.<span class="tk-f">Header</span>(<span class="tk-s">"Items"</span>);
+        <span class="tk-k">if</span> (<span class="tk-t">UI</span>.<span class="tk-f">Button</span>(<span class="tk-s">"Equip Sword"</span>))
+            <span class="tk-v">Player</span>.<span class="tk-f">Equip</span>(<span class="tk-v">ItemId</span>);
+    }
+});</code></pre>
+              </div>
+            </div>
+            <div class="feature-text">
+              <h3>KolpaUI Framework</h3>
+              <p>
+                Build responsive, data-bound user interfaces rapidly using our
+                proprietary hardware-accelerated UI toolkit. Perfect for HUDs,
+                debug panels, quick tools, and fully-featured in-game overlays.
+                <strong>our editor is powered by this framework.</strong>
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article
+          class="feature-band feature-band--flip"
+          id="feature-code-editor"
+        >
+          <div class="shell feature-row">
+            <div class="feature-shot">
+              <figure class="shot-frame">
+                <video
+                  controls
+                  autoplay
+                  muted
+                  loop
+                  playsinline
+                  src="content/features/code_editor.mp4"
+                ></video>
+              </figure>
+            </div>
+            <div class="feature-text">
+              <h3>Built-in Code Editor</h3>
+              <p>
+                Never leave the engine. Write, debug, and refactor your C# and
+                GLSL code right alongside your active scene view with full
+                highlighting, completions, and real-time diagnostics.
+                <strong>our editor is powered by KolpaUI framework.</strong>
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="feature-band" id="feature-csg">
+          <div class="shell feature-row">
+            <div class="feature-shot">
+              <figure class="shot-frame">
+                <a
+                  class="github-repo-card"
+                  href="https://github.com/elalish/manifold"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <div class="github-repo-card__top">
+                    <svg
+                      xmlns="http://w3.org"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"
+                      />
+                    </svg>
+                    <span class="github-repo-card__pill">Public</span>
+                  </div>
+                  <p class="github-repo-card__slug">
+                    <span class="github-repo-card__owner">elalish</span
+                    ><span class="github-repo-card__slash">/</span
+                    ><span class="github-repo-card__repo">manifold</span>
+                  </p>
+                  <p class="github-repo-card__desc">
+                    Geometry library for topological robustness.
+                  </p>
+                  <div class="github-repo-card__footer">
+                    <span class="github-repo-card__lang"
+                      ><span class="github-repo-card__lang-dot"></span>
+                      C++</span
+                    >
+                  </div>
+                </a>
+              </figure>
+            </div>
+            <div class="feature-text">
+              <h3>Modeling & CSG using Manifold</h3>
+              <p>
+                Construct level geometry instantly. Use
+                <strong>Manifold-backed CSG</strong> operations to block out,
+                cut, combine, and bake shapes into normal meshes natively in the
+                viewport, backed by perfect topological robustness.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="feature-band feature-band--flip" id="feature-packaging">
+          <div class="shell feature-row">
+            <div class="feature-shot">
+              <figure class="shot-frame">
+                <video
+                  controls
+                  autoplay
+                  muted
+                  loop
+                  playsinline
+                  src="content/features/packaging.mp4"
+                ></video>
+              </figure>
+            </div>
+            <div class="feature-text">
+              <h3>Exporting & Packaging</h3>
+              <p>
+                A one-click build pipeline that cooks the project, strips unused
+                assets, compiles code, writes the content archive, and leaves
+                you with a clean, heavily optimized stand-alone executable
+                tailored to your platform.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="feature-band" id="pipeline">
+          <div class="shell feature-row">
+            <div class="feature-shot">
+              <figure class="shot-frame">
+                <a
+                  class="github-repo-card"
+                  href="https://github.com/assimp/assimp"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <div class="github-repo-card__top">
+                    <svg
+                      xmlns="http://w3.org"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"
+                      />
+                    </svg>
+                    <span class="github-repo-card__pill">Public</span>
+                  </div>
+                  <p class="github-repo-card__slug">
+                    <span class="github-repo-card__owner">assimp</span
+                    ><span class="github-repo-card__slash">/</span
+                    ><span class="github-repo-card__repo">assimp</span>
+                  </p>
+                  <p class="github-repo-card__desc">
+                    The official Open-Asset-Importer-Library Repository. Loads
+                    40+ 3D-file-formats into one unified and clean data
+                    structure.
+                  </p>
+                  <div class="github-repo-card__footer">
+                    <span class="github-repo-card__lang"
+                      ><span class="github-repo-card__lang-dot"></span>
+                      C++</span
+                    >
+                  </div>
+                </a>
+              </figure>
+            </div>
+            <div class="feature-text">
+              <h3>Asset Pipeline</h3>
+              <p>
+                Seamlessly import hundreds of formats utilizing
+                <strong>Assimp</strong>. Kolpa Engine automatically converts
+                your meshes, textures, and animations into internal
+                <strong>baked binary optimized models</strong> for near-instant
+                load times and reduced memory footprint.
+              </p>
+            </div>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="shell footer-grid">
+        <div>
+          <p class="footer-brand">Kolpa Engine</p>
+          <p class="footer-note">
+            Made by Gabriel Aplok &copy; <span id="y"></span>
+          </p>
+        </div>
+        <div class="footer-links">
+          <a href="#overview">Overview</a>
+          <a href="#features">Features</a>
+          <a href="#pipeline">Pipeline</a>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      document.getElementById("y").textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>
