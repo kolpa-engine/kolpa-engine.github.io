@@ -128,11 +128,11 @@
       /* root variables */
       :root {
         --bg-base: #000000;
-        --bg-surface: #080808;
+        --bg-surface: #111111;
 
         --text-primary: #ffffff;
-        --text-secondary: #888888;
-        --text-muted: #555555;
+        --text-secondary: #eeeeee;
+        --text-muted: #bbbbbb;
 
         --accent: #00ff55;
         --accent-hover: #33ff85;
@@ -420,10 +420,16 @@
         gap: 2rem;
       }
       .overview-card {
-        background: var(--bg-surface);
+        background: rgba(255, 255, 255, 0.05);
         border: 1px solid var(--border);
         border-radius: var(--radius);
         padding: 2rem;
+        backdrop-filter: blur(8px);
+        transition: transform 0.2s ease, background 0.2s ease;
+      }
+      .overview-card:hover {
+        transform: translateY(-4px);
+        background: rgba(255, 255, 255, 0.08);
       }
       .overview-card h3 {
         color: var(--text-primary);
@@ -566,10 +572,11 @@
 
       /* code windows */
       .code-window {
-        background: var(--bg-surface);
+        background: rgba(255, 255, 255, 0.04);
         border: 1px solid var(--border);
         border-radius: var(--radius);
         overflow: hidden;
+        backdrop-filter: blur(6px);
       }
       .code-window-bar {
         background: var(--bg-base);
@@ -623,9 +630,15 @@
         text-decoration: none;
         height: 100%;
         box-sizing: border-box;
-        transition: border-color 0.2s;
+        transition: border-color 0.2s, background 0.2s, transform 0.2s;
         z-index: 1;
-        background: var(--bg-surface);
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(8px);
+      }
+      .github-repo-card:hover {
+        background: rgba(255, 255, 255, 0.08);
+        transform: translateY(-4px);
+        border-color: var(--accent);
       }
       .github-repo-card:hover {
         border-color: var(--accent);
