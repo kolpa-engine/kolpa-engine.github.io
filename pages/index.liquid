@@ -418,3 +418,43 @@ description: A modular, hackable open-source game engine built with Vulkan and D
     </div>
   </div>
 </section>
+
+<section class="section-block" id="blog">
+  <div class="shell">
+    <div class="section-header">
+      <h2 class="section-title">From the Blog</h2>
+      <p class="section-subtitle">
+        News, tutorials, and development notes from the Kolpa Engine team.
+      </p>
+    </div>
+
+    <div class="overview-grid">
+      {% for post in collections.blog %}
+        {% if forloop.index <= 3 %}
+          <a class="blog-card blog-card--plain" href="{{ post.url }}">
+          <header class="blog-card__header">
+            {% if post.date %}
+              <time class="blog-card__date">{{ post.date | date_format: "MMMM d, yyyy" }}</time>
+            {% endif %}
+            <h3 class="blog-card__title">{{ post.title }}</h3>
+            {% if post.description %}
+              <p class="blog-card__desc">{{ post.description }}</p>
+            {% endif %}
+          </header>
+          <footer class="blog-card__footer">
+            {% if post.author %}
+              <span class="post-meta">{{ post.author }}</span>
+            {% endif %}
+          </footer>
+        </a>
+        {% endif %}
+      {% else %}
+        <p class="error-message">No posts yet. Check back soon.</p>
+      {% endfor %}
+    </div>
+
+    <div class="section-cta">
+      <a href="/blog/" class="btn btn-outline">View All Posts</a>
+    </div>
+  </div>
+</section>

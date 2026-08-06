@@ -13,5 +13,13 @@
   },
   "renderer": {
     "engine": "liquid"
+  },
+  "collections": {
+    "blog": {
+      "source": "content/blog",
+      "pattern": "*.md",
+      "output": "/blog/{slug}/",
+      "tags": "/blog/tags/{tag}/"
+    }
   }
 }

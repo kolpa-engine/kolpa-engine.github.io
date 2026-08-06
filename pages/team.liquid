@@ -4,11 +4,10 @@ title: Meet the Team
 description: The developers and open-source contributors building Kolpa Engine.
 ---
 
-<div class="team-header">
+<div class="page-header">
   <div class="shell">
-    <p class="eyebrow">People behind Kolpa</p>
-    <h1>MEET THE TEAM</h1>
-    <p>
+    <h1 class="page-title">Meet the Team</h1>
+    <p class="lede">
       Kolpa Engine is an open-source, community-driven project built by developers who believe in code autonomy, performance, and developer control.
     </p>
   </div>
@@ -96,7 +95,7 @@ description: The developers and open-source contributors building Kolpa Engine.
       })
       .then(data => {
         // Filter out bots and core maintainers
-        const otherContributors = data.filter(c => 
+        const otherContributors = data.filter(c =>
           c.type !== "Bot" && !coreDevs.includes(c.login.toLowerCase())
         );
         renderContributors(otherContributors);

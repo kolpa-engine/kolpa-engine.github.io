@@ -121,6 +121,22 @@ description: Welcome to Kolpa Engine.
 
 The rendering engine processes this page and inserts it as the `{{ content }}` or `{{ page.content }}` token inside `layouts/default.liquid`:
 
+### Layout Nesting
+
+Layouts may declare their own parent via YAML frontmatter, so you can wrap a content layout inside the site shell. A template that needs its own chrome can inherit `default`:
+
+```liquid
+---
+layout: default
+---
+<article class="post">
+  <h1>{{ page.title }}</h1>
+  {{ content }}
+</article>
+```
+
+The engine renders the inner layout first, then passes its output as `{{ content }}` to the parent layout automatically.
+
 ### Layout Example (`layouts/default.liquid`)
 
 ```liquid
@@ -144,15 +160,30 @@ The rendering engine processes this page and inserts it as the `{{ content }}` o
 
 Group content documents inside `content/<collection-name>/` folders and declare them under `"collections"` in `config.json`.
 
-Access your collection lists inside templates using the `collections.<name>` loops:
+Access your collection lists inside templates using the `collections.<name>` loops. Each item exposes its metadata, `content`, `slug`, and the resolved clean `url` (use this for links). Posts are ordered newest-first by their `date`:
 
 ```liquid
 {% for post in collections.blog %}
   <article>
-    <h2><a href="{{ post.slug }}">{{ post.title }}</a></h2>
+    <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
+    <time>{{ post.date | date_format: "MMMM d, yyyy" }}</time>
     <p>{{ post.description }}</p>
   </article>
 {% endfor %}
+```
+
+### Blog Example
+
+Declare the collection in `config.json`, drop Markdown posts (with `layout: post`) into `content/blog/`, and a clean URL like `/blog/my-post/` is generated:
+
+```json
+"collections": {
+  "blog": {
+    "source": "content/blog",
+    "pattern": "*.md",
+    "output": "/blog/{slug}/"
+  }
+}
 ```
 
 ---

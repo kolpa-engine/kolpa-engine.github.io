@@ -62,7 +62,8 @@ public class GeneratorConfig
     public RendererSettings Renderer { get; set; } = new();
 
     [JsonPropertyName("collections")]
-    public Dictionary<string, CollectionSettings> Collections { get; set; } = new(StringComparer.OrdinalIgnoreCase);
+    public Dictionary<string, CollectionSettings> Collections { get; set; } =
+        new(StringComparer.OrdinalIgnoreCase);
 }
 
 /// <summary>
@@ -78,4 +79,7 @@ public class CollectionSettings
 
     [JsonPropertyName("output")]
     public string Output { get; set; } = string.Empty;
+
+    [JsonPropertyName("tags")]
+    public string TagsOutput { get; set; } = string.Empty;
 }

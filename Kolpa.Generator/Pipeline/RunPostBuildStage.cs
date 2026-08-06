@@ -37,12 +37,37 @@ public class RunPostBuildStage : IBuildStage
                     siteContext.Data[dataKvp.Key] = dataKvp.Value;
                 }
 
+                foreach (var collKvp in context.Collections)
+                {
+                    var rawList = collKvp
+                        .Value.OrderByDescending(doc => doc.Metadata.Date ?? DateTime.MinValue)
+                        .Select(doc =>
+                        {
+                            var dict = doc.Metadata.ToDictionary();
+                            dict["content"] = doc.Body;
+                            dict["slug"] = doc.Slug;
+                            dict["url"] = doc.OutputUrl;
+                            return dict;
+                        })
+                        .ToList();
+
+                    siteContext.Collections[collKvp.Key] = rawList;
+                }
+
                 await step.ExecuteAsync(siteContext, outputDir);
-                context.AddDiagnostic(DiagnosticSeverity.Info, $"Executed build step plugin: {step.GetType().Name}", Name);
+                context.AddDiagnostic(
+                    DiagnosticSeverity.Info,
+                    $"Executed build step plugin: {step.GetType().Name}",
+                    Name
+                );
             }
             catch (Exception ex)
             {
-                context.AddDiagnostic(DiagnosticSeverity.Warning, $"Build step plugin {step.GetType().Name} failed: {ex.Message}", Name);
+                context.AddDiagnostic(
+                    DiagnosticSeverity.Warning,
+                    $"Build step plugin {step.GetType().Name} failed: {ex.Message}",
+                    Name
+                );
             }
         }
     }

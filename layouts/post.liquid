@@ -1,0 +1,86 @@
+---
+layout: default
+---
+<article class="post">
+  <header class="post-header">
+    <a class="post-back" href="/blog/">&larr; Back to Blog</a>
+    {% if page.date %}
+      <p class="eyebrow">{{ page.date | date_format: "MMMM d, yyyy" }}</p>
+    {% endif %}
+    <h1>{{ page.title }}</h1>
+    {% if page.description %}
+      <p class="post-lede">{{ page.description }}</p>
+    {% endif %}
+    <div class="post-meta-row">
+      {% if page.author %}
+        <span class="post-meta">{{ page.author }}</span>
+      {% endif %}
+      <span class="post-meta">{{ content | read_time }} min read</span>
+    </div>
+    {% if page.tags.size > 0 %}
+      <div class="post-tags">
+        {% for tag in page.tags %}
+          <a class="tag tag--link" href="/blog/tags/{{ tag | slugify }}/">{{ tag }}</a>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </header>
+
+  <div class="post-content">
+    {{ content }}
+  </div>
+
+  {% unless page.tags.size == 0 %}
+    <aside class="post-recos">
+      <h4 class="post-recos__title">Keep reading</h4>
+      <div class="post-recos__grid">
+        {% assign shown = 0 %}
+        {% for post in collections.blog %}
+          {% if post.slug == page.slug %}
+            {% continue %}
+          {% endif %}
+          {% if post.tags contains page.tags.first %}
+            <a class="post-reco" href="{{ post.url }}">
+              <span class="post-reco__meta">{{ post.date | date_format: "MMMM d, yyyy" }}</span>
+              <span class="post-reco__title">{{ post.title }}</span>
+            </a>
+            {% assign shown = shown | plus: 1 %}
+            {% if shown >= 2 %}
+              {% break %}
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+      </div>
+    </aside>
+  {% endunless %}
+
+  <nav class="post-nav" aria-label="Post navigation">
+    {% assign current = page.slug %}
+    {% assign foundNext = false %}
+    {% assign older = null %}
+    {% assign newer = null %}
+    {% for post in collections.blog %}
+      {% if foundNext %}
+        {% assign older = post %}
+        {% break %}
+      {% endif %}
+      {% if post.slug == current %}
+        {% assign foundNext = true %}
+      {% else %}
+        {% assign newer = post %}
+      {% endif %}
+    {% endfor %}
+    {% if newer %}
+      <a class="post-nav__item" href="{{ newer.url }}">
+        <span class="post-nav__dir">Newer post</span>
+        <span class="post-nav__title">{{ newer.title }}</span>
+      </a>
+    {% endif %}
+    {% if older %}
+      <a class="post-nav__item post-nav__item--end" href="{{ older.url }}">
+        <span class="post-nav__dir">Older post</span>
+        <span class="post-nav__title">{{ older.title }}</span>
+      </a>
+    {% endif %}
+  </nav>
+</article>

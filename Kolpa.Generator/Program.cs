@@ -24,7 +24,10 @@ public static class Program
 
         // Parse options
         bool verbose = args.Contains("--verbose") || args.Contains("-v");
-        bool watch = args.Contains("--watch") || args.Contains("-w") || (command == "serve" && !args.Contains("--no-watch"));
+        bool watch =
+            args.Contains("--watch")
+            || args.Contains("-w")
+            || (command == "serve" && !args.Contains("--no-watch"));
 
         int port = 5000;
         int portIndex = Array.FindIndex(
@@ -58,7 +61,10 @@ public static class Program
             {
                 if (args[i].StartsWith("-"))
                 {
-                    if (args[i].Equals("--port", StringComparison.OrdinalIgnoreCase) || args[i].Equals("-p", StringComparison.OrdinalIgnoreCase))
+                    if (
+                        args[i].Equals("--port", StringComparison.OrdinalIgnoreCase)
+                        || args[i].Equals("-p", StringComparison.OrdinalIgnoreCase)
+                    )
                     {
                         i++; // skip next arg (the value)
                     }
@@ -71,8 +77,8 @@ public static class Program
 
         // Check if executed inside generator project subfolder as fallback
         if (
-            !Directory.Exists(Path.Combine(projectDir, "pages")) &&
-            File.Exists(Path.Combine(projectDir, "..", "config.json"))
+            !Directory.Exists(Path.Combine(projectDir, "pages"))
+            && File.Exists(Path.Combine(projectDir, "..", "config.json"))
             && !File.Exists(Path.Combine(projectDir, "config.json"))
         )
         {
@@ -140,9 +146,13 @@ public static class Program
         Console.WriteLine("Options:");
         Console.WriteLine("  --verbose, -v    Print detailed execution logs during steps.");
         Console.WriteLine("  --watch, -w      Rebuild the site automatically when files change.");
-        Console.WriteLine("  --no-watch       Disable rebuilding the site automatically on changes when serving.");
+        Console.WriteLine(
+            "  --no-watch       Disable rebuilding the site automatically on changes when serving."
+        );
         Console.WriteLine("  --port, -p <n>   Specify the port for dev server (default: 5000).");
-        Console.WriteLine("  --dir, -d <path> Specify the project directory (default: current directory).");
+        Console.WriteLine(
+            "  --dir, -d <path> Specify the project directory (default: current directory)."
+        );
         Console.WriteLine();
     }
 
@@ -173,17 +183,18 @@ public static class Program
             config = new GeneratorConfig();
         }
 
-        // 1. Register framework dependencies
+        // register framework dependencies
         services.AddSingleton(config);
         services.AddSingleton<IFileSystem, PhysicalFileSystem>();
         services.AddSingleton<ILogger>(new ConsoleLogger(verbose));
         services.AddSingleton<ISystemClock, SystemClock>();
 
-        // 2. Load plugins dynamically via explicit registration APIs
+        //  load plugins dynamically via explicit registration APIs
         var plugins = new List<IEnginePlugin>
         {
             new CoreEnginePlugin(projectDir, configPath),
             new SitemapPlugin(),
+            new RssPlugin(),
         };
 
         foreach (var plugin in plugins)
@@ -191,8 +202,8 @@ public static class Program
             plugin.ConfigureServices(services, config);
         }
 
-        // 3. Register pipeline runner BuildService
-        services.AddSingleton<BuildService>(provider => new BuildService(
+        // register pipeline runner BuildService
+        services.AddSingleton(provider => new BuildService(
             provider.GetServices<IBuildStage>(),
             provider.GetRequiredService<ILogger>(),
             provider.GetRequiredService<ISystemClock>(),
@@ -361,26 +372,26 @@ public class CoreEnginePlugin : IEnginePlugin
 
     public void ConfigureServices(IServiceCollection services, GeneratorConfig config)
     {
-        // 1. Register content parsers
+        // register content parsers
         services.AddSingleton<IContentParser, MarkdownContentParser>();
         services.AddSingleton<IContentParser, LiquidContentParser>();
 
-        // 2. Register folder providers
+        // register folder providers
         services.AddSingleton<IContentProvider, FolderContentProvider>();
 
-        // 3. Setup layouts path relative to config
+        // setup layouts path relative to config
         string layoutsDir = Path.GetFullPath(Path.Combine(_projectDir, config.Paths.Layouts));
         services.AddSingleton<ITemplateRenderer>(new FluidTemplateRenderer(layoutsDir));
         services.AddSingleton<ITemplateContextFactory, FluidTemplateContextFactory>();
 
-        // 4. Register services
-        services.AddSingleton<ContentService>(provider => new ContentService(
+        // register services
+        services.AddSingleton(provider => new ContentService(
             provider.GetRequiredService<IContentProvider>(),
             provider.GetRequiredService<ILogger>(),
             _projectDir
         ));
 
-        services.AddSingleton<TemplateService>(provider => new TemplateService(
+        services.AddSingleton(provider => new TemplateService(
             provider.GetRequiredService<ITemplateRenderer>(),
             provider.GetRequiredService<ITemplateContextFactory>(),
             provider.GetRequiredService<ILogger>(),
@@ -391,7 +402,7 @@ public class CoreEnginePlugin : IEnginePlugin
         services.AddSingleton<IAssetProcessor, AssetService>();
         services.AddSingleton<OutputService>();
 
-        // 5. Register pipeline stages in sequential order
+        // register pipeline stages in sequential order
         services.AddSingleton<IBuildStage, LoadConfigurationStage>(
             provider => new LoadConfigurationStage(
                 provider.GetRequiredService<IFileSystem>(),
@@ -403,6 +414,7 @@ public class CoreEnginePlugin : IEnginePlugin
         services.AddSingleton<IBuildStage, LoadDataStage>();
         services.AddSingleton<IBuildStage, BuildCollectionsStage>();
         services.AddSingleton<IBuildStage, ResolveRoutesStage>();
+        services.AddSingleton<IBuildStage, BuildTagArchivesStage>();
         services.AddSingleton<IBuildStage, BuildNavigationStage>();
         services.AddSingleton<IBuildStage, RenderTemplatesStage>();
         services.AddSingleton<IBuildStage, LiveReloadInjectionStage>();
@@ -425,11 +437,32 @@ public class SitemapPlugin : IEnginePlugin, IBuildStep
         services.AddSingleton<IBuildStep>(this);
     }
 
-    public async Task ExecuteAsync(Kolpa.Generator.Models.SiteContext siteContext, string outputDir)
+    public async Task ExecuteAsync(Models.SiteContext siteContext, string outputDir)
     {
+        var baseUrl = "https://kolpa-engine.github.io";
+        var urls = new List<string> { baseUrl + "/", baseUrl + "/blog/", baseUrl + "/team/" };
+
+        foreach (var collKvp in siteContext.Collections)
+        {
+            foreach (var item in collKvp.Value)
+            {
+                if (item.TryGetValue("url", out var urlVal) && urlVal != null)
+                {
+                    urls.Add(baseUrl + urlVal.ToString());
+                }
+            }
+        }
+
+        var urlset = string.Join(
+            "\n",
+            urls.Select(url =>
+                $"  <url>\n    <loc>{System.Security.SecurityElement.Escape(url)}</loc>\n  </url>"
+            )
+        );
+
         var sitemapFile = Path.Combine(outputDir, "sitemap.xml");
         var xml =
-            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n  <url>\n    <loc>https://kolpa-engine.github.io/</loc>\n  </url>\n</urlset>";
+            $"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n{urlset}\n</urlset>";
         await File.WriteAllTextAsync(sitemapFile, xml);
     }
 }

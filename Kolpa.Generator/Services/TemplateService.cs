@@ -18,7 +18,8 @@ public class TemplateService
         ITemplateRenderer renderer,
         ITemplateContextFactory contextFactory,
         ILogger logger,
-        string layoutsDir)
+        string layoutsDir
+    )
     {
         _renderer = renderer;
         _contextFactory = contextFactory;
@@ -41,30 +42,72 @@ public class TemplateService
         var pageContext = _contextFactory.CreateContext(siteContext, _layoutsDir);
         var renderedBody = await RenderContentWithContextAsync(document.Body, pageContext);
 
-        // 3. Resolve layout inheritance
+        // 3. Resolve layout inheritance (layouts may nest via their own frontmatter)
         if (!string.IsNullOrEmpty(document.Metadata.Layout))
         {
-            var layoutFile = Path.Combine(_layoutsDir, $"{document.Metadata.Layout}.liquid");
-            if (File.Exists(layoutFile))
-            {
-                var layoutContent = await File.ReadAllTextAsync(layoutFile);
-
-                // Update context page object content with rendered body
-                siteContext.Page["content"] = renderedBody;
-
-                var layoutContext = _contextFactory.CreateContext(siteContext, _layoutsDir);
-                return await RenderContentWithContextAsync(layoutContent, layoutContext);
-            }
-            else
-            {
-                _logger.LogWarn($"Layout '{document.Metadata.Layout}' specified in document '{document.Id}' but was not found at: {layoutFile}");
-            }
+            return await RenderWithLayoutAsync(document.Metadata.Layout, renderedBody, siteContext);
         }
 
         return renderedBody;
     }
 
-    private async Task<string> RenderContentWithContextAsync(string content, TemplateContext context)
+    /// <summary>
+    /// Renders a layout, replacing its {{ content }} with the rendered body, then
+    /// recursively resolves any parent layout declared in the layout frontmatter.
+    /// </summary>
+    private async Task<string> RenderWithLayoutAsync(
+        string layoutName,
+        string content,
+        SiteContext siteContext
+    )
+    {
+        var layoutFile = Path.Combine(_layoutsDir, $"{layoutName}.liquid");
+        if (!File.Exists(layoutFile))
+        {
+            _logger.LogWarn($"Layout '{layoutName}' specified but was not found at: {layoutFile}");
+            return content;
+        }
+
+        var layoutContent = await File.ReadAllTextAsync(layoutFile);
+
+        // Parse optional frontmatter to detect parent layout declarations
+        string body = layoutContent;
+        string? parentLayout = null;
+        if (layoutContent.StartsWith("---"))
+        {
+            var endIndex = layoutContent.IndexOf("---", 3);
+            if (endIndex > 0)
+            {
+                var frontmatter = layoutContent.Substring(3, endIndex - 3).Trim();
+                if (frontmatter.Contains("layout:", StringComparison.OrdinalIgnoreCase))
+                {
+                    var line = frontmatter
+                        .Split('\n')
+                        .FirstOrDefault(l =>
+                            l.Trim().StartsWith("layout:", StringComparison.OrdinalIgnoreCase)
+                        );
+                    parentLayout = line?.Substring(line.IndexOf(':') + 1).Trim().Trim('\'', '"');
+                }
+                body = layoutContent.Substring(endIndex + 3).Trim();
+            }
+        }
+
+        siteContext.Page["content"] = content;
+        var layoutContext = _contextFactory.CreateContext(siteContext, _layoutsDir);
+        var rendered = await RenderContentWithContextAsync(body, layoutContext);
+
+        if (!string.IsNullOrEmpty(parentLayout))
+        {
+            return await RenderWithLayoutAsync(parentLayout, rendered, siteContext);
+        }
+
+        return rendered;
+    }
+
+    private async Task<string> RenderContentWithContextAsync(
+        string content,
+        TemplateContext context
+    )
     {
         // FluidParser evaluates the parsed template relative to the configured context values
         var parser = new FluidParser();
