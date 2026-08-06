@@ -5,8 +5,8 @@
     "category": "official",
     "description": "Low-level Vulkan and Direct3D 12 rendering hardware interface designed for high-performance clustered forward shading.",
     "language": "C++",
-    "repoUrl": "https://github.com/kolpa-engine/kolpa",
-    "rawContentUrl": "https://raw.githubusercontent.com/kolpa-engine/kolpa/main/README.md",
+    "repoUrl": "https://github.com/jrouwe/JoltPhysics",
+    "rawContentUrl": "https://raw.githubusercontent.com/jrouwe/JoltPhysics/master/README.md",
     "icon": "cpu"
   },
   {
@@ -15,8 +15,8 @@
     "category": "official",
     "description": "An immediate-mode GUI framework built specifically for editor tooling and interactive in-game overlays.",
     "language": "C#",
-    "repoUrl": "https://github.com/kolpa-engine/kolpa",
-    "rawContentUrl": "https://raw.githubusercontent.com/kolpa-engine/kolpa/main/README.md",
+    "repoUrl": "https://github.com/ocornut/imgui",
+    "rawContentUrl": "https://raw.githubusercontent.com/ocornut/imgui/master/README.md",
     "icon": "layout"
   },
   {
@@ -25,7 +25,7 @@
     "category": "official",
     "description": "High-performance physics integration wrapper utilizing Jolt Physics for advanced rigid body dynamics and collision systems.",
     "language": "C++",
-    "repoUrl": "https://github.com/kolpa-engine/kolpa",
+    "repoUrl": "https://github.com/jrouwe/JoltPhysics",
     "rawContentUrl": "https://raw.githubusercontent.com/jrouwe/JoltPhysics/master/README.md",
     "icon": "activity"
   },
@@ -35,8 +35,8 @@
     "category": "official",
     "description": "Core audio backend with support for 3D positional audio, streaming, dynamic mixers, and DSP effects.",
     "language": "C#",
-    "repoUrl": "https://github.com/kolpa-engine/kolpa",
-    "rawContentUrl": "https://raw.githubusercontent.com/kolpa-engine/kolpa/main/README.md",
+    "repoUrl": "https://github.com/mackron/miniaudio",
+    "rawContentUrl": "https://raw.githubusercontent.com/mackron/miniaudio/master/README.md",
     "icon": "volume-2"
   },
   {
@@ -45,8 +45,8 @@
     "category": "community",
     "description": "A community-maintained infinite terrain generation system with CDLOD level-of-detail and GPU heightmap generation.",
     "language": "C#",
-    "repoUrl": "https://github.com/kolpa-engine/kolpa",
-    "rawContentUrl": "https://raw.githubusercontent.com/kolpa-engine/kolpa/main/README.md",
+    "repoUrl": "https://github.com/markedjs/marked",
+    "rawContentUrl": "https://raw.githubusercontent.com/markedjs/marked/master/README.md",
     "icon": "map"
   },
   {
@@ -55,8 +55,8 @@
     "category": "community",
     "description": "Advanced pathfinding package featuring multi-threaded A* navigation, dynamic obstacle avoidance, and behavior trees.",
     "language": "C#",
-    "repoUrl": "https://github.com/kolpa-engine/kolpa",
-    "rawContentUrl": "https://raw.githubusercontent.com/kolpa-engine/kolpa/main/README.md",
+    "repoUrl": "https://github.com/recastnavigation/recastnavigation",
+    "rawContentUrl": "https://raw.githubusercontent.com/recastnavigation/recastnavigation/master/README.md",
     "icon": "navigation"
   },
   {
@@ -65,8 +65,8 @@
     "category": "community",
     "description": "Developer utility library adding visual inspector debugger support and source generators for Archetype ECS architectures.",
     "language": "C#",
-    "repoUrl": "https://github.com/kolpa-engine/kolpa",
-    "rawContentUrl": "https://raw.githubusercontent.com/kolpa-engine/kolpa/main/README.md",
+    "repoUrl": "https://github.com/SanderMertens/flecs",
+    "rawContentUrl": "https://raw.githubusercontent.com/SanderMertens/flecs/master/README.md",
     "icon": "tool"
   },
   {
@@ -75,8 +75,8 @@
     "category": "community",
     "description": "Simple plugin to integrate Discord Rich Presence support directly into your game client and editor build pipelines.",
     "language": "C#",
-    "repoUrl": "https://github.com/kolpa-engine/kolpa",
-    "rawContentUrl": "https://raw.githubusercontent.com/kolpa-engine/kolpa/main/README.md",
+    "repoUrl": "https://github.com/discord/discord-rpc",
+    "rawContentUrl": "https://raw.githubusercontent.com/discord/discord-rpc/master/README.md",
     "icon": "message-square"
   }
 ]

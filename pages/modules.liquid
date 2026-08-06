@@ -5,36 +5,35 @@ description: Discover official and community-maintained modules for Kolpa Engine
 ---
 
 <div class="page-header">
-  <div class="shell header-content-layout">
-    <div class="header-text-column">
-      <h1 class="page-title">Modules</h1>
-      <p class="lede">
-        Extend the core engine with modular official features and community integrations.
-      </p>
-    </div>
-    
-    <div class="header-controls-column">
-      <div class="tabs-container" role="tablist" aria-label="Module Categories">
-        <button class="tab-btn active" id="tab-official" role="tab" aria-selected="true" aria-controls="panel-official">
-          Official
-        </button>
-        <button class="tab-btn" id="tab-community" role="tab" aria-selected="false" aria-controls="panel-community">
-          Community
-        </button>
-      </div>
-
-      <div class="search-wrapper">
-        <svg class="search-icon" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="11" cy="11" r="8"></circle>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg>
-        <input type="text" id="module-search" class="search-input" placeholder="Search modules..." aria-label="Search modules" />
-      </div>
-    </div>
+  <div class="shell">
+    <h1 class="page-title">Modules</h1>
+    <p class="lede">
+      Extend the core engine with modular official features and community integrations.
+    </p>
   </div>
 </div>
 
 <div class="shell main-modules-content">
+  <!-- Controls Section: Search & Tabs -->
+  <div class="modules-filter-row">
+    <div class="tabs-container" role="tablist" aria-label="Module Categories">
+      <button class="tab-btn active" id="tab-official" role="tab" aria-selected="true" aria-controls="panel-official">
+        Official
+      </button>
+      <button class="tab-btn" id="tab-community" role="tab" aria-selected="false" aria-controls="panel-community">
+        Community
+      </button>
+    </div>
+
+    <div class="search-wrapper">
+      <svg class="search-icon" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input type="text" id="module-search" class="search-input" placeholder="Search modules..." aria-label="Search modules" />
+    </div>
+  </div>
+
   <!-- Modules Grid Content -->
   <div class="modules-grid-container">
     <!-- Official Modules Panel -->
@@ -157,30 +156,18 @@ description: Discover official and community-maintained modules for Kolpa Engine
 
 <style>
 /* CSS Styles */
-.header-content-layout {
+.main-modules-content {
+  padding-top: var(--spacing-lg);
+  padding-bottom: var(--spacing-xl);
+}
+
+.modules-filter-row {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
-  gap: var(--spacing-lg);
-  flex-wrap: wrap;
-  padding-bottom: var(--spacing-md);
-}
-
-.header-text-column {
-  flex: 1;
-  min-width: 280px;
-}
-
-.header-controls-column {
-  display: flex;
   align-items: center;
   gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
   flex-wrap: wrap;
-}
-
-.main-modules-content {
-  padding-top: var(--spacing-xl);
-  padding-bottom: var(--spacing-xl);
 }
 
 .tabs-container {
@@ -216,7 +203,7 @@ description: Discover official and community-maintained modules for Kolpa Engine
 
 .search-wrapper {
   position: relative;
-  width: 200px;
+  width: 240px;
 }
 
 .search-icon {
@@ -541,20 +528,14 @@ description: Discover official and community-maintained modules for Kolpa Engine
 }
 
 @media (max-width: 768px) {
-  .header-content-layout {
+  .modules-filter-row {
     flex-direction: column;
     align-items: stretch;
     gap: var(--spacing-md);
   }
   
-  .header-controls-column {
-    justify-content: space-between;
-    width: 100%;
-  }
-
   .search-wrapper {
-    flex-grow: 1;
-    width: auto;
+    width: 100%;
   }
 }
 </style>
