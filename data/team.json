@@ -1,0 +1,23 @@
+[
+  {
+    "username": "gabriel-aplok",
+    "name": "Gabriel Aplok",
+    "role": "Creator & Lead Maintainer",
+    "bio": "Responsible for the engine core, modules, low-level Vulkan/D3D12 render pipelines, and architecture.",
+    "github": "https://github.com/gabriel-aplok"
+  },
+  {
+    "username": "a6xdev",
+    "name": "a6xdev",
+    "role": "AI Especialist && Core Contributor",
+    "bio": "AIs, Agents, Pathfinding systems and other important things.",
+    "github": "https://github.com/a6xdev"
+  },
+  {
+    "username": "lima6xcn",
+    "name": "Gabriel Aplok (Secondary)",
+    "role": "Core Developer",
+     "bio": "Contributing to the engine from my linux machine..",
+    "github": "https://github.com/lima6xcn"
+  }
+]

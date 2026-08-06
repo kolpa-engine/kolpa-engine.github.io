@@ -1,0 +1,469 @@
+---
+layout: default
+title: A Modular, Hackable Open-Source Game Engine
+description: A modular, hackable open-source game engine built with Vulkan and Direct3D 12.
+---
+<!-- Hero Section -->
+<section class="hero">
+  <div class="shell hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow">Project Status: In Development</p>
+      <h1>KOLPA ENGINE</h1>
+      <p class="lede">
+        A modular, hackable open-source game engine built with Vulkan and Direct3D 12. 
+        Designed for developers who need performance, direct memory control, and custom workflows without engine bloat.
+      </p>
+      <div class="btn-group">
+        <a href="#features" class="btn btn-primary">Explore Features</a>
+        <a href="https://github.com/kolpa-engine" class="btn btn-outline" target="_blank" rel="noopener noreferrer">View Source</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <figure class="shot-frame">
+        <img src="/assets/features/editor.png" alt="Kolpa Engine editor viewport showing 3D scene editing" loading="eager" decoding="async" />
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- Overview Section -->
+<section id="overview" class="section-block">
+  <div class="shell">
+    <div class="section-header">
+      <h2 class="section-title">Designed for Developer Autonomy</h2>
+      <p class="section-subtitle">
+        Kolpa separates core engine modules so you can use them independently. Build your game with the complete editor, 
+        run light standalone gameplay scripts, or use individual libraries like the renderer, physics solver, or UI library.
+      </p>
+    </div>
+    <div class="overview-grid">
+      <div class="overview-card">
+        <h3>Open Source Core</h3>
+        <p>
+          We design the codebase for extension and debugging. You can inspect the engine systems, add custom features, 
+          or report issues directly on GitHub.
+        </p>
+        <div class="creator-credit">
+          <p>Maintained by <strong>Gabriel Aplok</strong></p>
+        </div>
+      </div>
+      <div class="overview-card">
+        <h3>Code-First Workflows</h3>
+        <p>
+          Write scripts in type-safe C# or use the custom bytecode-compiled language. Kolpa provides direct access 
+          to memory layouts, multithreading, and low-level renderer pipelines.
+        </p>
+      </div>
+    </div>
+
+    <!-- Quick Start Setup -->
+    <div class="quickstart-container">
+      <h3>Build from Source</h3>
+      <div class="code-window">
+        <div class="code-window-bar">
+          <span>Terminal</span>
+          <button class="compile-btn" onclick="copyCode(this)" style="background: transparent; border: 1px solid var(--border); color: var(--accent-light); font-size: 0.65rem; padding: 2px 8px; border-radius: 3px; cursor: pointer;">Copy</button>
+        </div>
+        <pre class="code-block" style="color: var(--text-muted);"><code><span style="color: var(--accent);">$</span> git clone https://github.com/kolpa-engine/kolpa.git
+<span style="color: var(--accent);">$</span> cd kolpa
+<span style="color: var(--accent);">$</span> dotnet run --project Source/Editor</code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features Alternating List Section -->
+<section id="features" class="features">
+  <div class="shell">
+    <div class="section-header" style="text-align: center; margin-inline: auto;">
+      <h2 class="section-title">Engine Features</h2>
+      <p class="section-subtitle" style="margin-bottom: var(--spacing-xl);">
+        Explore the sub-systems, pipelines, and frameworks built into Kolpa Engine.
+      </p>
+    </div>
+
+    <!-- Sticky Sidebar Layout Wrapper -->
+    <div class="features-layout">
+      <!-- Sidebar Table of Contents -->
+      <aside class="features-sidebar" aria-label="Features navigation">
+        <nav class="sidebar-nav">
+          <a href="#feature-csharp" class="sidebar-link">C# Scripting</a>
+          <a href="#feature-rendering" class="sidebar-link">Forward+ Rendering</a>
+          <a href="#feature-hot-reload" class="sidebar-link">Script Hot Reload</a>
+          <a href="#feature-input" class="sidebar-link">Action-Based Input</a>
+          <a href="#feature-lightmaps" class="sidebar-link">Light Mapping</a>
+          <a href="#feature-materials" class="sidebar-link">Material System</a>
+          <a href="#feature-glsl" class="sidebar-link">GLSL Shaders</a>
+          <a href="#feature-jolt" class="sidebar-link">Jolt Physics</a>
+          <a href="#feature-animation" class="sidebar-link">Animation Graph</a>
+          <a href="#feature-quickui" class="sidebar-link">KolpaUI Framework</a>
+          <a href="#feature-code-editor" class="sidebar-link">Built-in Editor</a>
+          <a href="#feature-csg" class="sidebar-link">Constructive CSG</a>
+          <a href="#feature-packaging" class="sidebar-link">One-Click Builds</a>
+          <a href="#feature-pipeline" class="sidebar-link">Asset Pipeline</a>
+        </nav>
+      </aside>
+
+      <!-- Main Feature Bands -->
+      <div class="features-content">
+        <!-- Feature 1: C# Programming Workflow -->
+        <article class="feature-band" id="feature-csharp">
+          <div class="feature-row">
+            <div class="feature-text">
+              <h3>C# Programming Workflow</h3>
+              <p>
+                Write your gameplay logic in C# with type safety. You get direct access to the modern .NET execution runtime, 
+                multithreading optimizations, and high-level libraries.
+              </p>
+            </div>
+            <div class="feature-shot">
+              <div class="code-window">
+                <div class="code-window-bar">
+                  <span>Game/BasePlayer.cs</span>
+                  <button class="compile-btn" onclick="simulateCompilation(this)" style="background: transparent; border: 1px solid var(--border); color: var(--accent-light); font-size: 0.65rem; padding: 2px 6px; border-radius: 3px; cursor: pointer;">Compile</button>
+                </div>
+                <pre class="code-block"><code><span class="tk-k">public class</span> <span class="tk-t">BasePlayer</span> : <span class="tk-t">EntityComponent</span>
+{
+    <span class="tk-k">public float</span> <span class="tk-v">Speed</span> { <span class="tk-k">get</span>; <span class="tk-k">set</span>; } = <span class="tk-n">5.0f</span>;
+    
+    <span class="tk-k">public override void</span> <span class="tk-f">OnUpdate</span>(<span class="tk-k">float</span> <span class="tk-v">deltaTime</span>)
+    {
+        <span class="tk-t">Vector3</span> <span class="tk-v">input</span> = <span class="tk-t">GameInput</span>.<span class="tk-f">GetMovementVector</span>();
+        <span class="tk-t">Transform</span>.<span class="tk-f">Translate</span>(<span class="tk-v">input</span> * <span class="tk-v">Speed</span> * <span class="tk-v">deltaTime</span>);
+    }
+}</code></pre>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Feature 2: Clustered Forward Rendering -->
+        <article class="feature-band feature-band--flip" id="feature-rendering">
+          <div class="feature-row">
+            <div class="feature-text">
+              <h3>Clustered Forward Rendering</h3>
+              <p>
+                The clustered forward rendering path processes thousands of dynamic light sources. 
+                It supports depth pre-passes, ambient occlusion, shadow mapping, light probes, and multisample anti-aliasing.
+              </p>
+            </div>
+            <div class="feature-shot">
+              <figure class="shot-frame">
+                <img src="/assets/features/msaa.png" alt="Kolpa Engine viewport rendering viewport demonstrating anti-aliasing" loading="lazy" />
+              </figure>
+            </div>
+          </div>
+        </article>
+
+        <!-- Feature 3: Script Hot Reload -->
+        <article class="feature-band" id="feature-hot-reload">
+          <div class="feature-row">
+            <div class="feature-text">
+              <h3>Script Hot Reload</h3>
+              <p>
+                Save code changes in your scripts and see updates immediately in the running game viewport. 
+                The editor reloads gameplay assemblies without resetting the runtime state or dropping frames.
+              </p>
+            </div>
+            <div class="feature-shot">
+              <figure class="shot-frame">
+                <img src="/assets/features/hotreload.png" alt="Hot reload status overlay showing successful compilation" loading="lazy" />
+              </figure>
+            </div>
+          </div>
+        </article>
+
+        <!-- Feature 4: Action-Based Input -->
+        <article class="feature-band feature-band--flip" id="feature-input">
+          <div class="feature-row">
+            <div class="feature-text">
+              <h3>Action-Based Input</h3>
+              <p>
+                Capture input states for controllers, keyboard, and mouse. The engine delivers one unified 
+                input state frame structure, shared between the editor and standalone packages.
+              </p>
+            </div>
+            <div class="feature-shot">
+              <div class="code-window">
+                <div class="code-window-bar">
+                  <span>PlayerController.cs</span>
+                  <button class="compile-btn" onclick="simulateCompilation(this)" style="background: transparent; border: 1px solid var(--border); color: var(--accent-light); font-size: 0.65rem; padding: 2px 6px; border-radius: 3px; cursor: pointer;">Compile</button>
+                </div>
+                <pre class="code-block"><code><span class="tk-c">/// Action-based, scalable input routing.</span>
+<span class="tk-k">if</span> (<span class="tk-v">Input</span>!.<span class="tk-f">IsActionPressed</span>(<span class="tk-s">"Jump"</span>))
+    <span class="tk-v">Velocity</span>.<span class="tk-v">Y</span> <span class="tk-k">=</span> <span class="tk-v">JumpForce</span>;
+
+<span class="tk-t">var</span> <span class="tk-v">moveDir</span> <span class="tk-k">=</span> <span class="tk-v">Input</span>.<span class="tk-f">GetAxis2D</span>(<span class="tk-s">"MoveX"</span>, <span class="tk-s">"MoveY"</span>);</code></pre>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Feature 5: Light Mapping -->
+        <article class="feature-band" id="feature-lightmaps">
+          <div class="feature-row">
+            <div class="feature-text">
+              <h3>Light Mapping</h3>
+              <p>
+                Bake global illumination and soft shadows directly into the scene geometry. The lightmapper processes 
+                direct light, bounced light, and image denoising for optimized static lighting.
+              </p>
+            </div>
+            <div class="feature-shot">
+              <figure class="shot-frame">
+                <video aria-label="Viewport showcase showing baked global illumination lightmaps" controls autoplay muted loop playsinline src="/assets/features/lightmaps.mp4"></video>
+              </figure>
+            </div>
+          </div>
+        </article>
+
+        <!-- Feature 6: PBR Material System -->
+        <article class="feature-band feature-band--flip" id="feature-materials">
+          <div class="feature-row">
+            <div class="feature-text">
+              <h3>PBR Material System</h3>
+              <p>
+                Configure physically based rendering materials using node-based controls or custom code parameters. 
+                Set reflectivity, roughness, normal maps, and emissive properties.
+              </p>
+            </div>
+            <div class="feature-shot">
+              <figure class="shot-frame">
+                <img src="/assets/features/materials.png" alt="PBR material editor preview showing sphere with texture maps" loading="lazy" />
+              </figure>
+            </div>
+          </div>
+        </article>
+
+        <!-- Feature 7: GLSL Shader Integration -->
+        <article class="feature-band" id="feature-glsl">
+          <div class="feature-row">
+            <div class="feature-text">
+              <h3>GLSL Shader Integration</h3>
+              <p>
+                Write GLSL code directly for materials and fullscreen post-process passes. 
+                The editor compiles shaders immediately upon saving.
+              </p>
+            </div>
+            <div class="feature-shot">
+              <div class="code-window">
+                <div class="code-window-bar">
+                  <span>Shaders/CustomRim.glsl</span>
+                  <button class="compile-btn" onclick="simulateCompilation(this)" style="background: transparent; border: 1px solid var(--border); color: var(--accent-light); font-size: 0.65rem; padding: 2px 6px; border-radius: 3px; cursor: pointer;">Compile</button>
+                </div>
+                <pre class="code-block"><code><span class="tk-c">// Write native GLSL directly in engine.</span>
+<span class="tk-t">vec4</span> <span class="tk-f">EvaluateUnlit</span>(<span class="tk-t">MaterialInput</span> <span class="tk-v">input</span>)
+{
+    <span class="tk-t">float</span> <span class="tk-v">rim</span> <span class="tk-k">=</span> <span class="tk-f">pow</span>(<span class="tk-n">1.0</span> <span class="tk-k">-</span> <span class="tk-f">clamp</span>(<span class="tk-f">dot</span>(
+        <span class="tk-f">normalize</span>(<span class="tk-v">input</span>.<span class="tk-v">Normal</span>), <span class="tk-v">input</span>.<span class="tk-v">ViewDir</span>), <span class="tk-n">0.0</span>, <span class="tk-n">1.0</span>), <span class="tk-n">3.0</span>);
+
+    <span class="tk-k">return</span> <span class="tk-t">vec4</span>(<span class="tk-v">input</span>.<span class="tk-v">BaseColor</span> <span class="tk-k">+</span> <span class="tk-v">rim</span> <span class="tk-k">*</span> <span class="tk-t">vec3</span>(<span class="tk-n">0.2</span>, <span class="tk-n">1.0</span>, <span class="tk-n">0.4</span>), <span class="tk-n">1.0</span>);
+}</code></pre>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Feature 8: Jolt Physics Engine -->
+        <article class="feature-band feature-band--flip" id="feature-jolt">
+          <div class="feature-row">
+            <div class="feature-text">
+              <h3>Jolt Physics Engine</h3>
+              <p>
+                Run multithreaded physics simulations with Jolt Physics. Rigid bodies, kinematic characters, 
+                and colliders function as native engine components.
+              </p>
+            </div>
+            <div class="feature-shot">
+              <a class="github-repo-card" href="https://github.com/jrouwe/JoltPhysics" target="_blank" rel="noopener noreferrer">
+                <div class="github-repo-card__top">
+                  <span class="github-repo-card__pill">External Library</span>
+                </div>
+                <p class="github-repo-card__slug">
+                  <span class="github-repo-card__owner">jrouwe</span><span class="github-repo-card__slash">/</span><span class="github-repo-card__repo">JoltPhysics</span>
+                </p>
+                <p class="github-repo-card__desc">
+                  A multi-core friendly rigid body physics and collision detection library. Used by Horizon Forbidden West.
+                </p>
+                <div class="github-repo-card__footer">
+                  <span class="github-repo-card__lang"><span class="github-repo-card__lang-dot"></span> C++</span>
+                </div>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Feature 9: Animation Graph Editor -->
+        <article class="feature-band" id="feature-animation">
+          <div class="feature-row">
+            <div class="feature-text">
+              <h3>Animation Graph Editor</h3>
+              <p>
+                Design animation state machines and blend trees visually. Kolpa handles character bone skinning 
+                on the GPU with skeletal animation playback.
+              </p>
+            </div>
+            <div class="feature-shot">
+              <figure class="shot-frame">
+                <video aria-label="Animation graph editing and blend nodes screen recording" controls autoplay muted loop playsinline src="/assets/features/animgraph.mp4"></video>
+              </figure>
+            </div>
+          </div>
+        </article>
+
+        <!-- Feature 10: UI Framework -->
+        <article class="feature-band feature-band--flip" id="feature-quickui">
+          <div class="feature-row">
+            <div class="feature-text">
+              <h3>KolpaUI Framework</h3>
+              <p>
+                Build responsive HUDs, editor extensions, and overlays using our hardware-accelerated UI framework. 
+                The engine editor interface runs entirely on this UI library.
+              </p>
+            </div>
+            <div class="feature-shot">
+              <div class="code-window">
+                <div class="code-window-bar">
+                  <span>Inventory.UI.cs</span>
+                  <button class="compile-btn" onclick="simulateCompilation(this)" style="background: transparent; border: 1px solid var(--border); color: var(--accent-light); font-size: 0.65rem; padding: 2px 6px; border-radius: 3px; cursor: pointer;">Compile</button>
+                </div>
+                <pre class="code-block"><code><span class="tk-c">/// Build data-bound UI.</span>
+<span class="tk-v">_UI</span>.<span class="tk-f">Draw</span>(() =>
+{
+    <span class="tk-k">using</span> (<span class="tk-t">UI</span>.<span class="tk-f">Panel</span>(<span class="tk-s">"Inventory"</span>))
+    {
+        <span class="tk-t">UI</span>.<span class="tk-f">Header</span>(<span class="tk-s">"Items"</span>);
+        <span class="tk-k">if</span> (<span class="tk-t">UI</span>.<span class="tk-f">Button</span>(<span class="tk-s">"Equip Sword"</span>))
+            <span class="tk-v">Player</span>.<span class="tk-f">Equip</span>(<span class="tk-v">ItemId</span>);
+    }
+});</code></pre>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Feature 11: Integrated Code Editor -->
+        <article class="feature-band" id="feature-code-editor">
+          <div class="feature-row">
+            <div class="feature-text">
+              <h3>Integrated Code Editor</h3>
+              <p>
+                Edit C# and GLSL code inside the engine viewport. The editor displays syntax highlighting, 
+                auto-completions, and script diagnostics.
+              </p>
+            </div>
+            <div class="feature-shot">
+              <figure class="shot-frame">
+                <video aria-label="Built-in code editor rendering next to running scene viewport" controls autoplay muted loop playsinline src="/assets/features/code_editor.mp4"></video>
+              </figure>
+            </div>
+          </div>
+        </article>
+
+        <!-- Feature 12: CSG using Manifold -->
+        <article class="feature-band feature-band--flip" id="feature-csg">
+          <div class="feature-row">
+            <div class="feature-text">
+              <h3>Constructive Solid Geometry (CSG)</h3>
+              <p>
+                Construct level prototypes using constructive solid geometry powered by the Manifold library. 
+                Add, subtract, and intersect shapes to generate static meshes.
+              </p>
+            </div>
+            <div class="feature-shot">
+              <a class="github-repo-card" href="https://github.com/elalish/manifold" target="_blank" rel="noopener noreferrer">
+                <div class="github-repo-card__top">
+                  <span class="github-repo-card__pill">External Library</span>
+                </div>
+                <p class="github-repo-card__slug">
+                  <span class="github-repo-card__owner">elalish</span><span class="github-repo-card__slash">/</span><span class="github-repo-card__repo">manifold</span>
+                </p>
+                <p class="github-repo-card__desc">
+                  Geometry library for topological robustness. Provides fast CSG operations for 3D model boolean generation.
+                </p>
+                <div class="github-repo-card__footer">
+                  <span class="github-repo-card__lang"><span class="github-repo-card__lang-dot"></span> C++</span>
+                </div>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Feature 13: One-Click Builds -->
+        <article class="feature-band" id="feature-packaging">
+          <div class="feature-row">
+            <div class="feature-text">
+              <h3>One-Click Builds</h3>
+              <p>
+                Compile code, cook assets, strip unused assets, and write archives into a standalone 
+                optimized executable target package with one click.
+              </p>
+            </div>
+            <div class="feature-shot">
+              <figure class="shot-frame">
+                <video aria-label="One click build pipeline and engine cook progress bar video" controls autoplay muted loop playsinline src="/assets/features/packaging.mp4"></video>
+              </figure>
+            </div>
+          </div>
+        </article>
+
+        <!-- Feature 14: Assimp Asset Importer -->
+        <article class="feature-band feature-band--flip" id="feature-pipeline">
+          <div class="feature-row">
+            <div class="feature-text">
+              <h3>Assimp Asset Importer</h3>
+              <p>
+                Import multiple 3D asset formats using Assimp. The engine converts textures, models, and skeletal animations 
+                into optimized binary files for faster loading and low memory usage.
+              </p>
+            </div>
+            <div class="feature-shot">
+              <a class="github-repo-card" href="https://github.com/assimp/assimp" target="_blank" rel="noopener noreferrer">
+                <div class="github-repo-card__top">
+                  <span class="github-repo-card__pill">External Library</span>
+                </div>
+                <p class="github-repo-card__slug">
+                  <span class="github-repo-card__owner">assimp</span><span class="github-repo-card__slash">/</span><span class="github-repo-card__repo">assimp</span>
+                </p>
+                <p class="github-repo-card__desc">
+                  The official Open Asset Importer Library. Imports over 40 3D file formats into a clean data structure.
+                </p>
+                <div class="github-repo-card__footer">
+                  <span class="github-repo-card__lang"><span class="github-repo-card__lang-dot"></span> C++</span>
+                </div>
+              </a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Technical Specifications Section -->
+<section id="specs" class="section-block">
+  <div class="shell">
+    <div class="section-header">
+      <h2 class="section-title">Technical Specifications</h2>
+      <p class="section-subtitle">Core engine standards, platform compatibilities, and compiler support configurations.</p>
+    </div>
+    <div class="overview-grid" style="grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));">
+      <div class="overview-card">
+        <h3>Graphics API</h3>
+        <p>Vulkan 1.3, Direct3D 12 (Feature Level 12_0), OpenGL ES 3.2 fallback rendering path.</p>
+      </div>
+      <div class="overview-card">
+        <h3>Languages</h3>
+        <p>C# 12 (.NET 8 Runtime), C++17, C99 engine core layer, native GLSL compilation shader support.</p>
+      </div>
+      <div class="overview-card">
+        <h3>Target Platforms</h3>
+        <p>Windows 10/11 (x64), Linux (x86_64, Ubuntu/Arch distributions), Android (API Level 29+).</p>
+      </div>
+      <div class="overview-card">
+        <h3>Libraries</h3>
+        <p>Jolt Physics, Manifold CSG core geometry, Assimp 3D importer toolkit, KolpaUI rendering.</p>
+      </div>
+    </div>
+  </div>
+</section>

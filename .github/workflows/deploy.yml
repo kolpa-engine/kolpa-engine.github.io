@@ -1,0 +1,76 @@
+name: Build & Deploy Kolpa Website
+
+on:
+  push:
+    branches: ["main", "master"]
+  workflow_dispatch:
+
+# Set permissions for GitHub Pages deployment
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Cache NuGet Packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Restore Dependencies
+        run: dotnet restore
+
+      - name: Build Project
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Generate Static Site
+        id: generator
+        run: |
+          start_time=$(date +%s)
+          dotnet run --project Kolpa.Generator --configuration Release --no-build -- build --verbose
+          end_time=$(date +%s)
+          echo "DURATION=$((end_time - start_time))" >> $GITHUB_ENV
+
+      - name: Display Execution Duration
+        run: |
+          echo "Site generation completed in ${{ env.DURATION }} seconds."
+
+      - name: Verify Output Directory
+        run: |
+          if [ ! -d "dist" ] || [ ! -f "dist/index.html" ]; then
+            echo "Error: Output directory 'dist' or 'dist/index.html' was not generated!"
+            exit 1
+          fi
+          echo "Output directory verified successfully."
+
+      - name: Upload Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "./dist"
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+        uses: actions/deploy-pages@v4

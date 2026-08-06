@@ -1,0 +1,17 @@
+{
+  "site": {
+    "title": "Kolpa Engine",
+    "description": "A modular, hackable open-source game engine."
+  },
+  "paths": {
+    "pages": "pages",
+    "layouts": "layouts",
+    "content": "content",
+    "data": "data",
+    "assets": "assets",
+    "output": "dist"
+  },
+  "renderer": {
+    "engine": "liquid"
+  }
+}

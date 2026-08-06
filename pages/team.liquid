@@ -1,0 +1,117 @@
+---
+layout: default
+title: Meet the Team
+description: The developers and open-source contributors building Kolpa Engine.
+---
+
+<div class="team-header">
+  <div class="shell">
+    <p class="eyebrow">People behind Kolpa</p>
+    <h1>MEET THE TEAM</h1>
+    <p>
+      Kolpa Engine is an open-source, community-driven project built by developers who believe in code autonomy, performance, and developer control.
+    </p>
+  </div>
+</div>
+
+<div class="shell">
+  <!-- Core Team Section -->
+  <section class="team-section">
+    <h2 class="team-section-title">Core Maintainers</h2>
+    <div class="team-grid">
+      {% for member in data.team %}
+        <div class="team-card">
+          <div class="team-card-header">
+            <img class="team-card-avatar" src="https://github.com/{{ member.username }}.png" alt="{{ member.name }}" loading="eager" />
+            <div class="team-card-meta">
+              <span class="team-card-name">{{ member.name }}</span>
+              <span class="team-card-role">{{ member.role }}</span>
+            </div>
+          </div>
+          <p class="team-card-bio">{{ member.bio }}</p>
+          <div class="team-card-socials">
+            <a href="{{ member.github }}" class="team-card-link" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+              </svg>
+              GitHub Profile
+            </a>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- GitHub Contributors Section -->
+  <section class="team-section" style="padding-top: 0;">
+    <h2 class="team-section-title">Open Source Contributors</h2>
+    <div id="contributors-container" class="contributors-list">
+      <!-- Loading skeletons will be injected here -->
+      <div class="skeleton-tag skeleton"></div>
+      <div class="skeleton-tag skeleton"></div>
+      <div class="skeleton-tag skeleton"></div>
+      <div class="skeleton-tag skeleton"></div>
+    </div>
+  </section>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const container = document.getElementById("contributors-container");
+    const repo = "kolpa-engine/kolpa";
+    const apiUrl = `https://api.github.com/repos/${repo}/contributors?per_page=100`;
+
+    // Core devs to filter out from general contributors list to avoid duplicates
+    const coreDevs = ["gabriel-aplok", "a6xdev", "lima6xcn"];
+
+    // Static fallback contributors (names only)
+    const fallbackContributors = [
+      { login: "jrouwe", html_url: "https://github.com/jrouwe" },
+      { login: "elalish", html_url: "https://github.com/elalish" },
+      { login: "assimp", html_url: "https://github.com/assimp" }
+    ];
+
+    function renderContributors(contributors) {
+      container.innerHTML = "";
+      if (contributors.length === 0) {
+        container.innerHTML = `<div class="error-message">No contributors found yet. Be the first to submit a pull request!</div>`;
+        return;
+      }
+
+      contributors.forEach(c => {
+        const link = document.createElement("a");
+        link.href = c.html_url;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.className = "contributor-link";
+        link.innerText = `@${c.login}`;
+        container.appendChild(link);
+      });
+    }
+
+    fetch(apiUrl)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch contributors from GitHub API");
+        }
+        return response.json();
+      })
+      .then(data => {
+        // Filter out bots and core maintainers
+        const otherContributors = data.filter(c => 
+          c.type !== "Bot" && !coreDevs.includes(c.login.toLowerCase())
+        );
+        renderContributors(otherContributors);
+      })
+      .catch(error => {
+        console.warn("GitHub API error, using fallback list:", error);
+        renderContributors(fallbackContributors);
+        const notice = document.createElement("div");
+        notice.className = "error-message";
+        notice.style.fontSize = "0.75rem";
+        notice.style.marginTop = "var(--spacing-md)";
+        notice.innerText = "Loaded static contributor list. GitHub API limit reached or offline.";
+        container.parentElement.appendChild(notice);
+      });
+  });
+</script>
