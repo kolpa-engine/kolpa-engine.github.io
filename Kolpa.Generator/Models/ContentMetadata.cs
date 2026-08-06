@@ -50,7 +50,7 @@ public class ContentMetadata
                 case "date": Date = value is DateTime dt ? dt : DateTime.TryParse(value.ToString(), out var parsedDt) ? parsedDt : null; break;
                 case "tags":
                     if (value is List<string> tagList) Tags = tagList;
-                    else if (value is IEnumerable<object> objEnum) Tags = objEnum.Select(o => o.ToString() ?? "").ToList();
+                    else if (value is IEnumerable<object> objEnum) Tags = [.. objEnum.Select(o => o.ToString() ?? "")];
                     break;
                 case "category": Category = value.ToString() ?? ""; break;
                 default:

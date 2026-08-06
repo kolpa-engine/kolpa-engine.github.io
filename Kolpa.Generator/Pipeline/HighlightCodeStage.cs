@@ -87,6 +87,6 @@ public partial class HighlightCodeStage(
 
     private static string Sanitize(string name)
     {
-        return new string(name.Where(char.IsLetterOrDigit).ToArray());
+        return new string([.. name.Where(char.IsLetterOrDigit)]);
     }
 }

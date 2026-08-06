@@ -112,6 +112,6 @@ public static class HighlightTheme
 
     private static string Sanitize(string name)
     {
-        return new string(name.Where(char.IsLetterOrDigit).ToArray());
+        return new string([.. name.Where(char.IsLetterOrDigit)]);
     }
 }

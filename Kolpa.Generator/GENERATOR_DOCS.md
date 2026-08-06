@@ -61,6 +61,138 @@ Configure your static content compiler using a root `config.json` file:
 }
 ```
 
+### Markdown Rendering (`markdown`)
+
+The Markdown pipeline is assembled from configurable extensions. Everything is opt-in so
+the same generator can serve simple or advanced Markdown across projects.
+
+```json
+{
+  "markdown": {
+    "extensions": {
+      "advanced": true,
+      "tables": true,
+      "taskLists": true,
+      "footnotes": true,
+      "autoIdentifiers": true,
+      "strikethrough": true,
+      "autoLinks": true,
+      "definitionLists": false,
+      "emojiSmiles": false,
+      "mathematics": false
+    },
+    "highlighting": {
+      "enabled": true,
+      "provider": "builtin",
+      "theme": "dark",
+      "cssPrefix": "hl-",
+      "generateCss": true,
+      "cssFile": "highlight.css",
+      "customTheme": {}
+    }
+  }
+}
+```
+
+- `extensions.advanced` enables Markdig's full advanced set as a baseline; individual flags
+  layer more features on top (tables, task lists, footnotes, auto identifiers, etc.).
+- `highlighting.provider` is `builtin` (class-based tokenizer) or `passthrough` (no colors).
+- `highlighting.theme` is `light`, `dark`, or a custom name defined via `customTheme`
+  (token name → color, e.g. `{ "keyword": "#ff7b72" }`).
+- Code highlighting always emits CSS classes (e.g. `hl-keyword`) — never inline styles. When
+  `generateCss` is true a reusable stylesheet is written to the output assets folder, which
+  you link from your layout (e.g. `<link rel="stylesheet" href="/assets/highlight.css">`).
+
+Fenced code blocks keep their language identifier and get a `highlighted` marker:
+
+```html
+<pre
+  class="hl-theme-dark"
+><code class="language-csharp highlighted">...</code></pre>
+```
+
+### Image Processing (`assets.images`)
+
+Raster images are automatically detected, optimized, and converted into responsive WebP
+variants. Originals are preserved by default so existing markup keeps working.
+
+```json
+{
+  "assets": {
+    "images": {
+      "enabled": true,
+      "processor": "imagesharp",
+      "optimize": true,
+      "generateWebP": true,
+      "generateAvif": false,
+      "quality": 85,
+      "maxWidth": 1920,
+      "preserveOriginal": true,
+      "sizes": [320, 640, 1280, 1920],
+      "include": ["png", "jpg", "jpeg", "webp"]
+    }
+  }
+}
+```
+
+- `processor` is `imagesharp` or `passthrough`. The generator never depends on a specific
+  image library at the call site — only via the configured processor.
+- Images are never upscaled: a 640px source produces only smaller variants.
+- Processed metadata is exposed to templates keyed by relative asset path:
+
+```
+{{ images['features/editor.png'].src }}      -> /assets/features/editor.webp
+{{ images['features/editor.png'].width }}
+{{ images['features/editor.png'].height }}
+{{ images['features/editor.png'].sources }}  -> list of { src, width, format }
+```
+
+Example responsive markup:
+
+```html
+<picture>
+  <source
+    type="image/webp"
+    srcset="
+    {% for s in images['features/editor.png'].sources %}{{ s.src }} {{ s.width }}w{% unless forloop.last %},{% endunless %}{% endfor %}"
+    sizes="100vw"
+  />
+  <img src="{{ images['features/editor.png'].src }}" alt="..." />
+</picture>
+```
+
+### Caching (`cache`)
+
+Incremental builds skip reprocessing unchanged files using content-addressed caches.
+
+```json
+{
+  "cache": {
+    "enabled": true,
+    "directory": ".generator-cache"
+  }
+}
+```
+
+- Rendered Markdown and processed images are keyed by content hash plus a configuration
+  signature, so editing a file (or its settings) correctly invalidates the cache.
+- The cache directory is `.gitignore`d by default and cleared by `kolpa clean`.
+
+### Build Pipeline
+
+Stages run in this order, each implementing `IBuildStage`:
+
+```text
+Load Configuration -> Discover Files -> Load Content -> Process Markdown ->
+Highlight Code -> Load Data -> Build Collections -> Resolve Routes ->
+Build Tag Archives -> Build Navigation -> Generate Metadata -> Render Templates ->
+Live Reload Injection -> Write Output -> Process Images -> Optimize Assets ->
+Run Post-Build
+```
+
+Images and assets are optimized after the output folder is written so a clean rebuild never
+deletes them.
+
 ---
 
 ## CLI Reference

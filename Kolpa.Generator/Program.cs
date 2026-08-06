@@ -229,11 +229,20 @@ public static class Program
         var config = _serviceProvider.GetRequiredService<GeneratorConfig>();
         var fileSystem = _serviceProvider.GetRequiredService<IFileSystem>();
         var logger = _serviceProvider.GetRequiredService<ILogger>();
+        var projectDir = Path.GetDirectoryName(Path.GetFullPath(configPath)) ?? string.Empty;
 
         var outputDir = Path.GetFullPath(config.Paths.Output);
         try
         {
             fileSystem.DeleteDirectory(outputDir, true);
+
+            var cacheDir = Path.GetFullPath(Path.Combine(projectDir, config.Cache.Directory));
+            if (Directory.Exists(cacheDir))
+            {
+                fileSystem.DeleteDirectory(cacheDir, true);
+                logger.LogInfo($"Clean completed. Wiped cache folder: {cacheDir}");
+            }
+
             logger.LogInfo($"Clean completed. Wiped target output folder: {outputDir}");
             return true;
         }

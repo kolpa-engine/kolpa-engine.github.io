@@ -56,8 +56,7 @@ public class ImageProcessingResult
 
     /// <summary>WebP variants ordered ascending by width, used to build a responsive source set.</summary>
     public List<ImageVariant> WebPVariants =>
-        Variants
+        [.. Variants
             .Where(v => v.Format.Equals("webp", StringComparison.OrdinalIgnoreCase))
-            .OrderBy(v => v.Width)
-            .ToList();
+            .OrderBy(v => v.Width)];
 }

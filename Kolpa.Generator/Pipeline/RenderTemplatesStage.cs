@@ -16,52 +16,9 @@ public class RenderTemplatesStage(TemplateService templateService) : IBuildStage
     public async Task ExecuteAsync(BuildContext context)
     {
         // 1. Build SiteContext model
-        var siteContext = new SiteContext();
-        siteContext.Site["title"] = context.Config.Site.Title;
-        siteContext.Site["description"] = context.Config.Site.Description;
-        siteContext.Site["url"] = context.Config.Site.Url;
+        var siteContext = SiteContextFactory.Create(context);
 
-        siteContext.Urls = context
-            .Routes.Select(r => r.Url)
-            .Where(u => !string.IsNullOrWhiteSpace(u))
-            .Distinct(StringComparer.OrdinalIgnoreCase)
-            .OrderBy(u => u, StringComparer.OrdinalIgnoreCase)
-            .ToList();
-
-        foreach (var dataKvp in context.DataRegistry)
-        {
-            siteContext.Data[dataKvp.Key] = dataKvp.Value;
-        }
-
-        if (
-            context.Metadata.TryGetValue("images", out var imagesObj)
-            && imagesObj is Dictionary<string, object> images
-        )
-        {
-            foreach (var imageKvp in images)
-            {
-                siteContext.Images[imageKvp.Key] = imageKvp.Value;
-            }
-        }
-
-        foreach (var collKvp in context.Collections)
-        {
-            var rawList = collKvp
-                .Value.OrderByDescending(doc => doc.Metadata.Date ?? DateTime.MinValue)
-                .Select(doc =>
-                {
-                    var dict = doc.Metadata.ToDictionary();
-                    dict["content"] = doc.Body;
-                    dict["slug"] = doc.Slug;
-                    dict["url"] = doc.OutputUrl;
-                    return dict;
-                })
-                .ToList();
-
-            siteContext.Collections[collKvp.Key] = rawList;
-        }
-
-        // 1b. Build per-collection tag clouds ({ name, slug, count }), sorted by name.
+        // 1a. Build per-collection tag clouds ({ name, slug, count }), sorted by name.
         foreach (var collKvp in context.Collections)
         {
             var counts = collKvp
