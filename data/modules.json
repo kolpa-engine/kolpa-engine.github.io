@@ -1,0 +1,82 @@
+[
+  {
+    "id": "zenith-rhi",
+    "name": "Zenith RHI",
+    "category": "official",
+    "description": "Low-level Vulkan and Direct3D 12 rendering hardware interface designed for high-performance clustered forward shading.",
+    "language": "C++",
+    "repoUrl": "https://github.com/kolpa-engine/kolpa",
+    "rawContentUrl": "https://raw.githubusercontent.com/kolpa-engine/kolpa/main/README.md",
+    "icon": "cpu"
+  },
+  {
+    "id": "kolpa-ui",
+    "name": "Kolpa UI",
+    "category": "official",
+    "description": "An immediate-mode GUI framework built specifically for editor tooling and interactive in-game overlays.",
+    "language": "C#",
+    "repoUrl": "https://github.com/kolpa-engine/kolpa",
+    "rawContentUrl": "https://raw.githubusercontent.com/kolpa-engine/kolpa/main/README.md",
+    "icon": "layout"
+  },
+  {
+    "id": "kolpa-physics",
+    "name": "Kolpa Physics",
+    "category": "official",
+    "description": "High-performance physics integration wrapper utilizing Jolt Physics for advanced rigid body dynamics and collision systems.",
+    "language": "C++",
+    "repoUrl": "https://github.com/kolpa-engine/kolpa",
+    "rawContentUrl": "https://raw.githubusercontent.com/jrouwe/JoltPhysics/master/README.md",
+    "icon": "activity"
+  },
+  {
+    "id": "kolpa-sound",
+    "name": "Kolpa Sound",
+    "category": "official",
+    "description": "Core audio backend with support for 3D positional audio, streaming, dynamic mixers, and DSP effects.",
+    "language": "C#",
+    "repoUrl": "https://github.com/kolpa-engine/kolpa",
+    "rawContentUrl": "https://raw.githubusercontent.com/kolpa-engine/kolpa/main/README.md",
+    "icon": "volume-2"
+  },
+  {
+    "id": "kolpa-terrain",
+    "name": "Kolpa Terrain",
+    "category": "community",
+    "description": "A community-maintained infinite terrain generation system with CDLOD level-of-detail and GPU heightmap generation.",
+    "language": "C#",
+    "repoUrl": "https://github.com/kolpa-engine/kolpa",
+    "rawContentUrl": "https://raw.githubusercontent.com/kolpa-engine/kolpa/main/README.md",
+    "icon": "map"
+  },
+  {
+    "id": "kolpa-ai",
+    "name": "Kolpa AI Pathfinding",
+    "category": "community",
+    "description": "Advanced pathfinding package featuring multi-threaded A* navigation, dynamic obstacle avoidance, and behavior trees.",
+    "language": "C#",
+    "repoUrl": "https://github.com/kolpa-engine/kolpa",
+    "rawContentUrl": "https://raw.githubusercontent.com/kolpa-engine/kolpa/main/README.md",
+    "icon": "navigation"
+  },
+  {
+    "id": "kolpa-ecs",
+    "name": "Kolpa ECS Tooling",
+    "category": "community",
+    "description": "Developer utility library adding visual inspector debugger support and source generators for Archetype ECS architectures.",
+    "language": "C#",
+    "repoUrl": "https://github.com/kolpa-engine/kolpa",
+    "rawContentUrl": "https://raw.githubusercontent.com/kolpa-engine/kolpa/main/README.md",
+    "icon": "tool"
+  },
+  {
+    "id": "kolpa-discord",
+    "name": "Kolpa Discord RPC",
+    "category": "community",
+    "description": "Simple plugin to integrate Discord Rich Presence support directly into your game client and editor build pipelines.",
+    "language": "C#",
+    "repoUrl": "https://github.com/kolpa-engine/kolpa",
+    "rawContentUrl": "https://raw.githubusercontent.com/kolpa-engine/kolpa/main/README.md",
+    "icon": "message-square"
+  }
+]
