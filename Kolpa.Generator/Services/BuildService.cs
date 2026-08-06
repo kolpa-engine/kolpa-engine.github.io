@@ -11,14 +11,17 @@ public class BuildService(
     IEnumerable<IBuildStage> stages,
     ILogger logger,
     ISystemClock systemClock,
-    string projectDir)
+    string projectDir,
+    ICacheService cache
+)
 {
     private readonly IEnumerable<IBuildStage> _stages = stages;
     private readonly ILogger _logger = logger;
     private readonly string _projectDir = projectDir;
     private readonly ISystemClock _systemClock = systemClock;
+    private readonly ICacheService _cache = cache;
 
-  public async Task<bool> ExecuteBuildAsync(string configPath, bool watchMode = false)
+    public async Task<bool> ExecuteBuildAsync(string configPath, bool watchMode = false)
     {
         var stopwatch = Stopwatch.StartNew();
         var context = new BuildContext(_projectDir);
@@ -39,7 +42,9 @@ public class BuildService(
             {
                 await stage.ExecuteAsync(context);
                 stageStopwatch.Stop();
-                _logger.LogVerbose($"Finished stage '{stage.Name}' in {stageStopwatch.ElapsedMilliseconds}ms.");
+                _logger.LogVerbose(
+                    $"Finished stage '{stage.Name}' in {stageStopwatch.ElapsedMilliseconds}ms."
+                );
 
                 // Break on fatal stage errors
                 if (context.Diagnostics.Any(d => d.Severity == DiagnosticSeverity.Error))
@@ -50,7 +55,11 @@ public class BuildService(
             }
             catch (Exception ex)
             {
-                context.AddDiagnostic(DiagnosticSeverity.Error, $"Fatal exception executing stage '{stage.Name}': {ex.Message}", stage.Name);
+                context.AddDiagnostic(
+                    DiagnosticSeverity.Error,
+                    $"Fatal exception executing stage '{stage.Name}': {ex.Message}",
+                    stage.Name
+                );
                 pipelineFailed = true;
                 break;
             }
@@ -94,6 +103,11 @@ public class BuildService(
         _logger.LogInfo($"  Assets:        {assetsCount} processed");
         _logger.LogInfo($"  Warnings:      {warnings}");
         _logger.LogInfo($"  Errors:        {errors}");
+
+        if (_cache.Enabled)
+        {
+            _logger.LogInfo($"  Cache:         {_cache.Hits} reused, {_cache.Misses} computed");
+        }
 
         if (errors > 0 || pipelineFailed)
         {

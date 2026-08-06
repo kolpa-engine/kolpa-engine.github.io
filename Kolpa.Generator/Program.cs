@@ -207,7 +207,8 @@ public static class Program
             provider.GetServices<IBuildStage>(),
             provider.GetRequiredService<ILogger>(),
             provider.GetRequiredService<ISystemClock>(),
-            projectDir
+            projectDir,
+            provider.GetRequiredService<ICacheService>()
         ));
 
         return services.BuildServiceProvider();
@@ -320,6 +321,8 @@ public static class Program
                 || normalizedPath.Contains("/.git/")
                 || normalizedPath.Contains("/.agents/")
                 || normalizedPath.Contains("/.gemini/")
+                || normalizedPath.Contains("/.generator-cache/")
+                || normalizedPath.Contains("/.generator-cache")
             )
             {
                 return;
@@ -364,7 +367,7 @@ public class CoreEnginePlugin(string projectDir, string configPath) : IEnginePlu
 
     public string Name => "Core Engine Config Plugin";
 
-  public void ConfigureServices(IServiceCollection services, GeneratorConfig config)
+    public void ConfigureServices(IServiceCollection services, GeneratorConfig config)
     {
         // register content parsers
         services.AddSingleton<IContentParser, MarkdownContentParser>();
@@ -421,7 +424,6 @@ public class CoreEnginePlugin(string projectDir, string configPath) : IEnginePlu
         ));
 
         services.AddSingleton<IRouteGenerator, RouteService>();
-        services.AddSingleton<IAssetProcessor, AssetService>();
         services.AddSingleton<OutputService>();
 
         // register pipeline stages in sequential order

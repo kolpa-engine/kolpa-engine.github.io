@@ -131,15 +131,22 @@ public class ProcessImagesStage(IImageProcessor imageProcessor, ICacheService ca
         }
 
         var saved = totalSourceBytes - totalOutputBytes;
-        _logger.LogInfo(
-            $"[Images] Processed {processed} image(s) ({cacheHits} cached) "
-                + $"{FormatBytes(totalSourceBytes)} -> {FormatBytes(totalOutputBytes)} "
-                + (saved > 0 ? $"(saved {FormatBytes(saved)})" : string.Empty)
-        );
+        if (processed > 0)
+        {
+            _logger.LogInfo(
+                $"[Images] Processed {processed} image(s) into responsive variants "
+                    + $"{FormatBytes(totalSourceBytes)} -> {FormatBytes(totalOutputBytes)} "
+                    + (saved > 0 ? $"(saved {FormatBytes(saved)})" : string.Empty)
+            );
+        }
+        else if (cacheHits > 0)
+        {
+            _logger.LogInfo($"[Images] All {cacheHits} image(s) reused from cache.");
+        }
 
         context.AddDiagnostic(
             DiagnosticSeverity.Info,
-            $"Processed {processed} image(s) into responsive variants.",
+            $"Processed {processed} image(s) into responsive variants ({cacheHits} from cache).",
             Name
         );
     }
