@@ -5,7 +5,6 @@
   /* Colors - AMOLED Black, Pure White, Grays, and Orange Accent */
   --bg-deep: #000000;
   --bg-surface: #0a0a0a;
-  --bg-elevated: #111111;
   --bg-card: #080808;
   --border: #1f1f1f;
   --border-focus: #ff9800;
@@ -15,7 +14,6 @@
   --text: #ffffff;
   --text-muted: #a1a1aa;
   --text-dim: #71717a;
-  --success: #10b981;
 
   /* Typography */
   --font-sans:
