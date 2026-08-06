@@ -609,23 +609,23 @@ strong {
   font-style: italic;
 } /* comment */
 .tk-k {
-  color: #ffa726;
+  color: var(--accent-light);
   font-weight: 500;
 } /* keyword (orange) */
 .tk-t {
-  color: #a1a1aa;
+  color: var(--text-muted);
 } /* type */
 .tk-v {
-  color: #ffffff;
+  color: var(--text);
 } /* variable */
 .tk-f {
-  color: #ff9800;
+  color: var(--accent);
 } /* function (orange) */
 .tk-s {
-  color: #d4d4d8;
+  color: var(--text-muted);
 } /* string */
 .tk-n {
-  color: #a1a1aa;
+  color: var(--text-dim);
 } /* number */
 
 /* GitHub Repository Card inside Feature Grid */
@@ -831,7 +831,9 @@ video::-webkit-media-controls {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md);
-  transition: border-color 0.2s ease, transform 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .team-card:hover {
@@ -963,4 +965,3 @@ video::-webkit-media-controls {
   border: 1px dashed var(--border);
   border-radius: var(--radius);
 }
-
