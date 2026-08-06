@@ -3,14 +3,13 @@ layout: default
 title: A Modular, Hackable Open-Source Game Engine
 description: A modular, hackable open-source game engine built with Vulkan and Direct3D 12.
 ---
-<!-- Hero Section -->
 <section class="hero">
   <div class="shell hero-grid">
     <div class="hero-copy">
       <p class="eyebrow">Project Status: In Development</p>
       <h1>KOLPA ENGINE</h1>
       <p class="lede">
-        A modular, hackable open-source game engine built with Vulkan and Direct3D 12. 
+        A modular, hackable open-source game engine built with Vulkan and Direct3D 12.
         Designed for developers who need performance, direct memory control, and custom workflows without engine bloat.
       </p>
       <div class="btn-group">
@@ -26,13 +25,12 @@ description: A modular, hackable open-source game engine built with Vulkan and D
   </div>
 </section>
 
-<!-- Overview Section -->
 <section id="overview" class="section-block">
   <div class="shell">
     <div class="section-header">
       <h2 class="section-title">Designed for Developer Autonomy</h2>
       <p class="section-subtitle">
-        Kolpa separates core engine modules so you can use them independently. Build your game with the complete editor, 
+        Kolpa separates core engine modules so you can use them independently. Build your game with the complete editor,
         run light standalone gameplay scripts, or use individual libraries like the renderer, physics solver, or UI library.
       </p>
     </div>
@@ -40,7 +38,7 @@ description: A modular, hackable open-source game engine built with Vulkan and D
       <div class="overview-card">
         <h3>Open Source Core</h3>
         <p>
-          We design the codebase for extension and debugging. You can inspect the engine systems, add custom features, 
+          We design the codebase for extension and debugging. You can inspect the engine systems, add custom features,
           or report issues directly on GitHub.
         </p>
         <div class="creator-credit">
@@ -50,13 +48,12 @@ description: A modular, hackable open-source game engine built with Vulkan and D
       <div class="overview-card">
         <h3>Code-First Workflows</h3>
         <p>
-          Write scripts in type-safe C# or use the custom bytecode-compiled language. Kolpa provides direct access 
+          Write scripts in type-safe C# or use the custom bytecode-compiled language. Kolpa provides direct access
           to memory layouts, multithreading, and low-level renderer pipelines.
         </p>
       </div>
     </div>
 
-    <!-- Quick Start Setup -->
     <div class="quickstart-container">
       <h3>Build from Source</h3>
       <div class="code-window">
@@ -72,7 +69,6 @@ description: A modular, hackable open-source game engine built with Vulkan and D
   </div>
 </section>
 
-<!-- Features Alternating List Section -->
 <section id="features" class="features">
   <div class="shell">
     <div class="section-header" style="text-align: center; margin-inline: auto;">
@@ -82,9 +78,7 @@ description: A modular, hackable open-source game engine built with Vulkan and D
       </p>
     </div>
 
-    <!-- Sticky Sidebar Layout Wrapper -->
     <div class="features-layout">
-      <!-- Sidebar Table of Contents -->
       <aside class="features-sidebar" aria-label="Features navigation">
         <nav class="sidebar-nav">
           <a href="#feature-csharp" class="sidebar-link">C# Scripting</a>
@@ -104,15 +98,13 @@ description: A modular, hackable open-source game engine built with Vulkan and D
         </nav>
       </aside>
 
-      <!-- Main Feature Bands -->
       <div class="features-content">
-        <!-- Feature 1: C# Programming Workflow -->
         <article class="feature-band" id="feature-csharp">
           <div class="feature-row">
             <div class="feature-text">
               <h3>C# Programming Workflow</h3>
               <p>
-                Write your gameplay logic in C# with type safety. You get direct access to the modern .NET execution runtime, 
+                Write your gameplay logic in C# with type safety. You get direct access to the modern .NET execution runtime,
                 multithreading optimizations, and high-level libraries.
               </p>
             </div>
@@ -125,7 +117,7 @@ description: A modular, hackable open-source game engine built with Vulkan and D
                 <pre class="code-block"><code><span class="tk-k">public class</span> <span class="tk-t">BasePlayer</span> : <span class="tk-t">EntityComponent</span>
 {
     <span class="tk-k">public float</span> <span class="tk-v">Speed</span> { <span class="tk-k">get</span>; <span class="tk-k">set</span>; } = <span class="tk-n">5.0f</span>;
-    
+
     <span class="tk-k">public override void</span> <span class="tk-f">OnUpdate</span>(<span class="tk-k">float</span> <span class="tk-v">deltaTime</span>)
     {
         <span class="tk-t">Vector3</span> <span class="tk-v">input</span> = <span class="tk-t">GameInput</span>.<span class="tk-f">GetMovementVector</span>();
@@ -137,13 +129,12 @@ description: A modular, hackable open-source game engine built with Vulkan and D
           </div>
         </article>
 
-        <!-- Feature 2: Clustered Forward Rendering -->
         <article class="feature-band feature-band--flip" id="feature-rendering">
           <div class="feature-row">
             <div class="feature-text">
               <h3>Clustered Forward Rendering</h3>
               <p>
-                The clustered forward rendering path processes thousands of dynamic light sources. 
+                The clustered forward rendering path processes thousands of dynamic light sources.
                 It supports depth pre-passes, ambient occlusion, shadow mapping, light probes, and multisample anti-aliasing.
               </p>
             </div>
@@ -155,13 +146,12 @@ description: A modular, hackable open-source game engine built with Vulkan and D
           </div>
         </article>
 
-        <!-- Feature 3: Script Hot Reload -->
         <article class="feature-band" id="feature-hot-reload">
           <div class="feature-row">
             <div class="feature-text">
               <h3>Script Hot Reload</h3>
               <p>
-                Save code changes in your scripts and see updates immediately in the running game viewport. 
+                Save code changes in your scripts and see updates immediately in the running game viewport.
                 The editor reloads gameplay assemblies without resetting the runtime state or dropping frames.
               </p>
             </div>
@@ -173,13 +163,12 @@ description: A modular, hackable open-source game engine built with Vulkan and D
           </div>
         </article>
 
-        <!-- Feature 4: Action-Based Input -->
         <article class="feature-band feature-band--flip" id="feature-input">
           <div class="feature-row">
             <div class="feature-text">
               <h3>Action-Based Input</h3>
               <p>
-                Capture input states for controllers, keyboard, and mouse. The engine delivers one unified 
+                Capture input states for controllers, keyboard, and mouse. The engine delivers one unified
                 input state frame structure, shared between the editor and standalone packages.
               </p>
             </div>
@@ -199,13 +188,12 @@ description: A modular, hackable open-source game engine built with Vulkan and D
           </div>
         </article>
 
-        <!-- Feature 5: Light Mapping -->
         <article class="feature-band" id="feature-lightmaps">
           <div class="feature-row">
             <div class="feature-text">
               <h3>Light Mapping</h3>
               <p>
-                Bake global illumination and soft shadows directly into the scene geometry. The lightmapper processes 
+                Bake global illumination and soft shadows directly into the scene geometry. The lightmapper processes
                 direct light, bounced light, and image denoising for optimized static lighting.
               </p>
             </div>
@@ -217,13 +205,12 @@ description: A modular, hackable open-source game engine built with Vulkan and D
           </div>
         </article>
 
-        <!-- Feature 6: PBR Material System -->
         <article class="feature-band feature-band--flip" id="feature-materials">
           <div class="feature-row">
             <div class="feature-text">
               <h3>PBR Material System</h3>
               <p>
-                Configure physically based rendering materials using node-based controls or custom code parameters. 
+                Configure physically based rendering materials using node-based controls or custom code parameters.
                 Set reflectivity, roughness, normal maps, and emissive properties.
               </p>
             </div>
@@ -235,13 +222,12 @@ description: A modular, hackable open-source game engine built with Vulkan and D
           </div>
         </article>
 
-        <!-- Feature 7: GLSL Shader Integration -->
         <article class="feature-band" id="feature-glsl">
           <div class="feature-row">
             <div class="feature-text">
               <h3>GLSL Shader Integration</h3>
               <p>
-                Write GLSL code directly for materials and fullscreen post-process passes. 
+                Write GLSL code directly for materials and fullscreen post-process passes.
                 The editor compiles shaders immediately upon saving.
               </p>
             </div>
@@ -264,13 +250,12 @@ description: A modular, hackable open-source game engine built with Vulkan and D
           </div>
         </article>
 
-        <!-- Feature 8: Jolt Physics Engine -->
         <article class="feature-band feature-band--flip" id="feature-jolt">
           <div class="feature-row">
             <div class="feature-text">
               <h3>Jolt Physics Engine</h3>
               <p>
-                Run multithreaded physics simulations with Jolt Physics. Rigid bodies, kinematic characters, 
+                Run multithreaded physics simulations with Jolt Physics. Rigid bodies, kinematic characters,
                 and colliders function as native engine components.
               </p>
             </div>
@@ -293,13 +278,12 @@ description: A modular, hackable open-source game engine built with Vulkan and D
           </div>
         </article>
 
-        <!-- Feature 9: Animation Graph Editor -->
         <article class="feature-band" id="feature-animation">
           <div class="feature-row">
             <div class="feature-text">
               <h3>Animation Graph Editor</h3>
               <p>
-                Design animation state machines and blend trees visually. Kolpa handles character bone skinning 
+                Design animation state machines and blend trees visually. Kolpa handles character bone skinning
                 on the GPU with skeletal animation playback.
               </p>
             </div>
@@ -311,13 +295,12 @@ description: A modular, hackable open-source game engine built with Vulkan and D
           </div>
         </article>
 
-        <!-- Feature 10: UI Framework -->
         <article class="feature-band feature-band--flip" id="feature-quickui">
           <div class="feature-row">
             <div class="feature-text">
               <h3>KolpaUI Framework</h3>
               <p>
-                Build responsive HUDs, editor extensions, and overlays using our hardware-accelerated UI framework. 
+                Build responsive HUDs, editor extensions, and overlays using our hardware-accelerated UI framework.
                 The engine editor interface runs entirely on this UI library.
               </p>
             </div>
@@ -342,13 +325,12 @@ description: A modular, hackable open-source game engine built with Vulkan and D
           </div>
         </article>
 
-        <!-- Feature 11: Integrated Code Editor -->
         <article class="feature-band" id="feature-code-editor">
           <div class="feature-row">
             <div class="feature-text">
               <h3>Integrated Code Editor</h3>
               <p>
-                Edit C# and GLSL code inside the engine viewport. The editor displays syntax highlighting, 
+                Edit C# and GLSL code inside the engine viewport. The editor displays syntax highlighting,
                 auto-completions, and script diagnostics.
               </p>
             </div>
@@ -360,13 +342,12 @@ description: A modular, hackable open-source game engine built with Vulkan and D
           </div>
         </article>
 
-        <!-- Feature 12: CSG using Manifold -->
         <article class="feature-band feature-band--flip" id="feature-csg">
           <div class="feature-row">
             <div class="feature-text">
               <h3>Constructive Solid Geometry (CSG)</h3>
               <p>
-                Construct level prototypes using constructive solid geometry powered by the Manifold library. 
+                Construct level prototypes using constructive solid geometry powered by the Manifold library.
                 Add, subtract, and intersect shapes to generate static meshes.
               </p>
             </div>
@@ -389,13 +370,12 @@ description: A modular, hackable open-source game engine built with Vulkan and D
           </div>
         </article>
 
-        <!-- Feature 13: One-Click Builds -->
         <article class="feature-band" id="feature-packaging">
           <div class="feature-row">
             <div class="feature-text">
               <h3>One-Click Builds</h3>
               <p>
-                Compile code, cook assets, strip unused assets, and write archives into a standalone 
+                Compile code, cook assets, strip unused assets, and write archives into a standalone
                 optimized executable target package with one click.
               </p>
             </div>
@@ -407,13 +387,12 @@ description: A modular, hackable open-source game engine built with Vulkan and D
           </div>
         </article>
 
-        <!-- Feature 14: Assimp Asset Importer -->
         <article class="feature-band feature-band--flip" id="feature-pipeline">
           <div class="feature-row">
             <div class="feature-text">
               <h3>Assimp Asset Importer</h3>
               <p>
-                Import multiple 3D asset formats using Assimp. The engine converts textures, models, and skeletal animations 
+                Import multiple 3D asset formats using Assimp. The engine converts textures, models, and skeletal animations
                 into optimized binary files for faster loading and low memory usage.
               </p>
             </div>
