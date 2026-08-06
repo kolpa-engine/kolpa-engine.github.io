@@ -2,7 +2,9 @@
   "site": {
     "title": "Kolpa Engine",
     "description": "A modular, hackable open-source game engine.",
-    "url": "https://kolpa-engine.github.io"
+    "url": "https://kolpa-engine.github.io",
+    "showWarningBanner": true,
+    "warningBannerText": "Warning: Almost all data shown here is mock/simulated because I'm anxious and wanted to build the website before the product is ready."
   },
   "paths": {
     "pages": "pages",

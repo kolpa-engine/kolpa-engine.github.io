@@ -14,6 +14,8 @@ public static class SiteContextFactory
         siteContext.Site["title"] = context.Config.Site.Title;
         siteContext.Site["description"] = context.Config.Site.Description;
         siteContext.Site["url"] = context.Config.Site.Url;
+        siteContext.Site["showWarningBanner"] = context.Config.Site.ShowWarningBanner;
+        siteContext.Site["warningBannerText"] = context.Config.Site.WarningBannerText;
 
         siteContext.Urls = [.. context
             .Routes.Select(r => r.Url)

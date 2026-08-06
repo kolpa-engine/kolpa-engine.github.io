@@ -25,11 +25,12 @@ description: Download Kolpa Engine and follow the quickstart guide to set up you
       </p>
       
       <div class="dl-options">
-        <a href="https://github.com/kolpa-engine" class="dl-btn primary-btn" target="_blank" rel="noopener noreferrer">
-          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15v4c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+        <a href="https://github.com/kolpa-engine" class="dl-btn dl-btn-primary" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" class="dl-icon"><path d="M3 15v4c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
           Download for Windows (x64)
         </a>
-        <a href="https://github.com/kolpa-engine" class="dl-btn secondary-btn" target="_blank" rel="noopener noreferrer">
+        <a href="https://github.com/kolpa-engine" class="dl-btn dl-btn-secondary" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" class="dl-icon"><rect x="2" y="2" width="20" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12" y2="12"></line><line x1="12" y1="6" x2="12.01" y2="6"></line></svg>
           Download for Linux (x64)
         </a>
       </div>
@@ -166,6 +167,11 @@ description: Download Kolpa Engine and follow the quickstart guide to set up you
   display: flex;
   flex-direction: column;
   position: relative;
+  transition: border-color 0.15s ease;
+}
+
+.download-card:hover {
+  border-color: var(--accent);
 }
 
 .dl-badge {
@@ -183,14 +189,14 @@ description: Download Kolpa Engine and follow the quickstart guide to set up you
 }
 
 .download-card h2 {
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   font-weight: 700;
   margin-bottom: var(--spacing-sm);
   color: var(--text);
 }
 
 .dl-desc {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: var(--text-muted);
   line-height: 1.4;
   margin-bottom: var(--spacing-lg);
@@ -204,7 +210,7 @@ description: Download Kolpa Engine and follow the quickstart guide to set up you
 }
 
 .dl-btn {
-  padding: 10px;
+  padding: 10px var(--spacing-md);
   font-size: 0.8rem;
   font-weight: 600;
   text-align: center;
@@ -215,8 +221,41 @@ description: Download Kolpa Engine and follow the quickstart guide to set up you
   justify-content: center;
   gap: 8px;
   font-family: var(--font-sans);
-  border: none;
   transition: all 0.15s ease;
+}
+
+.dl-btn-primary {
+  background: var(--accent);
+  color: var(--bg-deep);
+  border: 1px solid var(--accent);
+}
+
+.dl-btn-primary:hover {
+  background: var(--accent-light);
+  border-color: var(--accent-light);
+  color: var(--bg-deep);
+  transform: translateY(-1px);
+}
+
+.dl-btn-secondary {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+}
+
+.dl-btn-secondary:hover {
+  border-color: var(--text-muted);
+  color: var(--text);
+  transform: translateY(-1px);
+}
+
+.dl-icon {
+  flex-shrink: 0;
+  transition: transform 0.15s ease;
+}
+
+.dl-btn:hover .dl-icon {
+  transform: translateY(1px);
 }
 
 .source-card .code-window {
@@ -227,7 +266,7 @@ description: Download Kolpa Engine and follow the quickstart guide to set up you
 .simulator-section {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius);
   padding: var(--spacing-lg);
   margin-bottom: var(--spacing-xl);
 }
@@ -237,14 +276,14 @@ description: Download Kolpa Engine and follow the quickstart guide to set up you
 }
 
 .sim-header h2 {
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: var(--text);
   margin-bottom: 4px;
 }
 
 .sim-header p {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: var(--text-muted);
 }
 
@@ -252,12 +291,14 @@ description: Download Kolpa Engine and follow the quickstart guide to set up you
   display: grid;
   grid-template-columns: 240px 1fr;
   gap: var(--spacing-lg);
+  align-items: stretch;
 }
 
 .sim-controls {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-sm);
+  justify-content: center;
 }
 
 .sim-action-btn {
@@ -269,7 +310,7 @@ description: Download Kolpa Engine and follow the quickstart guide to set up you
   border-radius: var(--radius);
   cursor: pointer;
   font-family: var(--font-sans);
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: 500;
   transition: all 0.15s ease;
 }
@@ -333,7 +374,7 @@ description: Download Kolpa Engine and follow the quickstart guide to set up you
 }
 
 .requirements-section h2 {
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   font-weight: 700;
   margin-bottom: var(--spacing-lg);
   color: var(--text);
@@ -361,13 +402,13 @@ description: Download Kolpa Engine and follow the quickstart guide to set up you
   font-weight: 700;
   padding: var(--spacing-sm) var(--spacing-md);
   text-align: left;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
 }
 
 .req-table td {
   padding: var(--spacing-sm) var(--spacing-md);
   border-bottom: 1px solid var(--border);
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: var(--text-muted);
 }
 

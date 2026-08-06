@@ -15,6 +15,12 @@ public class SiteSettings
 
     [JsonPropertyName("url")]
     public string Url { get; set; } = string.Empty;
+
+    [JsonPropertyName("showWarningBanner")]
+    public bool ShowWarningBanner { get; set; } = false;
+
+    [JsonPropertyName("warningBannerText")]
+    public string WarningBannerText { get; set; } = string.Empty;
 }
 
 /// <summary>

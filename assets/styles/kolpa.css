@@ -1410,3 +1410,24 @@ video::-webkit-media-controls {
   justify-content: center;
   margin-top: var(--spacing-xl);
 }
+
+/* Warning Banner */
+.warning-banner {
+  background: var(--accent);
+  color: var(--bg-deep);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 8px 0;
+  text-align: center;
+}
+
+.warning-banner-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.warning-banner-icon {
+  flex-shrink: 0;
+}
