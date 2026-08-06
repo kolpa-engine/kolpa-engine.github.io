@@ -31,6 +31,14 @@ public class RunPostBuildStage : IBuildStage
                 var siteContext = new SiteContext();
                 siteContext.Site["title"] = context.Config.Site.Title;
                 siteContext.Site["description"] = context.Config.Site.Description;
+                siteContext.Site["url"] = context.Config.Site.Url;
+
+                siteContext.Urls = context
+                    .Routes.Select(r => r.Url)
+                    .Where(u => !string.IsNullOrWhiteSpace(u))
+                    .Distinct(StringComparer.OrdinalIgnoreCase)
+                    .OrderBy(u => u, StringComparer.OrdinalIgnoreCase)
+                    .ToList();
 
                 foreach (var dataKvp in context.DataRegistry)
                 {

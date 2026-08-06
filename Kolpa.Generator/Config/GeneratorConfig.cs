@@ -12,6 +12,27 @@ public class SiteSettings
 
     [JsonPropertyName("description")]
     public string Description { get; set; } = string.Empty;
+
+    [JsonPropertyName("url")]
+    public string Url { get; set; } = string.Empty;
+}
+
+/// <summary>
+/// Feed (RSS/Atom) generation settings for a single collection.
+/// </summary>
+public class RssSettings
+{
+    [JsonPropertyName("enabled")]
+    public bool Enabled { get; set; } = true;
+
+    [JsonPropertyName("collection")]
+    public string Collection { get; set; } = "blog";
+
+    [JsonPropertyName("output")]
+    public string Output { get; set; } = "feed.xml";
+
+    [JsonPropertyName("link")]
+    public string Link { get; set; } = "/";
 }
 
 /// <summary>
@@ -60,6 +81,9 @@ public class GeneratorConfig
 
     [JsonPropertyName("renderer")]
     public RendererSettings Renderer { get; set; } = new();
+
+    [JsonPropertyName("rss")]
+    public RssSettings Rss { get; set; } = new();
 
     [JsonPropertyName("collections")]
     public Dictionary<string, CollectionSettings> Collections { get; set; } =

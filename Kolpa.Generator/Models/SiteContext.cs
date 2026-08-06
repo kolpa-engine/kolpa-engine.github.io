@@ -30,6 +30,11 @@ public class SiteContext
         new(System.StringComparer.OrdinalIgnoreCase);
 
     /// <summary>
+    /// Every output URL produced by the build (pages, collections, archives), used for sitemaps.
+    /// </summary>
+    public List<string> Urls { get; set; } = new();
+
+    /// <summary>
     /// Current page metadata being rendered.
     /// </summary>
     public Dictionary<string, object> Page { get; set; } =

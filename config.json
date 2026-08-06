@@ -1,7 +1,8 @@
 {
   "site": {
     "title": "Kolpa Engine",
-    "description": "A modular, hackable open-source game engine."
+    "description": "A modular, hackable open-source game engine.",
+    "url": "https://kolpa-engine.github.io"
   },
   "paths": {
     "pages": "pages",
@@ -13,6 +14,12 @@
   },
   "renderer": {
     "engine": "liquid"
+  },
+  "rss": {
+    "enabled": true,
+    "collection": "blog",
+    "output": "feed.xml",
+    "link": "/blog/"
   },
   "collections": {
     "blog": {

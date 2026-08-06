@@ -429,29 +429,31 @@ public class CoreEnginePlugin : IEnginePlugin
 /// </summary>
 public class SitemapPlugin : IEnginePlugin, IBuildStep
 {
+    private GeneratorConfig? _config;
+
     public string Name => "Sitemap Generator Plugin";
 
     public void ConfigureServices(IServiceCollection services, GeneratorConfig config)
     {
         // Register this instance as a post-build step sitemapper
+        _config = config;
         services.AddSingleton<IBuildStep>(this);
     }
 
     public async Task ExecuteAsync(Models.SiteContext siteContext, string outputDir)
     {
-        var baseUrl = "https://kolpa-engine.github.io";
-        var urls = new List<string> { baseUrl + "/", baseUrl + "/blog/", baseUrl + "/team/" };
-
-        foreach (var collKvp in siteContext.Collections)
+        var config = _config;
+        if (config == null || string.IsNullOrWhiteSpace(config.Site.Url))
         {
-            foreach (var item in collKvp.Value)
-            {
-                if (item.TryGetValue("url", out var urlVal) && urlVal != null)
-                {
-                    urls.Add(baseUrl + urlVal.ToString());
-                }
-            }
+            return;
         }
+
+        var baseUrl = config.Site.Url.TrimEnd('/');
+        var urls = siteContext
+            .Urls.Select(url => baseUrl + EnsureLeadingSlash(url))
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .OrderBy(url => url, StringComparer.OrdinalIgnoreCase)
+            .ToList();
 
         var urlset = string.Join(
             "\n",
@@ -464,5 +466,10 @@ public class SitemapPlugin : IEnginePlugin, IBuildStep
         var xml =
             $"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n{urlset}\n</urlset>";
         await File.WriteAllTextAsync(sitemapFile, xml);
+    }
+
+    private static string EnsureLeadingSlash(string url)
+    {
+        return url.StartsWith('/') ? url : "/" + url;
     }
 }
