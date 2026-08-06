@@ -1,0 +1,505 @@
+---
+layout: default
+title: Download & Setup
+description: Download Kolpa Engine and follow the quickstart guide to set up your C# game development environment.
+---
+
+<div class="page-header">
+  <div class="shell">
+    <h1 class="page-title">Get Started</h1>
+    <p class="lede">
+      Download the editor, initialize a template via command line, or compile the source.
+    </p>
+  </div>
+</div>
+
+<div class="shell main-download-content">
+  <!-- Grid for Setup & Downloads -->
+  <div class="download-grid">
+    <!-- Download Packages -->
+    <div class="download-card">
+      <div class="dl-badge">v0.8.0-beta</div>
+      <h2>Engine Editor</h2>
+      <p class="dl-desc">
+        Includes the complete visual editor, compiler toolchain, and default 3D/2D templates.
+      </p>
+      
+      <div class="dl-options">
+        <a href="https://github.com/kolpa-engine" class="dl-btn primary-btn" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15v4c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+          Download for Windows (x64)
+        </a>
+        <a href="https://github.com/kolpa-engine" class="dl-btn secondary-btn" target="_blank" rel="noopener noreferrer">
+          Download for Linux (x64)
+        </a>
+      </div>
+    </div>
+
+    <!-- Compile from Source -->
+    <div class="download-card source-card">
+      <h2>Build from Source</h2>
+      <p class="dl-desc">
+        Cloning the repository is best for developers building custom modules or extending the engine's core C++ subsystems.
+      </p>
+      <div class="code-window">
+        <div class="code-window-bar">
+          <span>Terminal</span>
+          <button class="compile-btn" onclick="copyCode(this)" style="background: transparent; border: 1px solid var(--border); color: var(--accent-light); font-size: 0.65rem; padding: 2px 8px; border-radius: 3px; cursor: pointer;">Copy</button>
+        </div>
+        <pre class="code-block" style="color: var(--text-muted);"><code><span style="color: var(--accent);">$</span> git clone https://github.com/kolpa-engine/kolpa.git
+<span style="color: var(--accent);">$</span> cd kolpa
+<span style="color: var(--accent);">$</span> dotnet run --project Source/Editor</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- CLI Quickstart Simulator Section -->
+  <div class="simulator-section">
+    <div class="sim-header">
+      <h2>Interactive Project Initialization</h2>
+      <p>Simulate setting up a new project template using the `kolpa` developer CLI.</p>
+    </div>
+    
+    <div class="sim-grid">
+      <div class="sim-controls">
+        <button class="sim-action-btn active" id="btn-init-empty">
+          Initialize Empty Project
+        </button>
+        <button class="sim-action-btn" id="btn-init-3d">
+          Initialize 3D Action RPG Template
+        </button>
+        <button class="sim-action-btn" id="btn-init-physics">
+          Initialize Physics Demo
+        </button>
+      </div>
+
+      <div class="code-window sim-terminal">
+        <div class="code-window-bar">
+          <span>Terminal Simulator</span>
+          <span class="status-indicator">Idle</span>
+        </div>
+        <div class="terminal-body" id="terminal-screen">
+          <div class="terminal-line"><span class="term-prompt">kolpa-user@desktop:~$</span> <span class="term-cursor">_</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- System Requirements Section -->
+  <div class="requirements-section">
+    <h2 class="section-title">System Requirements</h2>
+    <div class="req-tables-grid">
+      <table class="req-table">
+        <thead>
+          <tr>
+            <th colspan="2">Minimum Specifications</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="req-label">OS</td>
+            <td>Windows 10 (64-bit) / Linux (Vulkan 1.2+)</td>
+          </tr>
+          <tr>
+            <td class="req-label">GPU</td>
+            <td>DirectX 12 / Vulkan 1.2 compatible card (Intel HD 530+)</td>
+          </tr>
+          <tr>
+            <td class="req-label">CPU</td>
+            <td>Intel Core i3 / AMD Ryzen 3</td>
+          </tr>
+          <tr>
+            <td class="req-label">SDK</td>
+            <td>.NET 10.0 runtime / C++20 compiler</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table class="req-table">
+        <thead>
+          <tr>
+            <th colspan="2" style="border-bottom-color: var(--accent);">Recommended Specifications</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="req-label">OS</td>
+            <td>Windows 11 (64-bit) / Linux</td>
+          </tr>
+          <tr>
+            <td class="req-label">GPU</td>
+            <td>NVIDIA GTX 1060 / AMD RX 580 (Vulkan 1.3 preferred)</td>
+          </tr>
+          <tr>
+            <td class="req-label">CPU</td>
+            <td>Intel Core i5 / AMD Ryzen 5 (Multithreaded preferred)</td>
+          </tr>
+          <tr>
+            <td class="req-label">SDK</td>
+            <td>.NET 10.0 SDK / MSVC v143 / GCC 12</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<style>
+/* CSS Styles for Download Page */
+.main-download-content {
+  padding-top: var(--spacing-lg);
+  padding-bottom: var(--spacing-xl);
+}
+
+.download-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
+}
+
+.download-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.dl-badge {
+  position: absolute;
+  top: var(--spacing-md);
+  right: var(--spacing-md);
+  background: var(--accent-soft);
+  color: var(--accent);
+  border: 1px solid rgba(255, 152, 0, 0.15);
+  font-size: 0.7rem;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 2px;
+}
+
+.download-card h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: var(--spacing-sm);
+  color: var(--text);
+}
+
+.dl-desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+  margin-bottom: var(--spacing-lg);
+  flex-grow: 1;
+}
+
+.dl-options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.dl-btn {
+  padding: 10px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-align: center;
+  border-radius: var(--radius);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font-sans);
+  border: none;
+  transition: all 0.15s ease;
+}
+
+.source-card .code-window {
+  margin-top: auto;
+}
+
+/* Simulator Styling */
+.simulator-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
+}
+
+.sim-header {
+  margin-bottom: var(--spacing-lg);
+}
+
+.sim-header h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.sim-header p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.sim-grid {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: var(--spacing-lg);
+}
+
+.sim-controls {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.sim-action-btn {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  padding: var(--spacing-sm) var(--spacing-md);
+  text-align: left;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 500;
+  transition: all 0.15s ease;
+}
+
+.sim-action-btn:hover {
+  border-color: var(--text-muted);
+  color: var(--text);
+}
+
+.sim-action-btn.active {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.sim-terminal {
+  display: flex;
+  flex-direction: column;
+  height: 250px;
+}
+
+.sim-terminal .status-indicator {
+  font-size: 0.65rem;
+  background: var(--border);
+  color: var(--text-muted);
+  padding: 1px 6px;
+  border-radius: 2px;
+}
+
+.sim-terminal .status-indicator.busy {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.terminal-body {
+  background: #000;
+  color: #39ff14; /* matrix green */
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  padding: var(--spacing-md);
+  overflow-y: auto;
+  flex-grow: 1;
+  line-height: 1.4;
+}
+
+.term-prompt {
+  color: var(--accent);
+}
+
+.term-cursor {
+  animation: blink 0.8s infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+/* System Requirements Tables */
+.requirements-section {
+  margin-top: var(--spacing-xl);
+}
+
+.requirements-section h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: var(--spacing-lg);
+  color: var(--text);
+}
+
+.req-tables-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--spacing-lg);
+}
+
+.req-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.req-table th {
+  background: var(--bg-surface);
+  border-bottom: 2px solid var(--border);
+  color: var(--text);
+  font-weight: 700;
+  padding: var(--spacing-sm) var(--spacing-md);
+  text-align: left;
+  font-size: 0.85rem;
+}
+
+.req-table td {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-bottom: 1px solid var(--border);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.req-table tr:last-child td {
+  border-bottom: none;
+}
+
+.req-label {
+  font-weight: 600;
+  color: var(--text);
+  width: 80px;
+}
+
+@media (max-width: 768px) {
+  .sim-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const terminal = document.getElementById("terminal-screen");
+  const actions = {
+    "btn-init-empty": {
+      cmd: "kolpa create --template empty my-new-game",
+      logs: [
+        "Resolving template: empty...",
+        "Creating workspace structure...",
+        "Installing dependencies...",
+        "Generating initial assembly file: base.csproj",
+        "Setup completed. Run 'dotnet run --project my-new-game' to start editor."
+      ]
+    },
+    "btn-init-3d": {
+      cmd: "kolpa create --template action-rpg my-rpg-game",
+      logs: [
+        "Resolving template: 3d-action-rpg...",
+        "Creating workspace structure...",
+        "Copying assets (Models, Shaders, Soundpacks)...",
+        "Configuring Jolt Physics layer...",
+        "Initializing core scripts (PlayerController.cs, EnemyAI.cs)...",
+        "Setup completed. Run 'dotnet run --project my-rpg-game' to launch game editor."
+      ]
+    },
+    "btn-init-physics": {
+      cmd: "kolpa create --template physics-demo demo-rigidbodies",
+      logs: [
+        "Resolving template: physics-demo...",
+        "Configuring collision boundaries...",
+        "Spawning 500 rigid body primitives (spheres, cubes)...",
+        "Binding key bindings: [Space] to emit physics force...",
+        "Setup completed. Run editor to simulate physics parameters."
+      ]
+    }
+  };
+
+  let typingTimer = null;
+
+  function runSimulation(actionId) {
+    if (typingTimer) clearInterval(typingTimer);
+    
+    // Clear terminal screen and show prompt typing
+    terminal.innerHTML = "";
+    
+    // Disable buttons during animation
+    const buttons = document.querySelectorAll(".sim-action-btn");
+    buttons.forEach(btn => {
+      btn.classList.remove("active");
+      if (btn.id === actionId) btn.classList.add("active");
+    });
+
+    const status = document.querySelector(".sim-terminal .status-indicator");
+    status.textContent = "Busy";
+    status.className = "status-indicator busy";
+
+    const item = actions[actionId];
+    
+    // Simulate command typing
+    const promptLine = document.createElement("div");
+    promptLine.className = "terminal-line";
+    promptLine.innerHTML = `<span class="term-prompt">kolpa-user@desktop:~$</span> <span id="typing-cmd"></span><span class="term-cursor">_</span>`;
+    terminal.appendChild(promptLine);
+
+    const cmdSpan = document.getElementById("typing-cmd");
+    let charIndex = 0;
+
+    const typeCommand = setInterval(() => {
+      cmdSpan.textContent += item.cmd[charIndex];
+      charIndex++;
+      if (charIndex >= item.cmd.length) {
+        clearInterval(typeCommand);
+        
+        // Remove cursor from prompt line and simulate output
+        promptLine.querySelector(".term-cursor").remove();
+        
+        // Display logs with simulated timing
+        let logIndex = 0;
+        const printLogs = setInterval(() => {
+          if (logIndex < item.logs.length) {
+            const line = document.createElement("div");
+            line.className = "terminal-line";
+            line.textContent = item.logs[logIndex];
+            terminal.appendChild(line);
+            logIndex++;
+            terminal.scrollTop = terminal.scrollHeight;
+          } else {
+            clearInterval(printLogs);
+            
+            // Add new ready prompt line at the bottom
+            const newPrompt = document.createElement("div");
+            newPrompt.className = "terminal-line";
+            newPrompt.innerHTML = `<span class="term-prompt">kolpa-user@desktop:~$</span> <span class="term-cursor">_</span>`;
+            terminal.appendChild(newPrompt);
+            terminal.scrollTop = terminal.scrollHeight;
+            
+            status.textContent = "Idle";
+            status.className = "status-indicator";
+          }
+        }, 400);
+      }
+    }, 40);
+  }
+
+  // Bind click handlers to buttons
+  Object.keys(actions).forEach(btnId => {
+    document.getElementById(btnId).addEventListener("click", () => {
+      runSimulation(btnId);
+    });
+  });
+
+  // Run first simulation on load
+  runSimulation("btn-init-empty");
+});
+</script>
