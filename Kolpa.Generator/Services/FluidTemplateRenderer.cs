@@ -9,21 +9,16 @@ namespace Kolpa.Generator.Services;
 /// <summary>
 /// Implements template rendering using the Fluid Liquid template engine.
 /// </summary>
-public class FluidTemplateRenderer : ITemplateRenderer
+public class FluidTemplateRenderer(string layoutsDir) : ITemplateRenderer
 {
     private readonly FluidParser _parser = new();
     private readonly ConcurrentDictionary<string, IFluidTemplate> _templateCache = new();
-    private readonly string _layoutsDir;
+    private readonly string _layoutsDir = layoutsDir;
 
-    public FluidTemplateRenderer(string layoutsDir)
-    {
-        _layoutsDir = layoutsDir;
-    }
-
-    /// <summary>
-    /// Renders a template content string with the provided context.
-    /// </summary>
-    public async Task<string> RenderAsync(string templateContent, object context)
+  /// <summary>
+  /// Renders a template content string with the provided context.
+  /// </summary>
+  public async Task<string> RenderAsync(string templateContent, object context)
     {
         var template = _templateCache.GetOrAdd(templateContent, content =>
         {

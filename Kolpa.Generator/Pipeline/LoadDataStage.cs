@@ -7,18 +7,13 @@ namespace Kolpa.Generator.Pipeline;
 /// <summary>
 /// Pipeline stage that registers structured JSON configurations in the global DataRegistry context.
 /// </summary>
-public class LoadDataStage : IBuildStage
+public class LoadDataStage(IFileSystem fileSystem) : IBuildStage
 {
-    private readonly IFileSystem _fileSystem;
+    private readonly IFileSystem _fileSystem = fileSystem;
 
     public string Name => "Load Data";
 
-    public LoadDataStage(IFileSystem fileSystem)
-    {
-        _fileSystem = fileSystem;
-    }
-
-    public async Task ExecuteAsync(BuildContext context)
+  public async Task ExecuteAsync(BuildContext context)
     {
         var root = context.Project.RootPath;
         var dataPath = Path.Combine(root, context.Config.Paths.Data);

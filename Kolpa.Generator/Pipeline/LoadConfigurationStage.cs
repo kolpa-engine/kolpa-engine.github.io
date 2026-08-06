@@ -8,20 +8,14 @@ namespace Kolpa.Generator.Pipeline;
 /// <summary>
 /// Pipeline stage that discovers and deserializes config.json file into BuildContext.
 /// </summary>
-public class LoadConfigurationStage : IBuildStage
+public class LoadConfigurationStage(IFileSystem fileSystem, string configPath) : IBuildStage
 {
-    private readonly IFileSystem _fileSystem;
-    private readonly string _configPath;
+    private readonly IFileSystem _fileSystem = fileSystem;
+    private readonly string _configPath = configPath;
 
     public string Name => "Load Configuration";
 
-    public LoadConfigurationStage(IFileSystem fileSystem, string configPath)
-    {
-        _fileSystem = fileSystem;
-        _configPath = configPath;
-    }
-
-    public async Task ExecuteAsync(BuildContext context)
+  public async Task ExecuteAsync(BuildContext context)
     {
         if (!_fileSystem.FileExists(_configPath))
         {

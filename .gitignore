@@ -21,6 +21,9 @@
 # Static Site Output
 dist/
 
+# Build cache
+.generator-cache/
+
 # Local agent caches and configurations
 .agents/
 .gemini/

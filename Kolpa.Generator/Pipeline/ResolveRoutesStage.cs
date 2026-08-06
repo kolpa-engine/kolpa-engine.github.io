@@ -6,18 +6,13 @@ namespace Kolpa.Generator.Pipeline;
 /// <summary>
 /// Pipeline stage that generates URL routing maps and detects collisions.
 /// </summary>
-public class ResolveRoutesStage : IBuildStage
+public class ResolveRoutesStage(IRouteGenerator routeGenerator) : IBuildStage
 {
-    private readonly IRouteGenerator _routeGenerator;
+    private readonly IRouteGenerator _routeGenerator = routeGenerator;
 
     public string Name => "Resolve Routes";
 
-    public ResolveRoutesStage(IRouteGenerator routeGenerator)
-    {
-        _routeGenerator = routeGenerator;
-    }
-
-    public Task ExecuteAsync(BuildContext context)
+  public Task ExecuteAsync(BuildContext context)
     {
         var root = context.Project.RootPath;
         var outputDir = Path.GetFullPath(Path.Combine(root, context.Config.Paths.Output));

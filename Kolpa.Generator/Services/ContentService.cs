@@ -8,23 +8,16 @@ namespace Kolpa.Generator.Services;
 /// <summary>
 /// Service managing content files discovery, parser mapping, drafts filtering, and collection groups.
 /// </summary>
-public class ContentService
+public class ContentService(IContentProvider contentProvider, ILogger logger, string projectDir)
 {
-    private readonly IContentProvider _contentProvider;
-    private readonly ILogger _logger;
-    private readonly string _projectDir;
+    private readonly IContentProvider _contentProvider = contentProvider;
+    private readonly ILogger _logger = logger;
+    private readonly string _projectDir = projectDir;
 
-    public ContentService(IContentProvider contentProvider, ILogger logger, string projectDir)
-    {
-        _contentProvider = contentProvider;
-        _logger = logger;
-        _projectDir = projectDir;
-    }
-
-    /// <summary>
-    /// Loads the pages content documents.
-    /// </summary>
-    public async Task<IEnumerable<ContentDocument>> LoadPagesAsync(string pagesSource)
+  /// <summary>
+  /// Loads the pages content documents.
+  /// </summary>
+  public async Task<IEnumerable<ContentDocument>> LoadPagesAsync(string pagesSource)
     {
         var sourcePath = Path.Combine(_projectDir, pagesSource);
         var pages = await _contentProvider.LoadContentAsync(sourcePath);

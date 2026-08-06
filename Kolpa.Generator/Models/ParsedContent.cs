@@ -8,7 +8,7 @@ public class ParsedContent
     /// <summary>
     /// File metadata parsed from frontmatter or configurations.
     /// </summary>
-    public Dictionary<string, object> Metadata { get; set; } = new(System.StringComparer.OrdinalIgnoreCase);
+    public Dictionary<string, object> Metadata { get; set; } = new(StringComparer.OrdinalIgnoreCase);
 
     /// <summary>
     /// Renderable HTML or text body content.

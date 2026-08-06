@@ -6,20 +6,14 @@ namespace Kolpa.Generator.Pipeline;
 /// <summary>
 /// Pipeline stage that resolves content directories and parses documents using content parsers.
 /// </summary>
-public class LoadContentStage : IBuildStage
+public class LoadContentStage(IEnumerable<IContentParser> parsers, IFileSystem fileSystem) : IBuildStage
 {
-    private readonly IEnumerable<IContentParser> _parsers;
-    private readonly IFileSystem _fileSystem;
+    private readonly IEnumerable<IContentParser> _parsers = parsers;
+    private readonly IFileSystem _fileSystem = fileSystem;
 
     public string Name => "Load Content";
 
-    public LoadContentStage(IEnumerable<IContentParser> parsers, IFileSystem fileSystem)
-    {
-        _parsers = parsers;
-        _fileSystem = fileSystem;
-    }
-
-    public async Task ExecuteAsync(BuildContext context)
+  public async Task ExecuteAsync(BuildContext context)
     {
         var root = context.Project.RootPath;
 

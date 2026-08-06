@@ -6,18 +6,13 @@ namespace Kolpa.Generator.Pipeline;
 /// <summary>
 /// Pipeline stage that copies static assets to the target output directory using the file system abstraction.
 /// </summary>
-public class ProcessAssetsStage : IBuildStage
+public class ProcessAssetsStage(IFileSystem fileSystem) : IBuildStage
 {
-    private readonly IFileSystem _fileSystem;
+    private readonly IFileSystem _fileSystem = fileSystem;
 
     public string Name => "Process Assets";
 
-    public ProcessAssetsStage(IFileSystem fileSystem)
-    {
-        _fileSystem = fileSystem;
-    }
-
-    public Task ExecuteAsync(BuildContext context)
+  public Task ExecuteAsync(BuildContext context)
     {
         var root = context.Project.RootPath;
         var assetsSrc = Path.Combine(root, context.Config.Paths.Assets);

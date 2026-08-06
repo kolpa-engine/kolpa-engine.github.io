@@ -6,16 +6,11 @@ namespace Kolpa.Generator.Pipeline;
 /// <summary>
 /// Pipeline stage that triggers registered post-build tasks and plugins.
 /// </summary>
-public class RunPostBuildStage : IBuildStage
+public class RunPostBuildStage(IEnumerable<IBuildStep> postBuildSteps) : IBuildStage
 {
-    private readonly IEnumerable<IBuildStep> _postBuildSteps;
+    private readonly IEnumerable<IBuildStep> _postBuildSteps = postBuildSteps;
 
     public string Name => "Run Post-Build";
-
-    public RunPostBuildStage(IEnumerable<IBuildStep> postBuildSteps)
-    {
-        _postBuildSteps = postBuildSteps;
-    }
 
     public async Task ExecuteAsync(BuildContext context)
     {
@@ -43,6 +38,17 @@ public class RunPostBuildStage : IBuildStage
                 foreach (var dataKvp in context.DataRegistry)
                 {
                     siteContext.Data[dataKvp.Key] = dataKvp.Value;
+                }
+
+                if (
+                    context.Metadata.TryGetValue("images", out var imagesObj)
+                    && imagesObj is Dictionary<string, object> images
+                )
+                {
+                    foreach (var imageKvp in images)
+                    {
+                        siteContext.Images[imageKvp.Key] = imageKvp.Value;
+                    }
                 }
 
                 foreach (var collKvp in context.Collections)

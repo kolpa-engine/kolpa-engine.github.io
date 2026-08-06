@@ -5,19 +5,14 @@ namespace Kolpa.Generator.Services;
 /// <summary>
 /// Service managing directory wipes, creation, and writing rendered documents to disk.
 /// </summary>
-public class OutputService
+public class OutputService(ILogger logger)
 {
-    private readonly ILogger _logger;
+    private readonly ILogger _logger = logger;
 
-    public OutputService(ILogger logger)
-    {
-        _logger = logger;
-    }
-
-    /// <summary>
-    /// Clears target directory.
-    /// </summary>
-    public void CleanDirectory(string outputDir)
+  /// <summary>
+  /// Clears target directory.
+  /// </summary>
+  public void CleanDirectory(string outputDir)
     {
         try
         {

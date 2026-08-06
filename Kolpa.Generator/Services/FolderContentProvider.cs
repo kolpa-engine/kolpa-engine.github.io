@@ -6,16 +6,11 @@ namespace Kolpa.Generator.Services;
 /// <summary>
 /// Discovers and loads content files from a local folder directory.
 /// </summary>
-public class FolderContentProvider : IContentProvider
+public class FolderContentProvider(IEnumerable<IContentParser> parsers) : IContentProvider
 {
-    private readonly IEnumerable<IContentParser> _parsers;
+    private readonly IEnumerable<IContentParser> _parsers = parsers;
 
-    public FolderContentProvider(IEnumerable<IContentParser> parsers)
-    {
-        _parsers = parsers;
-    }
-
-    public async Task<IEnumerable<ContentDocument>> LoadContentAsync(string sourceRoot)
+  public async Task<IEnumerable<ContentDocument>> LoadContentAsync(string sourceRoot)
     {
         var items = new List<ContentDocument>();
         if (!Directory.Exists(sourceRoot))

@@ -7,18 +7,13 @@ namespace Kolpa.Generator.Pipeline;
 /// <summary>
 /// Pipeline stage that writes rendered routing streams to disk using the file system abstraction.
 /// </summary>
-public class WriteOutputStage : IBuildStage
+public class WriteOutputStage(IFileSystem fileSystem) : IBuildStage
 {
-    private readonly IFileSystem _fileSystem;
+    private readonly IFileSystem _fileSystem = fileSystem;
 
     public string Name => "Write Output";
 
-    public WriteOutputStage(IFileSystem fileSystem)
-    {
-        _fileSystem = fileSystem;
-    }
-
-    public async Task ExecuteAsync(BuildContext context)
+  public async Task ExecuteAsync(BuildContext context)
     {
         var root = context.Project.RootPath;
         var outputDir = Path.GetFullPath(Path.Combine(root, context.Config.Paths.Output));

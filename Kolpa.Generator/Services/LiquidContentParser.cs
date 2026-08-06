@@ -1,8 +1,8 @@
 using System.Text;
-using YamlDotNet.Serialization;
-using YamlDotNet.Serialization.NamingConventions;
 using Kolpa.Generator.Interfaces;
 using Kolpa.Generator.Models;
+using YamlDotNet.Serialization;
+using YamlDotNet.Serialization.NamingConventions;
 
 namespace Kolpa.Generator.Services;
 
@@ -22,8 +22,8 @@ public class LiquidContentParser : IContentParser
 
     public bool CanParse(string fileExtension)
     {
-        return fileExtension.Equals(".liquid", StringComparison.OrdinalIgnoreCase) ||
-               fileExtension.Equals(".html", StringComparison.OrdinalIgnoreCase);
+        return fileExtension.Equals(".liquid", StringComparison.OrdinalIgnoreCase)
+            || fileExtension.Equals(".html", StringComparison.OrdinalIgnoreCase);
     }
 
     public async Task<ContentDocument> ParseAsync(string filePath)
@@ -32,7 +32,8 @@ public class LiquidContentParser : IContentParser
         var parsed = new ContentDocument
         {
             Id = Path.GetFileName(filePath),
-            Slug = Path.GetFileNameWithoutExtension(filePath).ToLowerInvariant()
+            Slug = Path.GetFileNameWithoutExtension(filePath).ToLowerInvariant(),
+            Format = "liquid",
         };
 
         if (fileContent.StartsWith("---"))
@@ -57,7 +58,9 @@ public class LiquidContentParser : IContentParser
                 catch (Exception ex)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"Error parsing YAML frontmatter in page {filePath}: {ex.Message}");
+                    Console.WriteLine(
+                        $"Error parsing YAML frontmatter in page {filePath}: {ex.Message}"
+                    );
                     Console.ResetColor();
                 }
 

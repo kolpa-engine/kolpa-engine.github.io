@@ -7,16 +7,11 @@ namespace Kolpa.Generator.Pipeline;
 /// <summary>
 /// Pipeline stage that renders routing templates to intermediate strings using template context factories.
 /// </summary>
-public class RenderTemplatesStage : IBuildStage
+public class RenderTemplatesStage(TemplateService templateService) : IBuildStage
 {
-    private readonly TemplateService _templateService;
+    private readonly TemplateService _templateService = templateService;
 
     public string Name => "Render Templates";
-
-    public RenderTemplatesStage(TemplateService templateService)
-    {
-        _templateService = templateService;
-    }
 
     public async Task ExecuteAsync(BuildContext context)
     {
@@ -36,6 +31,17 @@ public class RenderTemplatesStage : IBuildStage
         foreach (var dataKvp in context.DataRegistry)
         {
             siteContext.Data[dataKvp.Key] = dataKvp.Value;
+        }
+
+        if (
+            context.Metadata.TryGetValue("images", out var imagesObj)
+            && imagesObj is Dictionary<string, object> images
+        )
+        {
+            foreach (var imageKvp in images)
+            {
+                siteContext.Images[imageKvp.Key] = imageKvp.Value;
+            }
         }
 
         foreach (var collKvp in context.Collections)

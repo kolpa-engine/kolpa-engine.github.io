@@ -15,6 +15,47 @@
   "renderer": {
     "engine": "liquid"
   },
+  "markdown": {
+    "extensions": {
+      "advanced": true,
+      "tables": true,
+      "taskLists": true,
+      "footnotes": true,
+      "autoIdentifiers": true,
+      "strikethrough": true,
+      "autoLinks": true,
+      "definitionLists": false,
+      "emojiSmiles": false,
+      "mathematics": false
+    },
+    "highlighting": {
+      "enabled": true,
+      "provider": "builtin",
+      "theme": "dark",
+      "cssPrefix": "hl-",
+      "generateCss": true,
+      "cssFile": "highlight.css",
+      "customTheme": {}
+    }
+  },
+  "assets": {
+    "images": {
+      "enabled": true,
+      "processor": "imagesharp",
+      "optimize": true,
+      "generateWebP": true,
+      "generateAvif": false,
+      "quality": 85,
+      "maxWidth": 1920,
+      "preserveOriginal": true,
+      "sizes": [320, 640, 1280, 1920],
+      "include": ["png", "jpg", "jpeg", "webp"]
+    }
+  },
+  "cache": {
+    "enabled": true,
+    "directory": ".generator-cache"
+  },
   "rss": {
     "enabled": true,
     "collection": "blog",

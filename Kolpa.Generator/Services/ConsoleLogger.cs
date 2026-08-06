@@ -5,16 +5,11 @@ namespace Kolpa.Generator.Services;
 /// <summary>
 /// Implements console output logging with color styles and verbosity filtering.
 /// </summary>
-public class ConsoleLogger : ILogger
+public class ConsoleLogger(bool verbose = false) : ILogger
 {
-    private readonly bool _verbose;
+    private readonly bool _verbose = verbose;
 
-    public ConsoleLogger(bool verbose = false)
-    {
-        _verbose = verbose;
-    }
-
-    public void LogInfo(string message)
+  public void LogInfo(string message)
     {
         Console.WriteLine(message);
     }

@@ -5,16 +5,11 @@ namespace Kolpa.Generator.Services;
 /// <summary>
 /// Implements asset processing and copying mechanisms.
 /// </summary>
-public class AssetService : IAssetProcessor
+public class AssetService(ILogger logger) : IAssetProcessor
 {
-    private readonly ILogger _logger;
+    private readonly ILogger _logger = logger;
 
-    public AssetService(ILogger logger)
-    {
-        _logger = logger;
-    }
-
-    public Task ProcessAssetsAsync(string sourceDir, string outputDir)
+  public Task ProcessAssetsAsync(string sourceDir, string outputDir)
     {
         if (!Directory.Exists(sourceDir))
         {

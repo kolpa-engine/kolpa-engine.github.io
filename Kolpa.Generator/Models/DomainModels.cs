@@ -69,10 +69,10 @@ public class BuildResult
 /// <summary>
 /// Central context state passing through all build stages.
 /// </summary>
-public class BuildContext
+public class BuildContext(string projectRoot)
 {
-    public Project Project { get; }
-    public GeneratorConfig Config { get; set; } = new();
+  public Project Project { get; } = new Project(projectRoot);
+  public GeneratorConfig Config { get; set; } = new();
 
     // Core Registries
     public List<ContentDocument> Documents { get; } = new();
@@ -91,12 +91,7 @@ public class BuildContext
     // Metadata dictionary
     public Dictionary<string, object> Metadata { get; } = new(StringComparer.OrdinalIgnoreCase);
 
-    public BuildContext(string projectRoot)
-    {
-        Project = new Project(projectRoot);
-    }
-
-    public void AddDiagnostic(DiagnosticSeverity severity, string message, string stage)
+  public void AddDiagnostic(DiagnosticSeverity severity, string message, string stage)
     {
         Diagnostics.Add(new Diagnostic(severity, message, stage));
     }

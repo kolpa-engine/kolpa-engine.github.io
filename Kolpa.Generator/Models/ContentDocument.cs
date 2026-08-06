@@ -17,6 +17,12 @@ public class ContentDocument
     public string Type { get; set; } = "page";
 
     /// <summary>
+    /// Source content format ("markdown" or "liquid"). Determines whether the body
+    /// is run through the Markdown renderer during the processing pipeline.
+    /// </summary>
+    public string Format { get; set; } = "liquid";
+
+    /// <summary>
     /// Strongly-typed metadata parsed from the document frontmatter.
     /// </summary>
     public ContentMetadata Metadata { get; set; } = new();

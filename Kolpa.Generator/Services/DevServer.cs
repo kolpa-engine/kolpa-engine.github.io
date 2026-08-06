@@ -7,24 +7,18 @@ namespace Kolpa.Generator.Services;
 /// <summary>
 /// A lightweight development HTTP server for serving local static website builds with Live-Reload.
 /// </summary>
-public class DevServer
+public class DevServer(string serveDir, int port = 5000)
 {
     private static readonly ConcurrentBag<HttpListenerResponse> _sseClients = new();
-    private readonly string _serveDir;
-    private readonly int _port;
+    private readonly string _serveDir = Path.GetFullPath(serveDir);
+    private readonly int _port = port;
     private HttpListener? _listener;
     private CancellationTokenSource? _cts;
 
-    public DevServer(string serveDir, int port = 5000)
-    {
-        _serveDir = Path.GetFullPath(serveDir);
-        _port = port;
-    }
-
-    /// <summary>
-    /// Broadcasts a reload event to all active EventSource clients.
-    /// </summary>
-    public static void BroadcastReload()
+  /// <summary>
+  /// Broadcasts a reload event to all active EventSource clients.
+  /// </summary>
+  public static void BroadcastReload()
     {
         var deadClients = new ConcurrentBag<HttpListenerResponse>();
         var payload = Encoding.UTF8.GetBytes("data: reload\n\n");

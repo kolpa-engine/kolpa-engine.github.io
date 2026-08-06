@@ -7,25 +7,17 @@ namespace Kolpa.Generator.Services;
 /// <summary>
 /// Service coordinating template contexts, partial lookups, and layout nesting renders.
 /// </summary>
-public class TemplateService
+public class TemplateService(
+    ITemplateRenderer renderer,
+    ITemplateContextFactory contextFactory,
+    ILogger logger,
+    string layoutsDir
+)
 {
-    private readonly ITemplateRenderer _renderer;
-    private readonly ITemplateContextFactory _contextFactory;
-    private readonly ILogger _logger;
-    private readonly string _layoutsDir;
-
-    public TemplateService(
-        ITemplateRenderer renderer,
-        ITemplateContextFactory contextFactory,
-        ILogger logger,
-        string layoutsDir
-    )
-    {
-        _renderer = renderer;
-        _contextFactory = contextFactory;
-        _logger = logger;
-        _layoutsDir = layoutsDir;
-    }
+    private readonly ITemplateRenderer _renderer = renderer;
+    private readonly ITemplateContextFactory _contextFactory = contextFactory;
+    private readonly ILogger _logger = logger;
+    private readonly string _layoutsDir = layoutsDir;
 
     /// <summary>
     /// Renders page body markup and resolves layout inheritance nesting.

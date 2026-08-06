@@ -7,26 +7,18 @@ namespace Kolpa.Generator.Services;
 /// <summary>
 /// Pipeline runner service that executes registered IBuildStages sequentially.
 /// </summary>
-public class BuildService
+public class BuildService(
+    IEnumerable<IBuildStage> stages,
+    ILogger logger,
+    ISystemClock systemClock,
+    string projectDir)
 {
-    private readonly IEnumerable<IBuildStage> _stages;
-    private readonly ILogger _logger;
-    private readonly string _projectDir;
-    private readonly ISystemClock _systemClock;
+    private readonly IEnumerable<IBuildStage> _stages = stages;
+    private readonly ILogger _logger = logger;
+    private readonly string _projectDir = projectDir;
+    private readonly ISystemClock _systemClock = systemClock;
 
-    public BuildService(
-        IEnumerable<IBuildStage> stages,
-        ILogger logger,
-        ISystemClock systemClock,
-        string projectDir)
-    {
-        _stages = stages;
-        _logger = logger;
-        _systemClock = systemClock;
-        _projectDir = projectDir;
-    }
-
-    public async Task<bool> ExecuteBuildAsync(string configPath, bool watchMode = false)
+  public async Task<bool> ExecuteBuildAsync(string configPath, bool watchMode = false)
     {
         var stopwatch = Stopwatch.StartNew();
         var context = new BuildContext(_projectDir);

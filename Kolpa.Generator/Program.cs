@@ -357,20 +357,14 @@ public static class Program
 /// <summary>
 /// Core pipeline configurations plugin, registering standard stages, parsers, and services.
 /// </summary>
-public class CoreEnginePlugin : IEnginePlugin
+public class CoreEnginePlugin(string projectDir, string configPath) : IEnginePlugin
 {
-    private readonly string _projectDir;
-    private readonly string _configPath;
+    private readonly string _projectDir = projectDir;
+    private readonly string _configPath = configPath;
 
     public string Name => "Core Engine Config Plugin";
 
-    public CoreEnginePlugin(string projectDir, string configPath)
-    {
-        _projectDir = projectDir;
-        _configPath = configPath;
-    }
-
-    public void ConfigureServices(IServiceCollection services, GeneratorConfig config)
+  public void ConfigureServices(IServiceCollection services, GeneratorConfig config)
     {
         // register content parsers
         services.AddSingleton<IContentParser, MarkdownContentParser>();
@@ -378,6 +372,34 @@ public class CoreEnginePlugin : IEnginePlugin
 
         // register folder providers
         services.AddSingleton<IContentProvider, FolderContentProvider>();
+
+        // markdown + highlighting + image + cache services
+        services.AddSingleton<ICacheService>(provider => new CacheService(
+            provider.GetRequiredService<GeneratorConfig>(),
+            _projectDir
+        ));
+
+        services.AddSingleton<IMarkdownRenderer>(provider => new MarkdownRenderer(
+            provider.GetRequiredService<GeneratorConfig>()
+        ));
+
+        services.AddSingleton<ICodeHighlighter>(provider =>
+        {
+            var cfg = provider.GetRequiredService<GeneratorConfig>();
+            var providerName = cfg.Markdown.Highlighting.Provider ?? "builtin";
+            return providerName.Equals("passthrough", StringComparison.OrdinalIgnoreCase)
+                ? new PassthroughCodeHighlighter()
+                : new BuiltinSyntaxHighlighter(cfg.Markdown.Highlighting.CssPrefix);
+        });
+
+        services.AddSingleton<IImageProcessor>(provider =>
+        {
+            var cfg = provider.GetRequiredService<GeneratorConfig>();
+            var processor = cfg.Assets.Images.Processor ?? "imagesharp";
+            return processor.Equals("passthrough", StringComparison.OrdinalIgnoreCase)
+                ? new PassthroughImageProcessor()
+                : new ImageSharpProcessor();
+        });
 
         // setup layouts path relative to config
         string layoutsDir = Path.GetFullPath(Path.Combine(_projectDir, config.Paths.Layouts));
@@ -411,15 +433,19 @@ public class CoreEnginePlugin : IEnginePlugin
         );
         services.AddSingleton<IBuildStage, DiscoverFilesStage>();
         services.AddSingleton<IBuildStage, LoadContentStage>();
+        services.AddSingleton<IBuildStage, ProcessMarkdownStage>();
+        services.AddSingleton<IBuildStage, HighlightCodeStage>();
         services.AddSingleton<IBuildStage, LoadDataStage>();
         services.AddSingleton<IBuildStage, BuildCollectionsStage>();
         services.AddSingleton<IBuildStage, ResolveRoutesStage>();
         services.AddSingleton<IBuildStage, BuildTagArchivesStage>();
         services.AddSingleton<IBuildStage, BuildNavigationStage>();
+        services.AddSingleton<IBuildStage, GenerateMetadataStage>();
         services.AddSingleton<IBuildStage, RenderTemplatesStage>();
         services.AddSingleton<IBuildStage, LiveReloadInjectionStage>();
         services.AddSingleton<IBuildStage, WriteOutputStage>();
-        services.AddSingleton<IBuildStage, ProcessAssetsStage>();
+        services.AddSingleton<IBuildStage, ProcessImagesStage>();
+        services.AddSingleton<IBuildStage, OptimizeAssetsStage>();
         services.AddSingleton<IBuildStage, RunPostBuildStage>();
     }
 }

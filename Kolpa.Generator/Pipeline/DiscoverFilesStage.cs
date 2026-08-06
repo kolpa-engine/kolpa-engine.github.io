@@ -6,18 +6,13 @@ namespace Kolpa.Generator.Pipeline;
 /// <summary>
 /// Pipeline stage that indexes and caches files from asset and layout directories.
 /// </summary>
-public class DiscoverFilesStage : IBuildStage
+public class DiscoverFilesStage(IFileSystem fileSystem) : IBuildStage
 {
-    private readonly IFileSystem _fileSystem;
+    private readonly IFileSystem _fileSystem = fileSystem;
 
     public string Name => "Discover Files";
 
-    public DiscoverFilesStage(IFileSystem fileSystem)
-    {
-        _fileSystem = fileSystem;
-    }
-
-    public async Task ExecuteAsync(BuildContext context)
+  public async Task ExecuteAsync(BuildContext context)
     {
         var root = context.Project.RootPath;
 
