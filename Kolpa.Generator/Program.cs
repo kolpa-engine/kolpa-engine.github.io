@@ -387,7 +387,6 @@ public static class Program
             if (
                 normalizedPath.Contains("/dist/")
                 || normalizedPath.Contains("/bin/")
-                || normalizedPath.Contains("/bins/")
                 || normalizedPath.Contains("/obj/")
                 || normalizedPath.Contains("/.git/")
                 || normalizedPath.Contains("/.agents/")

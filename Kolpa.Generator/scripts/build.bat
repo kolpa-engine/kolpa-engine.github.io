@@ -2,12 +2,12 @@
 setlocal
 
 REM Publishes the generator as single-file self-contained executables for all
-REM compatible platforms into .\bins\<rid>. Just double-click or run:
+REM compatible platforms into .\bin\<rid>. Just double-click or run:
 REM  build.bat
 REM To build a single RID:  build.bat linux-x64
 set "ROOT=%~dp0..\.."
 set "PROJ=%ROOT%\Kolpa.Generator\Kolpa.Generator.csproj"
-set "OUT=%ROOT%\bins"
+set "OUT=%ROOT%\bin"
 
 if not "%1"=="" (
   set RIDLIST=%1

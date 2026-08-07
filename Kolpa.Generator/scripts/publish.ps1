@@ -1,4 +1,4 @@
-# Publishes the generator as single-file self-contained executables into .\bins\<rid>.
+# Publishes the generator as single-file self-contained executables into .\bin\<rid>.
 # Run from the repo root. Targets Windows, macOS, and Linux (incl. Android/Termux arm64).
 #
 #   powershell -ExecutionPolicy Bypass -File Kolpa.Generator\scripts\publish.ps1          # all
@@ -13,7 +13,7 @@ param(
 $ErrorActionPreference = "Stop"
 $root = (Resolve-Path (Join-Path $PSScriptRoot "..\..")).Path
 $proj = Join-Path $root "Kolpa.Generator\Kolpa.Generator.csproj"
-$out = Join-Path $root "bins"
+$out = Join-Path $root "bin"
 
 if (-not $Rid -or $Rid.Count -eq 0) {
     $Rid = @("win-x64", "linux-x64", "linux-arm64", "osx-x64", "osx-arm64")
