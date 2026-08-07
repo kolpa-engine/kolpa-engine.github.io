@@ -259,6 +259,59 @@ deletes them.
 
 ---
 
+## Publishing a Standalone Binary
+
+The generator publishes as a **single-file, self-contained, compressed executable** — no
+`.NET` SDK or runtime needed on the target machine. This is ideal for running in CI (GitHub
+Pages/Actions), Termux/Android, or directly in VS Code's terminal.
+
+The project defaults to single-file publishing (`PublishSingleFile`, `SelfContained`,
+`IncludeNativeLibrariesForSelfExtract`, `EnableCompressionInSingleFile`), so any
+`dotnet publish -r <rid>` produces one binary.
+
+### Scripts
+
+```bash
+# bash (Linux / macOS / Termux)
+bash Kolpa.Generator/scripts/publish.sh            # all platforms
+bash Kolpa.Generator/scripts/publish.sh linux-x64  # one platform
+
+# PowerShell (Windows)
+powershell -ExecutionPolicy Bypass -File Kolpa.Generator\scripts\publish.ps1 win-x64
+```
+
+Output goes to `bin/<rid>/`:
+
+| Runtime ID    | Target                                         |
+| ------------- | ---------------------------------------------- |
+| `win-x64`     | Windows x64 (`.exe`)                           |
+| `linux-x64`   | Linux x64 (desktop, server, CI)                |
+| `linux-arm64` | Linux ARM64 (Raspberry Pi, **Termux/Android**) |
+| `osx-x64`     | macOS Intel                                    |
+| `osx-arm64`   | macOS Apple Silicon                            |
+
+### Running the Binary
+
+The executable takes the same commands as the `dotnet run` CLI, and uses the current
+directory as the project root (pass `--dir <path>` to target another folder):
+
+```bash
+./bin/linux-x64/Kolpa.Generator build
+./bin/linux-x64/Kolpa.Generator doctor --dir ./my-site
+./bin/win-x64/Kolpa.Generator.exe serve --port 8080
+```
+
+In Termux, use the `linux-arm64` binary (`chmod +x` it first). Because it is self-contained,
+you do not need `dotnet` installed on the device.
+
+### GitHub Actions
+
+A workflow (`.github/workflows/publish.yml`) builds and smoke-tests all five RIDs on every
+push to `main` and uploads them as build artifacts. You can also trigger it manually via
+**Actions → Kolpa Generator CLI → Run workflow**.
+
+---
+
 ## CLI Reference
 
 Run commands inside your project root directory using the `dotnet` CLI:
