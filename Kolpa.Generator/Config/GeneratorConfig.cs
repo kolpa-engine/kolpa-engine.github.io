@@ -122,6 +122,55 @@ public class SeoSettings
     [JsonPropertyName("jsonLd")]
     public JsonLdSettings JsonLd { get; set; } = new();
 }
+
+/// <summary>
+/// A single URL redirect rule (permanent 301 by default).
+/// </summary>
+public class RedirectRule
+{
+    [JsonPropertyName("from")]
+    public string From { get; set; } = string.Empty;
+
+    [JsonPropertyName("to")]
+    public string To { get; set; } = string.Empty;
+
+    [JsonPropertyName("permanent")]
+    public bool Permanent { get; set; } = true;
+}
+
+/// <summary>
+/// URL redirect and alias generation settings. Each rule emits a lightweight HTML page
+/// that performs a meta-refresh + canonical redirect to the target URL.
+/// </summary>
+public class RedirectSettings
+{
+    [JsonPropertyName("enabled")]
+    public bool Enabled { get; set; } = true;
+
+    [JsonPropertyName("rules")]
+    public List<RedirectRule> Rules { get; set; } = new();
+}
+
+/// <summary>
+/// Custom 404 page generation settings. If a page resolving to <c>/404.html</c> already
+/// exists it wins; otherwise a simple fallback page is emitted here.
+/// </summary>
+public class NotFoundSettings
+{
+    [JsonPropertyName("enabled")]
+    public bool Enabled { get; set; } = true;
+
+    [JsonPropertyName("output")]
+    public string Output { get; set; } = "404.html";
+
+    [JsonPropertyName("title")]
+    public string Title { get; set; } = "Page Not Found";
+
+    [JsonPropertyName("body")]
+    public string Body { get; set; } =
+        "<h1>404</h1><p>The page you are looking for does not exist.</p>";
+}
+
 public class PathSettings
 {
     [JsonPropertyName("pages")]
@@ -322,6 +371,12 @@ public class GeneratorConfig
 
     [JsonPropertyName("seo")]
     public SeoSettings Seo { get; set; } = new();
+
+    [JsonPropertyName("redirects")]
+    public RedirectSettings Redirects { get; set; } = new();
+
+    [JsonPropertyName("notFound")]
+    public NotFoundSettings NotFound { get; set; } = new();
 
     [JsonPropertyName("collections")]
     public Dictionary<string, CollectionSettings> Collections { get; set; } =

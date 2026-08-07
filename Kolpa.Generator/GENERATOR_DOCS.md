@@ -254,8 +254,44 @@ Live Reload Injection -> Write Output -> Process Images -> Optimize Assets ->
 Run Post-Build
 ```
 
-Images and assets are optimized after the output folder is written so a clean rebuild never
-deletes them.
+- Render templates are compiled and cached; routes are rendered **in parallel** (each route
+  gets an isolated page context), so large sites build faster on multi-core machines.
+- Per-stage timings are printed in verbose mode (e.g. `Render Templates   5440ms`).
+
+### Redirects & 404 (`redirects`, `notFound`)
+
+Moved or vanity URLs can be mirrored as static redirect pages, and a custom 404 page is
+generated automatically unless one already exists.
+
+```json
+{
+  "redirects": {
+    "enabled": true,
+    "rules": [
+      { "from": "/old-page/", "to": "/new-page/", "permanent": true },
+      {
+        "from": "/gone.html",
+        "to": "https://example.com/new",
+        "permanent": false
+      }
+    ]
+  },
+  "notFound": {
+    "enabled": true,
+    "output": "404.html",
+    "title": "Page Not Found",
+    "body": "<h1>404</h1><p>The page you are looking for does not exist.</p>"
+  }
+}
+```
+
+- Each redirect emits a lightweight HTML page using an immediate meta-refresh plus a
+  canonical link, so it works on any static host (GitHub Pages, CDNs) without
+  server-side rewrite rules.
+- `permanent: true` requests a 301 (via the canonical/meta semantics); `false` is a 302.
+- `notFound` writes the given body to `output`. If a page that resolves to `/404.html`
+  already exists (e.g. `pages/404.liquid`), that custom page wins and the fallback is
+  skipped.
 
 ---
 
@@ -552,9 +588,10 @@ var plugins = new List<IEnginePlugin>
 };
 ```
 
-The generator ships with three built-in post-build plugins out of the box:
+The generator ships with four built-in post-build plugins out of the box:
 
 - `SitemapPlugin` — writes `sitemap.xml` from the site's resolved routes.
 - `RssPlugin` — writes `feed.xml` from the configured collection.
 - `SeoPlugin` — writes `robots.txt`, `atom.xml`, and `feed.json`, and injects JSON-LD
   structured data into every generated page.
+- `RedirectsPlugin` — writes redirect/alias pages and a fallback `404.html`.

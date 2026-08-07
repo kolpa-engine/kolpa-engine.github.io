@@ -250,6 +250,7 @@ public static class Program
             new SitemapPlugin(),
             new RssPlugin(),
             new SeoPlugin(),
+            new RedirectsPlugin(),
         };
 
         foreach (var plugin in plugins)

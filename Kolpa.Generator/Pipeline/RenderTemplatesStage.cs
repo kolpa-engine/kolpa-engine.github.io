@@ -50,37 +50,74 @@ public class RenderTemplatesStage(TemplateService templateService) : IBuildStage
             siteContext.Tags[collKvp.Key] = cloud;
         }
 
-        // 2. Render each route in queue
-        foreach (var route in context.Routes)
-        {
-            try
+        // render each route in parallel. rendering is safe because every route receives
+        // its own clone of the page context. the shared site/data/collection maps are only
+        // read during this phase.
+        var routes = context.Routes.ToArray();
+        var renderErrors = new System.Collections.Concurrent.ConcurrentBag<string>();
+
+        Parallel.ForEach(
+            routes,
+            route =>
             {
-                // Reconstruct a temporary ContentDocument to map metadata to template rendering
-                var doc = new ContentDocument
+                try
                 {
-                    Id = route.InputPath,
-                    Body = route.Template,
-                    Metadata = route.Metadata,
-                    Slug = route.Url.Trim('/'),
-                };
+                    var doc = new ContentDocument
+                    {
+                        Id = route.InputPath,
+                        Body = route.Template,
+                        Metadata = route.Metadata,
+                        Slug = route.Url.Trim('/'),
+                    };
 
-                var renderedHtml = await _templateService.RenderPageAsync(doc, siteContext);
-                route.RenderedHtml = renderedHtml;
+                    var siteClone = CloneSiteContext(siteContext);
+                    var renderedHtml = _templateService
+                        .RenderPageAsync(doc, siteClone)
+                        .GetAwaiter()
+                        .GetResult();
+                    route.RenderedHtml = renderedHtml;
+                }
+                catch (Exception ex)
+                {
+                    renderErrors.Add($"Failed to render route page '{route.Url}': {ex.Message}");
+                }
+            }
+        );
 
+        // diagnostics are reported after the parallel loop to keep ordering deterministic
+        // and because BuildContext.Diagnostics is not safe for concurrent writes.
+        foreach (var route in routes)
+        {
+            if (!string.IsNullOrEmpty(route.RenderedHtml))
+            {
                 context.AddDiagnostic(
                     DiagnosticSeverity.Info,
                     $"Successfully rendered route page: {route.Url}",
                     Name
                 );
             }
-            catch (Exception ex)
-            {
-                context.AddDiagnostic(
-                    DiagnosticSeverity.Error,
-                    $"Failed to render route page '{route.Url}': {ex.Message}",
-                    Name
-                );
-            }
         }
+
+        foreach (var error in renderErrors)
+        {
+            context.AddDiagnostic(DiagnosticSeverity.Error, error, Name);
+        }
+    }
+
+    /// <summary>
+    /// Creates an independent copy of <see cref="SiteContext"/> sharing the read-only maps,
+    /// so parallel renders can safely assign their own <c>Page</c> metadata.
+    /// </summary>
+    private static SiteContext CloneSiteContext(SiteContext source)
+    {
+        return new SiteContext
+        {
+            Site = source.Site,
+            Data = source.Data,
+            Collections = source.Collections,
+            Tags = source.Tags,
+            Images = source.Images,
+            Urls = source.Urls,
+        };
     }
 }

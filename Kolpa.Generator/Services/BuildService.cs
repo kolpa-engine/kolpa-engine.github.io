@@ -32,6 +32,7 @@ public class BuildService(
         _logger.LogInfo("========================================");
 
         bool pipelineFailed = false;
+        var stageTimings = new List<(string Name, long ElapsedMs)>();
 
         foreach (var stage in _stages)
         {
@@ -42,6 +43,7 @@ public class BuildService(
             {
                 await stage.ExecuteAsync(context);
                 stageStopwatch.Stop();
+                stageTimings.Add((stage.Name, stageStopwatch.ElapsedMilliseconds));
                 _logger.LogVerbose(
                     $"Finished stage '{stage.Name}' in {stageStopwatch.ElapsedMilliseconds}ms."
                 );
@@ -61,6 +63,7 @@ public class BuildService(
                     stage.Name
                 );
                 pipelineFailed = true;
+                stageTimings.Add((stage.Name, stageStopwatch.ElapsedMilliseconds));
                 break;
             }
         }
@@ -107,6 +110,12 @@ public class BuildService(
         if (_cache.Enabled)
         {
             _logger.LogInfo($"  Cache:         {_cache.Hits} reused, {_cache.Misses} computed");
+        }
+
+        _logger.LogVerbose("\nStage Timing:");
+        foreach (var (name, elapsedMs) in stageTimings)
+        {
+            _logger.LogVerbose($"  {name, -28} {elapsedMs, 6}ms");
         }
 
         if (errors > 0 || pipelineFailed)

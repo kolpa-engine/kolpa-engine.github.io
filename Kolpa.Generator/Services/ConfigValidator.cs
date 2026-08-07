@@ -71,6 +71,7 @@ public class ConfigValidator
         ValidateMarkdown(config, issues);
         ValidateImages(config, issues);
         ValidateCache(config, issues);
+        ValidateRedirects(config, issues);
         ValidateCollections(config, issues);
         ValidateRss(config, issues);
 
@@ -304,6 +305,40 @@ public class ConfigValidator
                     "'cache.directory' should be a project-relative path, not an absolute/root path."
                 )
             );
+        }
+    }
+
+    private void ValidateRedirects(GeneratorConfig config, List<ConfigIssue> issues)
+    {
+        if (config.Redirects == null || !config.Redirects.Enabled)
+        {
+            return;
+        }
+
+        for (int i = 0; i < config.Redirects.Rules.Count; i++)
+        {
+            var rule = config.Redirects.Rules[i];
+            if (string.IsNullOrWhiteSpace(rule.From))
+            {
+                issues.Add(
+                    new ConfigIssue(
+                        DiagnosticSeverity.Warning,
+                        "RED001",
+                        $"Redirect rule #{i + 1} has no 'from' path."
+                    )
+                );
+            }
+
+            if (string.IsNullOrWhiteSpace(rule.To))
+            {
+                issues.Add(
+                    new ConfigIssue(
+                        DiagnosticSeverity.Warning,
+                        "RED002",
+                        $"Redirect rule for '{rule.From}' has no 'to' target."
+                    )
+                );
+            }
         }
     }
 
