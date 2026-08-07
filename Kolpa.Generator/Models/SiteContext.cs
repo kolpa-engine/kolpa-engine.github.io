@@ -23,6 +23,13 @@ public class SiteContext
     public Dictionary<string, object> Images { get; set; } = new(StringComparer.OrdinalIgnoreCase);
 
     /// <summary>
+    /// Processed asset URLs keyed by relative asset path. When fingerprinting is enabled
+    /// each value is the content-hashed URL (e.g. <c>/assets/app.a1b2c3d4.css</c>); otherwise
+    /// it is the plain asset URL. Templates use this to reference cache-busted files.
+    /// </summary>
+    public Dictionary<string, object> Assets { get; set; } = new(StringComparer.OrdinalIgnoreCase);
+
+    /// <summary>
     /// Content collections grouped by folder collection names (e.g., blog posts).
     /// </summary>
     public Dictionary<string, List<Dictionary<string, object>>> Collections { get; set; } =

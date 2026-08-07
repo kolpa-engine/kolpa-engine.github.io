@@ -323,6 +323,37 @@ public class AssetSettings
 {
     [JsonPropertyName("images")]
     public ImageSettings Images { get; set; } = new();
+
+    [JsonPropertyName("processing")]
+    public AssetProcessingSettings Processing { get; set; } = new();
+}
+
+/// <summary>
+/// CSS/JS minification, content fingerprinting (cache busting), and manifest settings.
+/// When <c>Fingerprint</c> is enabled, processed CSS/JS files are emitted with a
+/// content-hash suffix (e.g. <c>app.a1b2c3d4.css</c>) and a mapping is written to
+/// <c>ManifestFile</c> so templates can reference the hashed URL.
+/// </summary>
+public class AssetProcessingSettings
+{
+    [JsonPropertyName("enabled")]
+    public bool Enabled { get; set; } = true;
+
+    [JsonPropertyName("minifyCss")]
+    public bool MinifyCss { get; set; } = true;
+
+    [JsonPropertyName("minifyJs")]
+    public bool MinifyJs { get; set; } = true;
+
+    [JsonPropertyName("fingerprint")]
+    public bool Fingerprint { get; set; } = true;
+
+    [JsonPropertyName("manifestFile")]
+    public string ManifestFile { get; set; } = "assets-manifest.json";
+
+    /// <summary>Length of the content-hash prefix appended to fingerprinted files.</summary>
+    [JsonPropertyName("hashLength")]
+    public int HashLength { get; set; } = 8;
 }
 
 /// <summary>

@@ -31,6 +31,7 @@ public class FluidTemplateContextFactory : ITemplateContextFactory
         templateContext.SetValue("collections", siteContext.Collections);
         templateContext.SetValue("tagcloud", siteContext.Tags);
         templateContext.SetValue("images", siteContext.Images);
+        templateContext.SetValue("assets", siteContext.Assets);
         templateContext.SetValue("page", siteContext.Page);
 
         // Render page metadata fields directly at the root (e.g. {{ title }} or {{ layout }})

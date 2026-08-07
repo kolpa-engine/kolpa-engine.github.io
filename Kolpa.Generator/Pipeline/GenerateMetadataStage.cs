@@ -17,10 +17,13 @@ public class GenerateMetadataStage(IImageProcessor imageProcessor, ILogger logge
 
     public string Name => "Generate Metadata";
 
-  public async Task ExecuteAsync(BuildContext context)
+    public async Task ExecuteAsync(BuildContext context)
     {
         var config = context.Config;
         var images = config.Assets.Images;
+
+        context.Metadata["assets"] = BuildAssetIds(context);
+
         if (!images.Enabled)
         {
             return;
@@ -64,11 +67,58 @@ public class GenerateMetadataStage(IImageProcessor imageProcessor, ILogger logge
         context.Metadata["images"] = registry;
         _logger.LogInfo($"[Images] Registered metadata for {registered} image(s).");
 
+        context.Metadata["assets"] = BuildAssetIds(context);
+
         context.AddDiagnostic(
             DiagnosticSeverity.Info,
             $"Generated responsive metadata for {registered} image(s).",
             Name
         );
+    }
+
+    private Dictionary<string, object> BuildAssetIds(BuildContext context)
+    {
+        var config = context.Config;
+        var assetsSrc = Path.Combine(context.Project.RootPath, config.Paths.Assets);
+        var processing = config.Assets.Processing;
+        var map = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+
+        if (!Directory.Exists(assetsSrc))
+        {
+            return map;
+        }
+
+        foreach (var asset in context.Assets)
+        {
+            var ext = Path.GetExtension(asset).TrimStart('.').ToLowerInvariant();
+            if (processing.Enabled && (ext == "css" || ext == "js"))
+            {
+                var content = AssetFingerprint.MinifyContent(asset, ext, processing);
+                var outputPath = AssetFingerprint.ResolveOutputPath(
+                    Path.GetRelativePath(assetsSrc, asset).Replace('\\', '/'),
+                    content,
+                    processing
+                );
+                map[Path.GetRelativePath(assetsSrc, asset).Replace('\\', '/')] =
+                    $"/{config.Paths.Assets}/{outputPath}";
+            }
+            else
+            {
+                var relative = Path.GetRelativePath(assetsSrc, asset).Replace('\\', '/');
+                map[relative] = $"/{config.Paths.Assets}/{relative}";
+            }
+        }
+
+        var highlight = config.Markdown.Highlighting;
+        if (highlight.GenerateCss)
+        {
+            var cssFile = string.IsNullOrWhiteSpace(highlight.CssFile)
+                ? "highlight.css"
+                : highlight.CssFile;
+            map[cssFile] = $"/{config.Paths.Assets}/{cssFile}";
+        }
+
+        return map;
     }
 
     private static Dictionary<string, object> BuildInfo(

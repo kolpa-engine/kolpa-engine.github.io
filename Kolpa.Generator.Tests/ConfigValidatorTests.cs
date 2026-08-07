@@ -60,6 +60,32 @@ public class ConfigValidatorTests
     }
 
     [Fact]
+    public void Validate_AssetFingerprintWithoutManifest_ReportsWarningAsst001()
+    {
+        var root = TestHelpers.CreateTempProject("{}");
+        var config = TestHelpers.ConfigFromJson(
+            """{"assets":{"processing":{"enabled":true,"fingerprint":true,"manifestFile":""}}}"""
+        );
+
+        var issues = CreateValidator(root).Validate(config);
+
+        Assert.Contains(issues, i => i.Code == "ASST001");
+    }
+
+    [Fact]
+    public void Validate_AssetFingerprintWithInvalidHashLength_ReportsWarningAsst002()
+    {
+        var root = TestHelpers.CreateTempProject("{}");
+        var config = TestHelpers.ConfigFromJson(
+            """{"assets":{"processing":{"enabled":true,"fingerprint":true,"hashLength":0}}}"""
+        );
+
+        var issues = CreateValidator(root).Validate(config);
+
+        Assert.Contains(issues, i => i.Code == "ASST002");
+    }
+
+    [Fact]
     public void Validate_MissingIo_PathsOff_ReportsNoErrors()
     {
         var root = TestHelpers.CreateTempProject("{}");

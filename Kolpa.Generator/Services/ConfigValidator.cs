@@ -70,6 +70,7 @@ public class ConfigValidator
         ValidateRenderer(config, issues);
         ValidateMarkdown(config, issues);
         ValidateImages(config, issues);
+        ValidateAssets(config, issues);
         ValidateCache(config, issues);
         ValidateRedirects(config, issues);
         ValidateCollections(config, issues);
@@ -303,6 +304,48 @@ public class ConfigValidator
                     DiagnosticSeverity.Warning,
                     "CACHE001",
                     "'cache.directory' should be a project-relative path, not an absolute/root path."
+                )
+            );
+        }
+    }
+
+    private void ValidateAssets(GeneratorConfig config, List<ConfigIssue> issues)
+    {
+        var processing = config.Assets?.Processing;
+        if (processing == null || !processing.Enabled)
+        {
+            return;
+        }
+
+        if (processing.Fingerprint && string.IsNullOrWhiteSpace(processing.ManifestFile))
+        {
+            issues.Add(
+                new ConfigIssue(
+                    DiagnosticSeverity.Warning,
+                    "ASST001",
+                    "Asset fingerprinting is enabled but 'manifestFile' is empty; the manifest file name is required."
+                )
+            );
+        }
+
+        if (processing.Fingerprint && processing.HashLength <= 0)
+        {
+            issues.Add(
+                new ConfigIssue(
+                    DiagnosticSeverity.Warning,
+                    "ASST002",
+                    "'hashLength' must be a positive integer; using a value <= 0 produces empty hashes."
+                )
+            );
+        }
+
+        if (processing.Fingerprint && !processing.MinifyCss && !processing.MinifyJs)
+        {
+            issues.Add(
+                new ConfigIssue(
+                    DiagnosticSeverity.Info,
+                    "ASST003",
+                    "Fingerprinting is enabled with both 'minifyCss' and 'minifyJs' disabled; hashes will be computed on the raw file content."
                 )
             );
         }

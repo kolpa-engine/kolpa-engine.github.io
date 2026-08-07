@@ -54,7 +54,7 @@
 
   <!-- Styles -->
   <link rel="stylesheet" href="https://necolas.github.io/normalize.css/8.0.1/normalize.css">
-  <link rel="stylesheet" href="/assets/styles/kolpa.css?v=1.0.2">
+  <link rel="stylesheet" href="{{ assets['styles/kolpa.css'] | default: '/assets/styles/kolpa.css' }}">
   <link rel="stylesheet" href="/assets/highlight.css">
   <style>
     .warning-banner {

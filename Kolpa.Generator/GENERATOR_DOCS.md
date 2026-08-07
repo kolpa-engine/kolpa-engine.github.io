@@ -173,6 +173,51 @@ Example responsive markup:
 </picture>
 ```
 
+### Asset Processing (`assets.processing`)
+
+CSS and JS assets are minified and, when fingerprinting is enabled, emitted under a
+content-hash name so browsers always receive the latest version without manual cache-busting
+queries. A manifest maps each logical asset to its fingerprinted URL.
+
+```json
+{
+  "assets": {
+    "images": { "...": "see above" },
+    "processing": {
+      "enabled": true,
+      "minifyCss": true,
+      "minifyJs": true,
+      "fingerprint": true,
+      "manifestFile": "assets-manifest.json",
+      "hashLength": 8
+    }
+  }
+}
+```
+
+- `enabled` turns the whole text-asset pipeline on or off. When off, CSS/JS files are copied
+  verbatim (no minification or renaming).
+- `minifyCss` / `minifyJs` strip comments and collapse whitespace while preserving string and
+  regex literals, so values like URLs in `@import` or `content:` are never corrupted.
+- `fingerprint` renames processed files to `name.<sha256-prefix>.<ext>`
+  (e.g. `app.a1b2c3d4.css`) and writes the mapping to `manifestFile` in the output root.
+- `hashLength` controls how many hex characters of the SHA-256 prefix are used in the name.
+- Non-text assets (fonts, images, video, SVG) are always copied as-is.
+
+Templates reference fingerprinted assets through the `assets` map, which is keyed by the
+asset path relative to the `assets` folder:
+
+```
+{{ assets['styles/kolpa.css'] }}  -> /assets/styles/kolpa.a1b2c3d4.css
+```
+
+```html
+<link rel="stylesheet" href="{{ assets['styles/kolpa.css'] }}" />
+```
+
+The same mapping is written to `assets-manifest.json`, which is useful for post-processing or
+for frameworks that need the logical -> hashed name correspondence at build time.
+
 ### Caching (`cache`)
 
 Incremental builds skip reprocessing unchanged files using content-addressed caches.
@@ -455,7 +500,7 @@ The engine renders the inner layout first, then passes its output as `{{ content
 <html>
 <head>
   <title>{{ site.title }} - {{ page.title }}</title>
-  <link rel="stylesheet" href="/assets/styles/kolpa.css">
+  <link rel="stylesheet" href="{{ assets['styles/kolpa.css'] | default: '/assets/styles/kolpa.css' }}">
 </head>
 <body>
   <main>

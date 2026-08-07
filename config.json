@@ -52,6 +52,14 @@
       "preserveOriginal": true,
       "sizes": [320, 640, 1280, 1920],
       "include": ["png", "jpg", "jpeg", "webp"]
+    },
+    "processing": {
+      "enabled": true,
+      "minifyCss": true,
+      "minifyJs": true,
+      "fingerprint": true,
+      "manifestFile": "assets-manifest.json",
+      "hashLength": 8
     }
   },
   "cache": {

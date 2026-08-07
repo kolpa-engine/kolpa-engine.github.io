@@ -117,6 +117,7 @@ public class RenderTemplatesStage(TemplateService templateService) : IBuildStage
             Collections = source.Collections,
             Tags = source.Tags,
             Images = source.Images,
+            Assets = source.Assets,
             Urls = source.Urls,
         };
     }

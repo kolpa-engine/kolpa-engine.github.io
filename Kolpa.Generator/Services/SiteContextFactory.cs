@@ -17,11 +17,14 @@ public static class SiteContextFactory
         siteContext.Site["showWarningBanner"] = context.Config.Site.ShowWarningBanner;
         siteContext.Site["warningBannerText"] = context.Config.Site.WarningBannerText;
 
-        siteContext.Urls = [.. context
-            .Routes.Select(r => r.Url)
-            .Where(u => !string.IsNullOrWhiteSpace(u))
-            .Distinct(StringComparer.OrdinalIgnoreCase)
-            .OrderBy(u => u, StringComparer.OrdinalIgnoreCase)];
+        siteContext.Urls =
+        [
+            .. context
+                .Routes.Select(r => r.Url)
+                .Where(u => !string.IsNullOrWhiteSpace(u))
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .OrderBy(u => u, StringComparer.OrdinalIgnoreCase),
+        ];
 
         foreach (var dataKvp in context.DataRegistry)
         {
@@ -36,6 +39,17 @@ public static class SiteContextFactory
             foreach (var imageKvp in images)
             {
                 siteContext.Images[imageKvp.Key] = imageKvp.Value;
+            }
+        }
+
+        if (
+            context.Metadata.TryGetValue("assets", out var assetsObj)
+            && assetsObj is Dictionary<string, object> assets
+        )
+        {
+            foreach (var assetKvp in assets)
+            {
+                siteContext.Assets[assetKvp.Key] = assetKvp.Value;
             }
         }
 
