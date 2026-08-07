@@ -1,9 +1,9 @@
 name: Kolpa Generator CLI
 
 on:
-  push:
-    branches:
-      - main
+  # push:
+  #   branches:
+  #     - main
   workflow_dispatch:
 
 jobs:
@@ -31,10 +31,10 @@ jobs:
             extension: ".exe"
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: "10.0.x"
 
@@ -43,7 +43,7 @@ jobs:
         run: |
           dotnet publish Kolpa.Generator/Kolpa.Generator.csproj \
             -c Release -r ${{ matrix.rid }} --self-contained true \
-            -o bins/${{ matrix.rid }} \
+            -o bin/${{ matrix.rid }} \
             -p:PublishSingleFile=true \
             -p:IncludeNativeLibrariesForSelfExtract=true \
             -p:EnableCompressionInSingleFile=true \
@@ -54,12 +54,12 @@ jobs:
       - name: Smoke test
         shell: bash
         run: |
-          chmod +x bins/${{ matrix.rid }}/Kolpa.Generator${{ matrix.extension }}
-          ./bins/${{ matrix.rid }}/Kolpa.Generator${{ matrix.extension }} doctor --dir . || exit $?
+          chmod +x bin/${{ matrix.rid }}/Kolpa.Generator${{ matrix.extension }}
+          ./bin/${{ matrix.rid }}/Kolpa.Generator${{ matrix.extension }} doctor --dir . || exit $?
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: kolpa-${{ matrix.rid }}
-          path: bins/${{ matrix.rid }}/
+          path: bin/${{ matrix.rid }}/
           if-no-files-found: error
