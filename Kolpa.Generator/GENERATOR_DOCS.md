@@ -57,9 +57,21 @@ Configure your static content compiler using a root `config.json` file:
       "pattern": "*.md",
       "output": "/docs/{slug}/"
     }
+  },
+  "seo": {
+    "robots": {
+      "enabled": true,
+      "output": "robots.txt",
+      "sitemap": true,
+      "rules": []
+    },
+    "jsonLd": { "enabled": true, "type": "WebSite", "image": "" }
   }
 }
 ```
+
+> Full optional sections — `rss`, `atom`, `json`, `seo`, `markdown`, `assets`, `cache` —
+> are documented below.
 
 ### Markdown Rendering (`markdown`)
 
@@ -178,6 +190,58 @@ Incremental builds skip reprocessing unchanged files using content-addressed cac
   signature, so editing a file (or its settings) correctly invalidates the cache.
 - The cache directory is `.gitignore`d by default and cleared by `kolpa clean`.
 
+### Search Engine Optimization (`seo`, `rss`, `atom`, `json`)
+
+The generator emits SEO artifacts automatically: `robots.txt`, an RSS 2.0 feed, an Atom feed,
+a JSON Feed, and per-page JSON-LD structured data. All are configuration-driven and available
+to any site.
+
+```json
+{
+  "rss": {
+    "enabled": true,
+    "collection": "blog",
+    "output": "feed.xml",
+    "link": "/blog/"
+  },
+  "atom": {
+    "enabled": true,
+    "collection": "blog",
+    "output": "atom.xml",
+    "link": "/blog/"
+  },
+  "json": {
+    "enabled": true,
+    "collection": "blog",
+    "output": "feed.json",
+    "link": "/blog/"
+  },
+  "seo": {
+    "robots": {
+      "enabled": true,
+      "output": "robots.txt",
+      "sitemap": true,
+      "rules": ["Disallow: /private/"]
+    },
+    "jsonLd": {
+      "enabled": true,
+      "type": "WebSite",
+      "image": ""
+    }
+  }
+}
+```
+
+- Each feed (`feed.xml`, `atom.xml`, `feed.json`) publishes a configured collection. Set
+  `enabled: false` for formats you do not need.
+- `rss`/`atom`/`json` require `site.url` to be set; otherwise the feed is skipped (you will see
+  a `SITE002` warning).
+- `seo.robots` writes `robots.txt` with a `Sitemap:` reference when `sitemap` is true.
+  `rules` holds explicit directives appended verbatim.
+- `seo.jsonLd` injects a `<script type="application/ld+json">` block into the `<head>` of every
+  generated HTML page. `type` mirrors Schema.org (`WebSite`, `Organization`, `Blog`, etc.).
+  The default `image` falls back to `/assets/icon.png` unless you set one.
+
 ### Build Pipeline
 
 Stages run in this order, each implementing `IBuildStage`:
@@ -232,6 +296,32 @@ Deletes the compiled output folder to reset the state:
 ```bash
 dotnet run --project Kolpa.Generator -- clean
 ```
+
+`clean` also wipes the `.generator-cache` directory when caching is enabled.
+
+### 4. Validate Configuration (`doctor`)
+
+Checks `config.json` and the project layout, then reports findings with stable error codes
+and a colored summary. Exits with code `0` when no errors are found, `1` if any are:
+
+```bash
+dotnet run --project Kolpa.Generator -- doctor [--dir <path>]
+```
+
+Example output:
+
+```text
+Kolpa SSG Doctor
+------------------------------------------------------------
+[ERROR] MD001: Unknown highlighting provider 'vscode'. Allowed: builtin, passthrough.
+[WARN ] PATH002: Source folder 'pages' does not exist: ./pages
+[WARN ] SITE002: 'site.url' is empty. RSS feed and sitemap generation require an absolute URL.
+------------------------------------------------------------
+Doctor found 3 finding(s): 1 error(s), 2 warning(s).
+```
+
+Validation also runs automatically during every build; findings are reported with the same
+codes so config problems are never silent.
 
 ---
 
@@ -404,5 +494,14 @@ var plugins = new List<IEnginePlugin>
 {
     new CoreEnginePlugin(projectDir, configPath),
     new SitemapPlugin(),
+    new RssPlugin(),
+    new SeoPlugin(),
 };
 ```
+
+The generator ships with three built-in post-build plugins out of the box:
+
+- `SitemapPlugin` — writes `sitemap.xml` from the site's resolved routes.
+- `RssPlugin` — writes `feed.xml` from the configured collection.
+- `SeoPlugin` — writes `robots.txt`, `atom.xml`, and `feed.json`, and injects JSON-LD
+  structured data into every generated page.

@@ -249,6 +249,7 @@ public static class Program
             new CoreEnginePlugin(projectDir, configPath),
             new SitemapPlugin(),
             new RssPlugin(),
+            new SeoPlugin(),
         };
 
         foreach (var plugin in plugins)

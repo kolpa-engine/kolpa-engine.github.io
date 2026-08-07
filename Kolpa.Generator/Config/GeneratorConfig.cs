@@ -24,7 +24,7 @@ public class SiteSettings
 }
 
 /// <summary>
-/// Feed (RSS/Atom) generation settings for a single collection.
+/// RSS 2.0 feed generation settings for a single collection.
 /// </summary>
 public class RssSettings
 {
@@ -42,8 +42,86 @@ public class RssSettings
 }
 
 /// <summary>
-/// Paths settings mapping to source directories.
+/// Atom feed generation settings for a single collection.
 /// </summary>
+public class AtomSettings
+{
+    [JsonPropertyName("enabled")]
+    public bool Enabled { get; set; } = false;
+
+    [JsonPropertyName("collection")]
+    public string Collection { get; set; } = "blog";
+
+    [JsonPropertyName("output")]
+    public string Output { get; set; } = "atom.xml";
+
+    [JsonPropertyName("link")]
+    public string Link { get; set; } = "/";
+}
+
+/// <summary>
+/// JSON Feed generation settings (see https://www.jsonfeed.org) for a single collection.
+/// </summary>
+public class JsonFeedSettings
+{
+    [JsonPropertyName("enabled")]
+    public bool Enabled { get; set; } = true;
+
+    [JsonPropertyName("collection")]
+    public string Collection { get; set; } = "blog";
+
+    [JsonPropertyName("output")]
+    public string Output { get; set; } = "feed.json";
+
+    [JsonPropertyName("link")]
+    public string Link { get; set; } = "/";
+}
+
+/// <summary>
+/// robots.txt generation settings.
+/// </summary>
+public class RobotsSettings
+{
+    [JsonPropertyName("enabled")]
+    public bool Enabled { get; set; } = true;
+
+    [JsonPropertyName("output")]
+    public string Output { get; set; } = "robots.txt";
+
+    [JsonPropertyName("sitemap")]
+    public bool IncludeSitemap { get; set; } = true;
+
+    /// <summary>Explicit allow/disallow rules in the form of directives, e.g. "Disallow: /private/".</summary>
+    [JsonPropertyName("rules")]
+    public List<string> Rules { get; set; } = new();
+}
+
+/// <summary>
+/// Structured data (JSON-LD) injection settings.
+/// </summary>
+public class JsonLdSettings
+{
+    [JsonPropertyName("enabled")]
+    public bool Enabled { get; set; } = true;
+
+    [JsonPropertyName("type")]
+    public string Type { get; set; } = "WebSite";
+
+    [JsonPropertyName("image")]
+    public string Image { get; set; } = string.Empty;
+}
+
+/// <summary>
+/// Search-engine optimization (SEO) settings.
+/// </summary>
+public class SeoSettings
+{
+    [JsonPropertyName("robots")]
+    public RobotsSettings Robots { get; set; } = new();
+
+    [JsonPropertyName("jsonLd")]
+    public JsonLdSettings JsonLd { get; set; } = new();
+}
 public class PathSettings
 {
     [JsonPropertyName("pages")]
@@ -235,6 +313,15 @@ public class GeneratorConfig
 
     [JsonPropertyName("rss")]
     public RssSettings Rss { get; set; } = new();
+
+    [JsonPropertyName("atom")]
+    public AtomSettings Atom { get; set; } = new();
+
+    [JsonPropertyName("json")]
+    public JsonFeedSettings JsonFeed { get; set; } = new();
+
+    [JsonPropertyName("seo")]
+    public SeoSettings Seo { get; set; } = new();
 
     [JsonPropertyName("collections")]
     public Dictionary<string, CollectionSettings> Collections { get; set; } =

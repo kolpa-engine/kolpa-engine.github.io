@@ -64,6 +64,31 @@
     "output": "feed.xml",
     "link": "/blog/"
   },
+  "atom": {
+    "enabled": true,
+    "collection": "blog",
+    "output": "atom.xml",
+    "link": "/blog/"
+  },
+  "json": {
+    "enabled": true,
+    "collection": "blog",
+    "output": "feed.json",
+    "link": "/blog/"
+  },
+  "seo": {
+    "robots": {
+      "enabled": true,
+      "output": "robots.txt",
+      "sitemap": true,
+      "rules": []
+    },
+    "jsonLd": {
+      "enabled": true,
+      "type": "WebSite",
+      "image": ""
+    }
+  },
   "collections": {
     "blog": {
       "source": "content/blog",
