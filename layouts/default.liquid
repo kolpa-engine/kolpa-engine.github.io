@@ -54,8 +54,29 @@
 
   <!-- Styles -->
   <link rel="stylesheet" href="https://necolas.github.io/normalize.css/8.0.1/normalize.css">
-  <link rel="stylesheet" href="/assets/styles/kolpa.css">
+  <link rel="stylesheet" href="/assets/styles/kolpa.css?v=1.0.2">
   <link rel="stylesheet" href="/assets/highlight.css">
+  <style>
+    .warning-banner {
+      background: var(--accent);
+      color: var(--bg-deep);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 8px 0;
+      text-align: center;
+    }
+
+    .warning-banner-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .warning-banner-icon {
+      flex-shrink: 0;
+    }
+  </style>
 </head>
 
 <body>
