@@ -173,8 +173,18 @@ public class DevServer(string serveDir, int port = 5000)
             else
             {
                 response.StatusCode = (int)HttpStatusCode.NotFound;
-                var errorBytes = Encoding.UTF8.GetBytes("<h1>404 Not Found</h1><p>The requested static page could not be resolved.</p>");
-                response.ContentType = "text/html";
+                var custom404Path = Path.Combine(_serveDir, "404.html");
+                byte[] errorBytes;
+                if (File.Exists(custom404Path))
+                {
+                    errorBytes = await File.ReadAllBytesAsync(custom404Path);
+                    response.ContentType = "text/html";
+                }
+                else
+                {
+                    errorBytes = Encoding.UTF8.GetBytes("<h1>404 Not Found</h1><p>The requested static page could not be resolved.</p>");
+                    response.ContentType = "text/html";
+                }
                 response.ContentLength64 = errorBytes.Length;
                 await response.OutputStream.WriteAsync(errorBytes, 0, errorBytes.Length);
             }

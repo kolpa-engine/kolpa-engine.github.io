@@ -12,6 +12,12 @@ public class RouteService : IRouteGenerator
     {
         string slug = document.Slug;
 
+        // If it's the 404 page, route to /404.html directly
+        if (slug.Equals("404", StringComparison.OrdinalIgnoreCase))
+        {
+            return "/404.html";
+        }
+
         // If it's a page named "index", it maps to root "/"
         if (slug.Equals("index", StringComparison.OrdinalIgnoreCase))
         {
@@ -52,6 +58,12 @@ public class RouteService : IRouteGenerator
 
     public string GetPhysicalOutputPath(string outputDir, string cleanUrl)
     {
+        // Intercept 404 clean url
+        if (cleanUrl.Equals("/404.html", StringComparison.OrdinalIgnoreCase))
+        {
+            return Path.Combine(outputDir, "404.html");
+        }
+
         // Normalize clean URL
         var normalized = cleanUrl.Trim('/');
 
