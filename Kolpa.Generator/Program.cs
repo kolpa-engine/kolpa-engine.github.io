@@ -1,6 +1,7 @@
 using System.Text.Json;
 using Kolpa.Generator.Config;
 using Kolpa.Generator.Interfaces;
+using Kolpa.Generator.Models;
 using Kolpa.Generator.Pipeline;
 using Kolpa.Generator.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -123,11 +124,63 @@ public static class Program
                 PrintUsage();
                 return 0;
 
+            case "doctor":
+                return ExecuteDoctor(projectDir);
+
             default:
                 logger.LogError($"Unknown command: {command}");
                 PrintUsage();
                 return 1;
         }
+    }
+
+    private static int ExecuteDoctor(string projectDir)
+    {
+        if (_serviceProvider == null)
+            return 1;
+
+        var config = _serviceProvider.GetRequiredService<GeneratorConfig>();
+        var validator = _serviceProvider.GetRequiredService<ConfigValidator>();
+
+        var issues = validator.Validate(config);
+
+        Console.WriteLine("Kolpa SSG Doctor");
+        Console.WriteLine($"Project: {Path.GetFullPath(projectDir)}");
+        Console.WriteLine(new string('-', 60));
+
+        if (issues.Count == 0)
+        {
+            Console.WriteLine("[OK] No configuration issues found.");
+            return 0;
+        }
+
+        var ordered = issues
+            .OrderByDescending(i => i.Severity)
+            .ThenBy(i => i.Code, StringComparer.Ordinal)
+            .ToList();
+
+        foreach (var issue in ordered)
+        {
+            var (tag, color) = issue.Severity switch
+            {
+                DiagnosticSeverity.Error => ("ERROR", ConsoleColor.Red),
+                DiagnosticSeverity.Warning => ("WARN ", ConsoleColor.Yellow),
+                _ => ("INFO ", ConsoleColor.Cyan),
+            };
+            Console.ForegroundColor = color;
+            Console.Write($"[{tag}]");
+            Console.ResetColor();
+            Console.WriteLine($" {issue.Code}: {issue.Message}");
+        }
+
+        var errors = ordered.Count(i => i.Severity == DiagnosticSeverity.Error);
+        var warnings = ordered.Count(i => i.Severity == DiagnosticSeverity.Warning);
+        Console.WriteLine(new string('-', 60));
+        Console.WriteLine(
+            $"Doctor found {ordered.Count} finding(s): {errors} error(s), {warnings} warning(s)."
+        );
+
+        return errors == 0 ? 0 : 1;
     }
 
     private static void PrintUsage()
@@ -141,6 +194,7 @@ public static class Program
         Console.WriteLine("  build      Generate the static website.");
         Console.WriteLine("  clean      Delete generated build output.");
         Console.WriteLine("  serve      Launch a development HTTP server.");
+        Console.WriteLine("  doctor     Validate config.json and report findings with codes.");
         Console.WriteLine("  help       Show this help manual.");
         Console.WriteLine();
         Console.WriteLine("Options:");
@@ -201,6 +255,12 @@ public static class Program
         {
             plugin.ConfigureServices(services, config);
         }
+
+        // config validation (doctor command + build feedback)
+        services.AddSingleton(provider => new ConfigValidator(
+            provider.GetRequiredService<IFileSystem>(),
+            projectDir
+        ));
 
         // register pipeline runner BuildService
         services.AddSingleton(provider => new BuildService(
@@ -439,7 +499,9 @@ public class CoreEnginePlugin(string projectDir, string configPath) : IEnginePlu
         services.AddSingleton<IBuildStage, LoadConfigurationStage>(
             provider => new LoadConfigurationStage(
                 provider.GetRequiredService<IFileSystem>(),
-                _configPath
+                _configPath,
+                provider.GetRequiredService<ConfigValidator>(),
+                _projectDir
             )
         );
         services.AddSingleton<IBuildStage, DiscoverFilesStage>();

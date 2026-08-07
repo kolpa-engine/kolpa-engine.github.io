@@ -45,6 +45,7 @@ public class PipelineOrderingTests
         services.AddSingleton<IMarkdownRenderer>(_ => new MarkdownRenderer(config));
         services.AddSingleton<ICodeHighlighter>(_ => new BuiltinSyntaxHighlighter("hl-"));
         services.AddSingleton<IImageProcessor>(_ => new ImageSharpProcessor());
+        services.AddSingleton(_ => new ConfigValidator(new PhysicalFileSystem(), projectDir));
 
         new CoreEnginePlugin(projectDir, configPath).ConfigureServices(services, config);
 
