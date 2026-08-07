@@ -741,6 +741,7 @@ strong {
 .footer-links {
   display: flex;
   gap: var(--spacing-lg);
+  flex-wrap: wrap;
 }
 
 .footer-links a {
@@ -761,6 +762,7 @@ strong {
 
   .footer-links {
     justify-content: center;
+    gap: var(--spacing-md);
   }
 }
 
