@@ -35,7 +35,7 @@ public class ContentDocument
     /// <summary>
     /// File paths or slugs referencing other documents in the content graph.
     /// </summary>
-    public List<string> References { get; set; } = new();
+    public List<string> References { get; set; } = [];
 
     /// <summary>
     /// Clean URL path slug (e.g. "blog/first-post").

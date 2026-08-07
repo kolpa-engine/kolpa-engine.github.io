@@ -282,7 +282,7 @@ public class BuiltinSyntaxHighlighter(string classPrefix = "hl-") : ICodeHighlig
             ),
 
             ["json"] = new LanguageDef(
-                Array.Empty<string>(),
+                [],
                 string.Empty,
                 string.Empty,
                 "\"",
@@ -316,7 +316,7 @@ public class BuiltinSyntaxHighlighter(string classPrefix = "hl-") : ICodeHighlig
             ),
 
             ["css"] = new LanguageDef(
-                Array.Empty<string>(),
+                [],
                 "/*",
                 "*/",
                 "\"'",
@@ -328,7 +328,7 @@ public class BuiltinSyntaxHighlighter(string classPrefix = "hl-") : ICodeHighlig
             ),
 
             ["markup"] = new LanguageDef(
-                Array.Empty<string>(),
+                [],
                 "<!--",
                 "-->",
                 "\"'",

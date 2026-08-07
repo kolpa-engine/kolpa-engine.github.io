@@ -28,7 +28,7 @@ public class BuildCollectionsStage : IBuildStage
 
             if (!context.Collections.TryGetValue(collName, out var list))
             {
-                list = new List<ContentDocument>();
+                list = [];
                 context.Collections[collName] = list;
             }
             list.Add(doc);

@@ -52,7 +52,7 @@ public class ConfigValidator
     /// </summary>
     public IReadOnlyList<ConfigIssue> Validate(GeneratorConfig config)
     {
-        List<ConfigIssue> issues = new();
+        List<ConfigIssue> issues = [];
         if (config == null)
         {
             issues.Add(
@@ -309,7 +309,7 @@ public class ConfigValidator
 
     private void ValidateCollections(GeneratorConfig config, List<ConfigIssue> issues)
     {
-        foreach (var (name, settings) in config.Collections ?? new())
+        foreach (var (name, settings) in config.Collections ?? [])
         {
             if (string.IsNullOrWhiteSpace(settings.Source))
             {

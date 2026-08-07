@@ -37,7 +37,7 @@ public class SiteContext
     /// <summary>
     /// Every output URL produced by the build (pages, collections, archives), used for sitemaps.
     /// </summary>
-    public List<string> Urls { get; set; } = new();
+    public List<string> Urls { get; set; } = [];
 
     /// <summary>
     /// Current page metadata being rendered.

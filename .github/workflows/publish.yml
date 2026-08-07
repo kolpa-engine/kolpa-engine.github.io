@@ -43,7 +43,7 @@ jobs:
         run: |
           dotnet publish Kolpa.Generator/Kolpa.Generator.csproj \
             -c Release -r ${{ matrix.rid }} --self-contained true \
-            -o bin/${{ matrix.rid }} \
+            -o bins/${{ matrix.rid }} \
             -p:PublishSingleFile=true \
             -p:IncludeNativeLibrariesForSelfExtract=true \
             -p:EnableCompressionInSingleFile=true \
@@ -54,12 +54,12 @@ jobs:
       - name: Smoke test
         shell: bash
         run: |
-          chmod +x bin/${{ matrix.rid }}/Kolpa.Generator${{ matrix.extension }}
-          ./bin/${{ matrix.rid }}/Kolpa.Generator${{ matrix.extension }} doctor --dir . || exit $?
+          chmod +x bins/${{ matrix.rid }}/Kolpa.Generator${{ matrix.extension }}
+          ./bins/${{ matrix.rid }}/Kolpa.Generator${{ matrix.extension }} doctor --dir . || exit $?
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: kolpa-${{ matrix.rid }}
-          path: bin/${{ matrix.rid }}/
+          path: bins/${{ matrix.rid }}/
           if-no-files-found: error

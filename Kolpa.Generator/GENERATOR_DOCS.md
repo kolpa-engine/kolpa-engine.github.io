@@ -280,7 +280,7 @@ bash Kolpa.Generator/scripts/publish.sh linux-x64  # one platform
 powershell -ExecutionPolicy Bypass -File Kolpa.Generator\scripts\publish.ps1 win-x64
 ```
 
-Output goes to `bin/<rid>/`:
+Output goes to `bins/<rid>/`:
 
 | Runtime ID    | Target                                         |
 | ------------- | ---------------------------------------------- |
@@ -296,9 +296,9 @@ The executable takes the same commands as the `dotnet run` CLI, and uses the cur
 directory as the project root (pass `--dir <path>` to target another folder):
 
 ```bash
-./bin/linux-x64/Kolpa.Generator build
-./bin/linux-x64/Kolpa.Generator doctor --dir ./my-site
-./bin/win-x64/Kolpa.Generator.exe serve --port 8080
+./bins/linux-x64/Kolpa.Generator build
+./bins/linux-x64/Kolpa.Generator doctor --dir ./my-site
+./bins/win-x64/Kolpa.Generator.exe serve --port 8080
 ```
 
 In Termux, use the `linux-arm64` binary (`chmod +x` it first). Because it is self-contained,

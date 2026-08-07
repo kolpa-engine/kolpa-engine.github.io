@@ -12,7 +12,7 @@ public class ImageProcessOptions
     public int Quality { get; set; } = 85;
     public int MaxWidth { get; set; } = 1920;
     public bool PreserveOriginal { get; set; } = true;
-    public List<int> Sizes { get; set; } = new() { 320, 640, 1280, 1920 };
+    public List<int> Sizes { get; set; } = [320, 640, 1280, 1920];
 }
 
 /// <summary>
@@ -35,7 +35,7 @@ public class ImageVariant
     public int Height { get; set; }
     public long SizeBytes { get; set; }
     public bool IsOriginal { get; set; }
-    public byte[] Content { get; set; } = Array.Empty<byte>();
+    public byte[] Content { get; set; } = [];
 }
 
 /// <summary>
@@ -46,7 +46,7 @@ public class ImageProcessingResult
     public string SourcePath { get; set; } = string.Empty;
     public int OriginalWidth { get; set; }
     public int OriginalHeight { get; set; }
-    public List<ImageVariant> Variants { get; set; } = new();
+    public List<ImageVariant> Variants { get; set; } = [];
 
     /// <summary>The variant that best represents the image (largest webp, else original).</summary>
     public ImageVariant PrimaryVariant =>

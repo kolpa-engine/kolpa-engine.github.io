@@ -9,7 +9,7 @@ namespace Kolpa.Generator.Services;
 /// </summary>
 public class DevServer(string serveDir, int port = 5000)
 {
-    private static readonly ConcurrentBag<HttpListenerResponse> _sseClients = new();
+    private static readonly ConcurrentBag<HttpListenerResponse> _sseClients = [];
     private readonly string _serveDir = Path.GetFullPath(serveDir);
     private readonly int _port = port;
     private HttpListener? _listener;

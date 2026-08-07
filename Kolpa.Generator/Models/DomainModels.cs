@@ -50,7 +50,7 @@ public class NavigationNode
     public string Title { get; set; } = string.Empty;
     public string Url { get; set; } = string.Empty;
     public int Order { get; set; } = 0;
-    public List<NavigationNode> Children { get; set; } = new();
+    public List<NavigationNode> Children { get; set; } = [];
 }
 
 /// <summary>
@@ -61,8 +61,8 @@ public class BuildResult
     public int PagesGenerated { get; set; } = 0;
     public int AssetsProcessed { get; set; } = 0;
     public long DurationMs { get; set; } = 0;
-    public List<Diagnostic> Diagnostics { get; set; } = new();
-    public List<GeneratedFile> GeneratedFiles { get; set; } = new();
+    public List<Diagnostic> Diagnostics { get; set; } = [];
+    public List<GeneratedFile> GeneratedFiles { get; set; } = [];
     public bool Success => Diagnostics.TrueForAll(d => d.Severity != DiagnosticSeverity.Error);
 }
 
@@ -75,15 +75,15 @@ public class BuildContext(string projectRoot)
   public GeneratorConfig Config { get; set; } = new();
 
     // Core Registries
-    public List<ContentDocument> Documents { get; } = new();
+    public List<ContentDocument> Documents { get; } = [];
     public Dictionary<string, List<ContentDocument>> Collections { get; } = new(StringComparer.OrdinalIgnoreCase);
     public Dictionary<string, string> Templates { get; } = new(StringComparer.OrdinalIgnoreCase); // layoutName -> layoutContent
-    public List<string> Assets { get; } = new();
-    public List<Route> Routes { get; } = new();
+    public List<string> Assets { get; } = [];
+    public List<Route> Routes { get; } = [];
     public Dictionary<string, object> DataRegistry { get; } = new(StringComparer.OrdinalIgnoreCase);
-    public List<Diagnostic> Diagnostics { get; } = new();
-    public List<GeneratedFile> GeneratedFiles { get; } = new();
-    public List<NavigationNode> Navigation { get; } = new();
+    public List<Diagnostic> Diagnostics { get; } = [];
+    public List<GeneratedFile> GeneratedFiles { get; } = [];
+    public List<NavigationNode> Navigation { get; } = [];
 
     // Cache registry
     public ConcurrentDictionary<string, object> TemplateCache { get; } = new();

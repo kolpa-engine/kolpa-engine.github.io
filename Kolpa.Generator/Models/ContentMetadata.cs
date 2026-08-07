@@ -10,7 +10,7 @@ public class ContentMetadata
     public string Layout { get; set; } = string.Empty;
     public bool Draft { get; set; } = false;
     public DateTime? Date { get; set; }
-    public List<string> Tags { get; set; } = new();
+    public List<string> Tags { get; set; } = [];
     public string Category { get; set; } = string.Empty;
 
     /// <summary>

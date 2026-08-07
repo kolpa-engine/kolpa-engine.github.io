@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Publishes the generator as a single-file self-contained executable for the given
-# runtime(s) into /bin/<rid>. Run from the repo root (or folder containing config.json).
+# runtime(s) into /bins/<rid>. Run from the repo root (or folder containing config.json).
 #
 #   bash scripts/publish.sh            # publishes ALL supported RIDs
 #   bash scripts/publish.sh linux-x64  # publishes a single RID
@@ -10,7 +10,7 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 PROJ="$ROOT/Kolpa.Generator/Kolpa.Generator.csproj"
-OUT="$ROOT/bin"
+OUT="$ROOT/bins"
 
 # If no RID given, publish all.
 RIDS=("${@:-win-x64 linux-x64 linux-arm64 osx-x64 osx-arm64}")

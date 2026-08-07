@@ -93,7 +93,7 @@ public class RobotsSettings
 
     /// <summary>Explicit allow/disallow rules in the form of directives, e.g. "Disallow: /private/".</summary>
     [JsonPropertyName("rules")]
-    public List<string> Rules { get; set; } = new();
+    public List<string> Rules { get; set; } = [];
 }
 
 /// <summary>
@@ -261,10 +261,10 @@ public class ImageSettings
     public bool PreserveOriginal { get; set; } = true;
 
     [JsonPropertyName("sizes")]
-    public List<int> Sizes { get; set; } = new() { 320, 640, 1280, 1920 };
+    public List<int> Sizes { get; set; } = [320, 640, 1280, 1920];
 
     [JsonPropertyName("include")]
-    public List<string> Include { get; set; } = new() { "png", "jpg", "jpeg", "webp" };
+    public List<string> Include { get; set; } = ["png", "jpg", "jpeg", "webp"];
 }
 
 /// <summary>

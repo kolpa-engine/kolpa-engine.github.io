@@ -79,7 +79,7 @@ public class CacheService : ICacheService
 
     public bool TryReadBytes(string key, string kind, out byte[] bytes)
     {
-        bytes = Array.Empty<byte>();
+        bytes = [];
         if (!Enabled)
         {
             return false;
