@@ -297,15 +297,15 @@ strong {
 }
 
 .btn-primary {
-  background: var(--accent);
-  color: #000;
-  border: 1px solid var(--accent);
+  background: var(--text);
+  color: var(--bg-deep);
+  border: 1px solid var(--text);
 }
 
 .btn-primary:hover {
-  background: var(--accent-light);
-  border-color: var(--accent-light);
-  color: #000 !important;
+  background: var(--text-muted);
+  border-color: var(--text-muted);
+  color: var(--bg-deep) !important;
 }
 
 .btn-outline {
@@ -315,8 +315,25 @@ strong {
 }
 
 .btn-outline:hover {
-  border-color: var(--accent);
-  background: var(--accent-soft);
+  border-color: var(--text);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.compile-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 0.65rem;
+  padding: 2px 8px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-family: var(--font-sans);
+  transition: all 0.15s ease;
+}
+
+.compile-btn:hover {
+  color: var(--text);
+  border-color: var(--text-muted);
 }
 
 .hero-visual {

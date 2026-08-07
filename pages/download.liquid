@@ -45,7 +45,7 @@ description: Download Kolpa Engine and follow the quickstart guide to set up you
       <div class="code-window">
         <div class="code-window-bar">
           <span>Terminal</span>
-          <button class="compile-btn" onclick="copyCode(this)" style="background: transparent; border: 1px solid var(--border); color: var(--accent-light); font-size: 0.65rem; padding: 2px 8px; border-radius: 3px; cursor: pointer;">Copy</button>
+          <button class="compile-btn" onclick="copyCode(this)">Copy</button>
         </div>
         <pre class="code-block" style="color: var(--text-muted);"><code><span style="color: var(--accent);">$</span> git clone https://github.com/kolpa-engine/kolpa.git
 <span style="color: var(--accent);">$</span> cd kolpa
@@ -225,14 +225,14 @@ description: Download Kolpa Engine and follow the quickstart guide to set up you
 }
 
 .dl-btn-primary {
-  background: var(--accent);
+  background: var(--text);
   color: var(--bg-deep);
-  border: 1px solid var(--accent);
+  border: 1px solid var(--text);
 }
 
 .dl-btn-primary:hover {
-  background: var(--accent-light);
-  border-color: var(--accent-light);
+  background: var(--text-muted);
+  border-color: var(--text-muted);
   color: var(--bg-deep);
   transform: translateY(-1px);
 }
@@ -244,7 +244,7 @@ description: Download Kolpa Engine and follow the quickstart guide to set up you
 }
 
 .dl-btn-secondary:hover {
-  border-color: var(--text-muted);
+  border-color: var(--text);
   color: var(--text);
   transform: translateY(-1px);
 }
@@ -321,9 +321,9 @@ description: Download Kolpa Engine and follow the quickstart guide to set up you
 }
 
 .sim-action-btn.active {
-  border-color: var(--accent);
-  color: var(--accent);
-  background: var(--accent-soft);
+  border-color: var(--text);
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .sim-terminal {
