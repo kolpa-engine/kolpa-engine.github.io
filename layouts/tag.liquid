@@ -1,0 +1,40 @@
+---
+layout: default
+---
+<header class="page-header">
+  <div class="shell">
+    <a class="post-back" href="/tags/">&larr; All Tags</a>
+    <h1 class="page-title">{{ page.title }}</h1>
+    <p class="lede">Posts tagged &ldquo;{{ page.title }}&rdquo;.</p>
+  </div>
+</header>
+
+<section class="shell blog-section">
+  <div class="blog-grid">
+    {% for post in collections.blog %}
+      {% if post.tags contains page.tag %}
+        <article class="blog-card">
+          <header class="blog-card__header">
+            {% if post.date %}
+              <time class="blog-card__date">{{ post.date | date_format: "MMMM d, yyyy" }}</time>
+            {% endif %}
+            <h2 class="blog-card__title">
+              <a href="{{ post.url }}">{{ post.title }}</a>
+            </h2>
+            {% if post.description %}
+              <p class="blog-card__desc">{{ post.description }}</p>
+            {% endif %}
+          </header>
+          <footer class="blog-card__footer">
+            {% if post.author %}
+              <span class="post-meta">{{ post.author }}</span>
+            {% endif %}
+            {% if post.content %}
+              <span class="post-meta">{{ post.content | read_time }} min read</span>
+            {% endif %}
+          </footer>
+        </article>
+      {% endif %}
+    {% endfor %}
+  </div>
+</section>

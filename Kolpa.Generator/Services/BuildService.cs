@@ -1,0 +1,130 @@
+using System.Diagnostics;
+using Kolpa.Generator.Interfaces;
+using Kolpa.Generator.Models;
+
+namespace Kolpa.Generator.Services;
+
+/// <summary>
+/// Pipeline runner service that executes registered IBuildStages sequentially.
+/// </summary>
+public class BuildService(
+    IEnumerable<IBuildStage> stages,
+    ILogger logger,
+    ISystemClock systemClock,
+    string projectDir,
+    ICacheService cache
+)
+{
+    private readonly IEnumerable<IBuildStage> _stages = stages;
+    private readonly ILogger _logger = logger;
+    private readonly string _projectDir = projectDir;
+    private readonly ISystemClock _systemClock = systemClock;
+    private readonly ICacheService _cache = cache;
+
+    public async Task<bool> ExecuteBuildAsync(string configPath, bool watchMode = false)
+    {
+        var stopwatch = Stopwatch.StartNew();
+        var context = new BuildContext(_projectDir);
+        context.Metadata["BuildDate"] = _systemClock.UtcNow;
+        context.Metadata["WatchMode"] = watchMode;
+
+        _logger.LogInfo("\nKolpa SSG Engine - Running Build Pipeline");
+        _logger.LogInfo("========================================");
+
+        bool pipelineFailed = false;
+        var stageTimings = new List<(string Name, long ElapsedMs)>();
+
+        foreach (var stage in _stages)
+        {
+            var stageStopwatch = Stopwatch.StartNew();
+            _logger.LogVerbose($"Starting stage: '{stage.Name}'...");
+
+            try
+            {
+                await stage.ExecuteAsync(context);
+                stageStopwatch.Stop();
+                stageTimings.Add((stage.Name, stageStopwatch.ElapsedMilliseconds));
+                _logger.LogVerbose(
+                    $"Finished stage '{stage.Name}' in {stageStopwatch.ElapsedMilliseconds}ms."
+                );
+
+                // Break on fatal stage errors
+                if (context.Diagnostics.Any(d => d.Severity == DiagnosticSeverity.Error))
+                {
+                    pipelineFailed = true;
+                    break;
+                }
+            }
+            catch (Exception ex)
+            {
+                context.AddDiagnostic(
+                    DiagnosticSeverity.Error,
+                    $"Fatal exception executing stage '{stage.Name}': {ex.Message}",
+                    stage.Name
+                );
+                pipelineFailed = true;
+                stageTimings.Add((stage.Name, stageStopwatch.ElapsedMilliseconds));
+                break;
+            }
+        }
+
+        stopwatch.Stop();
+
+        // 1. Report Diagnostics Traces
+        _logger.LogInfo("\nDiagnostics Summary:");
+        _logger.LogInfo("--------------------");
+
+        foreach (var diag in context.Diagnostics)
+        {
+            var formatted = $"[{diag.StageName}] {diag.Message}";
+            switch (diag.Severity)
+            {
+                case DiagnosticSeverity.Error:
+                    _logger.LogError(formatted);
+                    break;
+                case DiagnosticSeverity.Warning:
+                    _logger.LogWarn(formatted);
+                    break;
+                case DiagnosticSeverity.Info:
+                default:
+                    _logger.LogVerbose(formatted);
+                    break;
+            }
+        }
+
+        // 2. Build Summary output
+        _logger.LogInfo("\nBuild Metrics:");
+        _logger.LogInfo("--------------");
+
+        var pagesCount = context.GeneratedFiles.Count;
+        var assetsCount = context.Assets.Count;
+        var warnings = context.Diagnostics.Count(d => d.Severity == DiagnosticSeverity.Warning);
+        var errors = context.Diagnostics.Count(d => d.Severity == DiagnosticSeverity.Error);
+
+        _logger.LogInfo($"  Duration:      {stopwatch.ElapsedMilliseconds}ms");
+        _logger.LogInfo($"  Pages:         {pagesCount} generated");
+        _logger.LogInfo($"  Assets:        {assetsCount} processed");
+        _logger.LogInfo($"  Warnings:      {warnings}");
+        _logger.LogInfo($"  Errors:        {errors}");
+
+        if (_cache.Enabled)
+        {
+            _logger.LogInfo($"  Cache:         {_cache.Hits} reused, {_cache.Misses} computed");
+        }
+
+        _logger.LogVerbose("\nStage Timing:");
+        foreach (var (name, elapsedMs) in stageTimings)
+        {
+            _logger.LogVerbose($"  {name, -28} {elapsedMs, 6}ms");
+        }
+
+        if (errors > 0 || pipelineFailed)
+        {
+            _logger.LogError("Build completed with fatal errors.");
+            return false;
+        }
+
+        _logger.LogInfo("Build completed successfully.");
+        return true;
+    }
+}

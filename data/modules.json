@@ -1,0 +1,72 @@
+[
+  {
+    "id": "kolpa-framework",
+    "name": "kolpa (C Framework)",
+    "category": "official",
+    "description": "The C99 game framework. Window, input, rendering (OpenGL), audio, and math. Forked from raylib and rebranded.",
+    "language": "C",
+    "repoUrl": "https://github.com/gabriel-aplok/kolpa-lib",
+    "rawContentUrl": "https://raw.githubusercontent.com/gabriel-aplok/kolpa-lib/master/README.md",
+    "icon": "cpu"
+  },
+  {
+    "id": "kolpa-engine",
+    "name": "kolpa engine (C++ Layer)",
+    "category": "official",
+    "description": "The C++20 engine layer. ECS (flecs), scene management, physics (box3d), audio DSP, resource pipelines, and C# scripting.",
+    "language": "C++",
+    "repoUrl": "https://github.com/gabriel-aplok/kolpa-lib",
+    "rawContentUrl": "https://raw.githubusercontent.com/gabriel-aplok/kolpa-lib/master/README.md",
+    "icon": "layout"
+  },
+  {
+    "id": "kolpa-physics",
+    "name": "Physics (box3d)",
+    "category": "official",
+    "description": "Rigid body physics behind a backend-agnostic C API. Box, sphere, capsule, cylinder, convex hull, triangle mesh, raycasting, and character controllers.",
+    "language": "C",
+    "repoUrl": "https://github.com/gabriel-aplok/kolpa-lib",
+    "rawContentUrl": "https://raw.githubusercontent.com/gabriel-aplok/kolpa-lib/master/README.md",
+    "icon": "activity"
+  },
+  {
+    "id": "kolpa-audio",
+    "name": "Audio System",
+    "category": "official",
+    "description": "Audio loading, playback, streaming, 3D spatial audio, audio buses, DSP filters, and reverb zones. Built on raudio.",
+    "language": "C++",
+    "repoUrl": "https://github.com/gabriel-aplok/kolpa-lib",
+    "rawContentUrl": "https://raw.githubusercontent.com/gabriel-aplok/kolpa-lib/master/README.md",
+    "icon": "volume-2"
+  },
+  {
+    "id": "kolpa-scripting",
+    "name": "C# Scripting",
+    "category": "official",
+    "description": "Optional .NET 10 integration. MonoBehaviours with hot reload via collectible AssemblyLoadContext. Unity-style Input class.",
+    "language": "C#",
+    "repoUrl": "https://github.com/gabriel-aplok/kolpa-lib",
+    "rawContentUrl": "https://raw.githubusercontent.com/gabriel-aplok/kolpa-lib/master/README.md",
+    "icon": "code"
+  },
+  {
+    "id": "kolpa-scene",
+    "name": "Scene System",
+    "category": "official",
+    "description": "Scene lifecycle hooks, deferred switching, JSON save/load, play/edit mode state, and the runtime shell.",
+    "language": "C++",
+    "repoUrl": "https://github.com/gabriel-aplok/kolpa-lib",
+    "rawContentUrl": "https://raw.githubusercontent.com/gabriel-aplok/kolpa-lib/master/README.md",
+    "icon": "layers"
+  },
+  {
+    "id": "godot-exporter",
+    "name": "Godot Level Editor",
+    "category": "official",
+    "description": "Godot 4 plugin that exports scenes to Kolpa's JSON format. The recommended level editor for Kolpa Engine.",
+    "language": "GDScript",
+    "repoUrl": "https://github.com/gabriel-aplok/kolpa-lib",
+    "rawContentUrl": "https://raw.githubusercontent.com/gabriel-aplok/kolpa-lib/master/README.md",
+    "icon": "map"
+  }
+]

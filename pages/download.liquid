@@ -1,0 +1,244 @@
+---
+layout: default
+title: Download & Setup
+description: Build Kolpa Engine from source and get started with development.
+---
+
+<div class="page-header">
+  <div class="shell">
+    <h1 class="page-title">GET STARTED</h1>
+    <p class="lede">
+      Clone the repo, build with kine, and run the standalone demo.
+    </p>
+  </div>
+</div>
+
+<div class="shell main-download-content">
+  <div class="download-grid">
+    <div class="download-card">
+      <h2>Build from Source</h2>
+      <p class="dl-desc">
+        The recommended way to use Kolpa. Requires GCC (w64devkit on Windows) and the .NET 10 SDK.
+      </p>
+      <div class="code-window">
+        <div class="code-window-bar">
+          <span>Terminal</span>
+          <button class="compile-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre class="code-block" style="color: var(--text-muted);"><code><span style="color: var(--accent);">$</span> git clone https://github.com/gabriel-aplok/kolpa-lib.git
+<span style="color: var(--accent);">$</span> cd kolpa-lib
+<span style="color: var(--accent);">$</span> dotnet build build/Kine.Build
+<span style="color: var(--accent);">$</span> build/Kine.Build.exe build
+<span style="color: var(--accent);">$</span> build/Kine.Build.exe --project standalone run</code></pre>
+      </div>
+    </div>
+
+    <div class="download-card">
+      <h2>Run Tests</h2>
+      <p class="dl-desc">
+        Six headless smoke tests cover physics, engine, scene, scripting, port, and editor.
+      </p>
+      <div class="code-window">
+        <div class="code-window-bar">
+          <span>Terminal</span>
+          <button class="compile-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre class="code-block" style="color: var(--text-muted);"><code><span style="color: var(--accent);">$</span> build/Kine.Build.exe test
+<span style="color: var(--accent);">$</span> build/Kine.Build.exe --project editor run</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="requirements-section">
+    <h2 class="section-title">SYSTEM REQUIREMENTS</h2>
+    <div class="req-cards-grid">
+      <div class="req-card">
+        <h3 class="req-card-title">Build Tools</h3>
+        <div class="req-item">
+          <span class="req-item-label">Compiler</span>
+          <span class="req-item-val">GCC (w64devkit on Windows)</span>
+        </div>
+        <div class="req-item">
+          <span class="req-item-label">SDK</span>
+          <span class="req-item-val">.NET 10 SDK (for kine build tool + C# bindings)</span>
+        </div>
+        <div class="req-item">
+          <span class="req-item-label">Standard</span>
+          <span class="req-item-val">C99 (framework) / C++20 (engine)</span>
+        </div>
+      </div>
+
+      <div class="req-card">
+        <h3 class="req-card-title">Runtime</h3>
+        <div class="req-item">
+          <span class="req-item-label">OS</span>
+          <span class="req-item-val">Windows, Linux, macOS, Android</span>
+        </div>
+        <div class="req-item">
+          <span class="req-item-label">GPU</span>
+          <span class="req-item-val">OpenGL 3.3+ (desktop) / OpenGL ES 3.0 (mobile)</span>
+        </div>
+        <div class="req-item">
+          <span class="req-item-label">Scripting</span>
+          <span class="req-item-val">.NET 10 runtime (optional, for C# scripts)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="requirements-section">
+    <h2 class="section-title">PROJECT STRUCTURE</h2>
+    <div class="code-window">
+      <div class="code-window-bar">
+        <span>Repository Layout</span>
+      </div>
+      <pre class="code-block" style="color: var(--text-muted);"><code><span class="tk-v">src/kolpa/</span>         C99 framework (core, shapes, textures, text, models, audio)
+<span class="tk-v">engine/src/</span>        C++20 engine layer (ECS, scene, physics, scripting, UI)
+<span class="tk-v">standalone/</span>        Demo game (the main executable)
+<span class="tk-v">editor/</span>            Editor shell (minimal viewport + inspector)
+<span class="tk-v">bindings/</span>          C# projects (Kolpa.Engine, Kolpa.Demo)
+<span class="tk-v">tools/</span>             Godot level editor plugin
+<span class="tk-v">build/</span>             kine build tool
+<span class="tk-v">tests/</span>             Headless smoke tests</code></pre>
+    </div>
+  </div>
+</div>
+
+<style>
+/* CSS Styles for Download Page */
+.main-download-content {
+  padding-top: var(--spacing-lg);
+  padding-bottom: var(--spacing-xl);
+}
+
+.download-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
+}
+
+.download-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: border-color 0.15s ease;
+}
+
+.download-card:hover {
+  border-color: var(--text-muted);
+}
+
+.download-card h2 {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: var(--spacing-sm);
+  color: var(--text);
+}
+
+.dl-desc {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+  margin-bottom: var(--spacing-lg);
+}
+
+/* System Requirements Cards */
+.requirements-section {
+  margin-top: var(--spacing-xl);
+}
+
+.requirements-section .section-title {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: var(--spacing-lg);
+  color: var(--text);
+}
+
+.req-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--spacing-lg);
+}
+
+.req-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.req-card:hover {
+  border-color: var(--text-dim);
+}
+
+.req-card-title {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: var(--spacing-sm);
+  margin-top: 0;
+  margin-bottom: var(--spacing-xs);
+}
+
+.req-item {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  font-size: 0.75rem;
+  line-height: 1.45;
+}
+
+.req-item-label {
+  font-weight: 600;
+  color: var(--text-muted);
+  min-width: 60px;
+  flex-shrink: 0;
+}
+
+.req-item-val {
+  color: var(--text-dim);
+  text-align: right;
+}
+
+.req-card:hover .req-item-val {
+  color: var(--text-muted);
+}
+</style>
+
+<script>
+function copyCode(btn) {
+  const codeWindow = btn.closest('.code-window');
+  const code = codeWindow.querySelector('pre code, pre').innerText;
+  navigator.clipboard.writeText(code).then(() => {
+    btn.innerText = "Copied!";
+    setTimeout(() => { btn.innerText = "Copy"; }, 2000);
+  }).catch(() => {
+    const textarea = document.createElement('textarea');
+    textarea.value = code;
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+    btn.innerText = "Copied!";
+    setTimeout(() => { btn.innerText = "Copy"; }, 2000);
+  });
+}
+</script>

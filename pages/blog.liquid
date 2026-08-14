@@ -1,0 +1,79 @@
+---
+layout: default
+title: Blog
+description: Latest news, core updates, and technical tutorials from the Kolpa developers.
+---
+<div class="page-header">
+  <div class="shell">
+    <h1 class="page-title">BLOG</h1>
+    <p class="lede">
+      Stay up to date with engine announcements, developer logs, and technical tutorials.
+    </p>
+    <div class="blog-authors-row">
+      {% for member in data.team %}
+        <span class="blog-author-chip">
+          <img class="post-author-avatar" src="https://github.com/{{ member.username }}.png?size=80" alt="{{ member.name }}" loading="lazy" width="28" height="28" />
+          <span class="post-author-name">{{ member.name }}</span>
+        </span>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<div class="shell blog-section">
+  {% assign posts = collections.blog %}
+  {% assign tagList = tagcloud.blog %}
+  {% unless posts.size > 0 %}
+    <p class="error-message">No posts yet. Check back soon.</p>
+  {% else %}
+    {% if tagList.size > 0 %}
+      <nav class="tag-strip" aria-label="Browse by topic">
+        <span class="tag-strip__label">Topics:</span>
+        {% for tag in tagList %}
+          <a class="tag tag--link" href="/blog/tags/{{ tag.slug }}/">{{ tag.name }}</a>
+        {% endfor %}
+        <a class="tag-strip__all" href="/tags/">all tags</a>
+      </nav>
+    {% endif %}
+
+    <div class="blog-grid">
+      {% for post in posts %}
+        <article class="blog-card">
+          {% if post.image %}
+            <a class="blog-card__thumb" href="{{ post.url }}">
+              <img src="{{ post.image }}" alt="{{ post.image_alt | default: post.title }}" loading="lazy" />
+            </a>
+          {% endif %}
+          <header class="blog-card__header">
+            {% if post.date %}
+              <time class="blog-card__date">{{ post.date | date_format: "MMMM d, yyyy" }}</time>
+            {% endif %}
+            <h2 class="blog-card__title">
+              <a href="{{ post.url }}">{{ post.title }}</a>
+            </h2>
+            {% if post.description %}
+              <p class="blog-card__desc">{{ post.description }}</p>
+            {% endif %}
+          </header>
+          <footer class="blog-card__footer">
+            <span class="post-meta">
+              {% if post.author %}
+                {% assign authors = post.author | split: ", " %}
+                {% for author_name in authors %}
+                  <span class="post-author-chip">
+                    <img class="post-author-avatar" src="https://github.com/{{ author_name | slugify }}.png?size=40" alt="{{ author_name }}" loading="lazy" width="20" height="20" />
+                    <span class="post-author-name">{{ author_name }}</span>
+                  </span>
+                {% endfor %}
+              {% endif %}
+              {{ post.content | read_time }} min read
+            </span>
+            {% for tag in post.tags %}
+              <a class="tag tag--link" href="/blog/tags/{{ tag | slugify }}/">{{ tag }}</a>
+            {% endfor %}
+          </footer>
+        </article>
+      {% endfor %}
+    </div>
+  {% endunless %}
+</div>

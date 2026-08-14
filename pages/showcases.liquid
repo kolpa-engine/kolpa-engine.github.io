@@ -1,0 +1,818 @@
+---
+layout: default
+title: Showcases
+description: Discover games and interactive applications built with Kolpa.
+---
+
+<div class="page-header">
+  <div class="shell">
+    <h1 class="page-title">SHOWCASES</h1>
+    <p class="lede">
+      Discover interactive applications, developer toolsets, and game projects created using Kolpa.
+    </p>
+  </div>
+</div>
+
+<div class="shell main-showcase-content">
+  <!-- Controls Section: Search & Filters -->
+  <div class="showcase-filter-row">
+    <div class="filter-group">
+      <span class="filter-label">Filter:</span>
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="official">Official</button>
+      <button class="filter-btn" data-filter="community">Community</button>
+    </div>
+
+    <div class="search-wrapper">
+      <svg class="search-icon" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input type="text" id="project-search" class="search-input" placeholder="Search projects..." aria-label="Search projects" />
+    </div>
+  </div>
+
+  <!-- Showcase Grid -->
+  <div class="showcase-grid-container">
+    <div class="showcase-grid" id="project-grid">
+      {% for project in data.showcase %}
+        <div class="project-card" data-category="{{ project.category }}" data-name="{{ project.name | downcase }}" data-desc="{{ project.description | downcase }}" data-genre="{{ project.genre | downcase }}">
+          <div class="project-cover-container">
+            <picture>
+              <source type="image/webp" srcset="{% for s in images[project.image].sources %}{{ s.src }} {{ s.width }}w{% unless forloop.last %},{% endunless %}{% endfor %}" sizes="(max-width: 768px) 100vw, 350px">
+              <img src="{{ images[project.image].src }}" alt="{{ project.name }} gameplay cover preview" class="project-cover-image" loading="lazy" />
+            </picture>
+            <div class="project-category-badge {% if project.category == 'official' %}official-badge{% else %}community-badge{% endif %}">
+              {{ project.categoryLabel }}
+            </div>
+            <div class="project-genre-badge">{{ project.genre }}</div>
+          </div>
+          <div class="project-details">
+            <div class="project-meta-row">
+              <h3 class="project-title">{{ project.name }}</h3>
+              <span class="project-developer">by {{ project.developer }}</span>
+            </div>
+            <p class="project-description">{{ project.description }}</p>
+            <div class="project-footer">
+              <div class="project-platforms" aria-label="Supported Platforms">
+                {% for platform in project.platforms %}
+                  <span class="platform-badge">{{ platform }}</span>
+                {% endfor %}
+              </div>
+              <button class="project-view-btn view-details-btn" 
+                      data-name="{{ project.name }}"
+                      data-developer="{{ project.developer }}"
+                      data-genre="{{ project.genre }}"
+                      data-category-label="{{ project.categoryLabel }}"
+                      data-category="{{ project.category }}"
+                      data-image-src="{{ images[project.image].src }}"
+                      data-detailed-desc="{{ project.detailedDescription }}"
+                      data-raw-url="{{ project.rawContentUrl }}"
+                      data-repo-url="{{ project.repoUrl }}">
+                Overview
+              </button>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<!-- Project Overview Modal -->
+<div id="showcase-modal" class="modal-overlay" aria-hidden="true">
+  <div class="modal-window" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-header">
+      <h2 id="modal-title" class="modal-header-title">Project Overview</h2>
+      <button class="modal-close-btn" aria-label="Close overview">
+        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+    
+    <div class="modal-body">
+      <!-- Project Quick Stats Header -->
+      <div class="modal-project-hero">
+        <img id="modal-project-image" src="" alt="Project cover preview" class="modal-hero-image" />
+        <div class="modal-hero-details">
+          <span id="modal-project-category" class="modal-cat-badge">Category</span>
+          <h3 id="modal-project-name" class="modal-proj-name">Project Title</h3>
+          <p class="modal-proj-dev">Developer: <span id="modal-project-developer" style="color: var(--text);">Team</span></p>
+          <p class="modal-proj-genre">Genre: <span id="modal-project-genre" style="color: var(--text);">RPG</span></p>
+        </div>
+      </div>
+
+      <!-- Overview Content -->
+      <div class="modal-project-description">
+        <h4>About the Project</h4>
+        <p id="modal-project-detailed-desc">Detailed project description goes here...</p>
+      </div>
+
+      <!-- Git README Documentation section -->
+      <div class="modal-git-docs-section">
+        <div class="docs-section-header">
+          <h4>Repository Documentation</h4>
+          <a id="modal-repo-link" href="#" target="_blank" rel="noopener noreferrer" class="repo-inline-link">
+            GitHub Repository
+            <svg viewBox="0 0 24 24" width="12" height="12" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+          </a>
+        </div>
+        
+        <div id="modal-loading-indicator" class="modal-loader">
+          <div class="spinner"></div>
+          <p>Fetching repository documentation...</p>
+        </div>
+        
+        <div id="modal-error-content" class="modal-error" style="display: none;">
+          <p>Documentation could not be fetched automatically. You can read it directly inside the source repository.</p>
+        </div>
+        
+        <div id="modal-markdown-content" class="markdown-body"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+<style>
+/* CSS Styles */
+.main-showcase-content {
+  padding-top: var(--spacing-lg);
+  padding-bottom: var(--spacing-xl);
+}
+
+.showcase-filter-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+  flex-wrap: wrap;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.filter-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.filter-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  padding: 5px 12px;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: var(--radius);
+  transition: all 0.15s ease;
+}
+
+.filter-btn:hover {
+  border-color: var(--text-muted);
+  color: var(--text);
+}
+
+.filter-btn.active {
+  background: var(--text);
+  border-color: var(--text);
+  color: var(--bg-deep);
+  font-weight: 600;
+}
+
+.search-wrapper {
+  position: relative;
+  width: 240px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-dim);
+  pointer-events: none;
+}
+
+.search-input {
+  width: 100%;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  padding: 6px 10px 6px 32px;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.search-input:focus {
+  border-color: var(--accent);
+}
+
+.showcase-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--spacing-md);
+}
+
+.project-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.project-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.project-cover-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: var(--bg-surface);
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+}
+
+.project-cover-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.project-card:hover .project-cover-image {
+  transform: scale(1.02);
+}
+
+.project-category-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 2px;
+  border: 1px solid transparent;
+}
+
+.official-badge {
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-color: rgba(255, 152, 0, 0.2);
+}
+
+.community-badge {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-muted);
+  border-color: var(--border);
+}
+
+.project-genre-badge {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 2px;
+}
+
+.project-details {
+  padding: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.project-meta-row {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  margin-bottom: var(--spacing-sm);
+}
+
+.project-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+
+.project-developer {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+}
+
+.project-description {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+  margin-bottom: var(--spacing-md);
+  flex-grow: 1;
+}
+
+.project-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+  gap: var(--spacing-sm);
+  border-top: 1px solid var(--border);
+  padding-top: var(--spacing-sm);
+}
+
+.project-platforms {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.platform-badge {
+  font-size: 0.65rem;
+  font-family: var(--font-mono);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  padding: 1px 5px;
+  border-radius: 2px;
+}
+
+.project-view-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-family: var(--font-sans);
+  transition: all 0.15s ease;
+}
+
+.project-view-btn:hover {
+  border-color: var(--text);
+  color: var(--text);
+}
+
+/* Modal Styling */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-window {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  width: 90%;
+  max-width: 720px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(10px);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-overlay.active .modal-window {
+  transform: translateY(0);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-bottom: 1px solid var(--border);
+}
+
+.modal-header-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.modal-close-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+}
+
+.modal-close-btn:hover {
+  color: var(--text);
+}
+
+.modal-body {
+  padding: var(--spacing-md);
+  overflow-y: auto;
+  flex-grow: 1;
+}
+
+.modal-project-hero {
+  display: flex;
+  gap: var(--spacing-md);
+  background: rgba(255, 255, 255, 0.01);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+  flex-wrap: wrap;
+}
+
+.modal-hero-image {
+  width: 200px;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+.modal-hero-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+.modal-cat-badge {
+  align-self: flex-start;
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border: 1px solid rgba(255, 152, 0, 0.15);
+  padding: 1px 6px;
+  border-radius: 2px;
+  margin-bottom: var(--spacing-sm);
+  text-transform: uppercase;
+}
+
+.modal-proj-name {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text);
+  margin: 0 0 6px 0;
+}
+
+.modal-proj-dev, .modal-proj-genre {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  margin: 0;
+}
+
+.modal-project-description {
+  margin-bottom: var(--spacing-lg);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: var(--spacing-md);
+}
+
+.modal-project-description h4, .docs-section-header h4 {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: var(--spacing-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.modal-project-description p {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+.docs-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-sm);
+}
+
+.docs-section-header h4 {
+  margin-bottom: 0;
+}
+
+.repo-inline-link {
+  font-size: 0.75rem;
+  color: var(--accent);
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.repo-inline-link:hover {
+  color: var(--accent-light);
+}
+
+.modal-loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-lg) 0;
+  gap: var(--spacing-sm);
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.modal-error {
+  text-align: center;
+  padding: var(--spacing-sm) 0;
+  color: var(--text-dim);
+  font-size: 0.75rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Modal Markdown Styling */
+.markdown-body {
+  color: var(--text-muted);
+  line-height: 1.5;
+  font-size: 0.8rem;
+}
+
+.markdown-body h1, .markdown-body h2, .markdown-body h3 {
+  color: var(--text);
+  margin-top: 1.2em;
+  margin-bottom: 0.4em;
+  font-weight: 700;
+}
+
+.markdown-body h1 { font-size: 1.15rem; border-bottom: 1px solid var(--border); padding-bottom: 0.2em; }
+.markdown-body h2 { font-size: 1.05rem; }
+.markdown-body h3 { font-size: 0.9rem; }
+
+.markdown-body p, .markdown-body ul, .markdown-body ol {
+  margin-bottom: 0.8em;
+}
+
+.markdown-body code {
+  font-family: var(--font-mono);
+  background: rgba(255, 255, 255, 0.04);
+  padding: 1px 4px;
+  border-radius: 2px;
+  font-size: 0.75rem;
+  color: var(--text);
+}
+
+.markdown-body pre {
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  padding: var(--spacing-sm);
+  border-radius: var(--radius);
+  overflow-x: auto;
+  margin-bottom: 0.8em;
+}
+
+.markdown-body pre code {
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+}
+
+.markdown-body ul, .markdown-body ol {
+  padding-left: var(--spacing-md);
+}
+
+.markdown-body blockquote {
+  border-left: 2px solid var(--accent);
+  padding-left: var(--spacing-sm);
+  margin: 0 0 0.8em;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .showcase-filter-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--spacing-md);
+  }
+
+  .search-wrapper {
+    width: 100%;
+  }
+
+  .modal-project-hero {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .modal-hero-image {
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .modal-cat-badge {
+    align-self: center;
+  }
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const filterButtons = document.querySelectorAll(".filter-btn");
+  const searchInput = document.getElementById("project-search");
+  const projectGrid = document.getElementById("project-grid");
+
+  let activeFilter = "all";
+
+  // Filter button triggers
+  filterButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      filterButtons.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      activeFilter = btn.getAttribute("data-filter");
+      filterProjects();
+    });
+  });
+
+  function filterProjects() {
+    const query = searchInput.value.toLowerCase().trim();
+    const cards = projectGrid.querySelectorAll(".project-card");
+    let visibleCount = 0;
+
+    cards.forEach(card => {
+      const name = card.getAttribute("data-name");
+      const desc = card.getAttribute("data-desc");
+      const genre = card.getAttribute("data-genre");
+      const category = card.getAttribute("data-category");
+
+      const matchesFilter = (activeFilter === "all" || category === activeFilter);
+      const matchesSearch = name.includes(query) || desc.includes(query) || genre.includes(query);
+
+      const matches = matchesFilter && matchesSearch;
+      card.style.display = matches ? "flex" : "none";
+      if (matches) visibleCount++;
+    });
+
+    let noResultsMsg = projectGrid.querySelector(".no-results-message");
+    if (visibleCount === 0) {
+      if (!noResultsMsg) {
+        noResultsMsg = document.createElement("p");
+        noResultsMsg.className = "no-results-message error-message";
+        noResultsMsg.style.textAlign = "center";
+        noResultsMsg.style.gridColumn = "1 / -1";
+        noResultsMsg.style.marginTop = "var(--spacing-lg)";
+        noResultsMsg.textContent = "No projects match your query.";
+        projectGrid.appendChild(noResultsMsg);
+      }
+    } else {
+      if (noResultsMsg) {
+        noResultsMsg.remove();
+      }
+    }
+  }
+
+  searchInput.addEventListener("input", filterProjects);
+
+  // Overview Modal Trigger Logic
+  const modal = document.getElementById("showcase-modal");
+  const modalTitle = document.getElementById("modal-title");
+  
+  const mImage = document.getElementById("modal-project-image");
+  const mCategory = document.getElementById("modal-project-category");
+  const mName = document.getElementById("modal-project-name");
+  const mDeveloper = document.getElementById("modal-project-developer");
+  const mGenre = document.getElementById("modal-project-genre");
+  const mDetailedDesc = document.getElementById("modal-project-detailed-desc");
+  const mRepoLink = document.getElementById("modal-repo-link");
+  
+  const modalLoading = document.getElementById("modal-loading-indicator");
+  const modalError = document.getElementById("modal-error-content");
+  const modalContent = document.getElementById("modal-markdown-content");
+  const modalCloseBtn = modal.querySelector(".modal-close-btn");
+
+  function openModal(btn) {
+    const name = btn.getAttribute("data-name");
+    const dev = btn.getAttribute("data-developer");
+    const genre = btn.getAttribute("data-genre");
+    const catLabel = btn.getAttribute("data-category-label");
+    const cat = btn.getAttribute("data-category");
+    const img = btn.getAttribute("data-image-src");
+    const detailedDesc = btn.getAttribute("data-detailed-desc");
+    const rawUrl = btn.getAttribute("data-raw-url");
+    const repoUrl = btn.getAttribute("data-repo-url");
+
+    modalTitle.textContent = `${name} Overview`;
+    mImage.src = img;
+    mCategory.textContent = catLabel;
+    mCategory.className = `modal-cat-badge ${cat === 'official' ? 'official-badge' : 'community-badge'}`;
+    mName.textContent = name;
+    mDeveloper.textContent = dev;
+    mGenre.textContent = genre;
+    mDetailedDesc.textContent = detailedDesc;
+    mRepoLink.href = repoUrl;
+
+    modalLoading.style.display = "flex";
+    modalError.style.display = "none";
+    modalContent.innerHTML = "";
+    
+    modal.classList.add("active");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+
+    fetch(rawUrl)
+      .then(response => {
+        if (!response.ok) throw new Error("Failed to load");
+        return response.text();
+      })
+      .then(markdown => {
+        modalLoading.style.display = "none";
+        if (window.marked) {
+          modalContent.innerHTML = window.marked.parse(markdown);
+        } else {
+          modalContent.innerHTML = `<pre style="white-space: pre-wrap;">${markdown}</pre>`;
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        modalLoading.style.display = "none";
+        modalError.style.display = "block";
+      });
+  }
+
+  function closeModal() {
+    modal.classList.remove("active");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+  }
+
+  document.querySelectorAll(".view-details-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      openModal(btn);
+    });
+  });
+
+  modalCloseBtn.addEventListener("click", closeModal);
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) closeModal();
+  });
+  
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modal.classList.contains("active")) {
+      closeModal();
+    }
+  });
+});
+</script>

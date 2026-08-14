@@ -1,0 +1,72 @@
+[
+  {
+    "id": "zeniths-wake",
+    "name": "Zenith's Wake",
+    "category": "official",
+    "categoryLabel": "Official Tech Demo",
+    "developer": "Kolpa Core Team",
+    "description": "An atmospheric third-person action RPG showcasing clustered lighting, skeletal animation graphs, and Jolt physics integration.",
+    "detailedDescription": "Zenith's Wake is the flagship tech demo for the Kolpa Engine. It demonstrates how various core systems like the Zenith rendering hardware interface (RHI) and Jolt Physics wrapper interoperate under heavy workloads. Features include a fully interactive animated character controller, high-density destructible props, clustered shadow mapping, and real-time C# script hot reloading for quick design iterations.",
+    "genre": "Action RPG",
+    "image": "features/editor.png",
+    "platforms": ["Windows", "Linux"],
+    "repoUrl": "https://github.com/jrouwe/JoltPhysics",
+    "rawContentUrl": "https://raw.githubusercontent.com/jrouwe/JoltPhysics/master/README.md"
+  },
+  {
+    "id": "kolpa-sandbox",
+    "name": "Kolpa Sandbox",
+    "category": "official",
+    "categoryLabel": "Official Tech Demo",
+    "developer": "Kolpa Core Team",
+    "description": "An interactive physics playground featuring CSG constructible geometry, constraints testing, and live C# script reloading.",
+    "detailedDescription": "The official sandbox environment built to test low-level physics constraints, Constructive Solid Geometry (CSG) clipping, and multi-threaded script executions. Developers can edit variables inside player controllers and watch the physics simulation adjust in real-time. Employs advanced ambient occlusion and light probe bakes.",
+    "genre": "Sandbox",
+    "image": "features/materials.png",
+    "platforms": ["Windows", "Web"],
+    "repoUrl": "https://github.com/ocornut/imgui",
+    "rawContentUrl": "https://raw.githubusercontent.com/ocornut/imgui/master/README.md"
+  },
+  {
+    "id": "neon-run",
+    "name": "Neon Run",
+    "category": "community",
+    "categoryLabel": "Community Project",
+    "developer": "a6xdev",
+    "description": "A high-speed cyber platformer utilizing custom GLSL shaders for glowing post-processing effects and action-based inputs.",
+    "detailedDescription": "Neon Run is an action-packed platformer built by community contributor @a6xdev. The game utilizes Kolpa's custom GLSL shader bindings to create high-quality glowing bloom and neon outline post-process sweeps. Inputs are managed via the action-based input manager, supporting seamless controller-to-keyboard swapping.",
+    "genre": "Arcade",
+    "image": "features/msaa.png",
+    "platforms": ["Windows", "Linux", "Web", "Android"],
+    "repoUrl": "https://github.com/miniaudio/miniaudio",
+    "rawContentUrl": "https://raw.githubusercontent.com/miniaudio/miniaudio/master/README.md"
+  },
+  {
+    "id": "quantum-shift",
+    "name": "Quantum Shift",
+    "category": "community",
+    "categoryLabel": "Community Project",
+    "developer": "lima6xcn",
+    "description": "A space simulation pushing Vulkan memory barrier limits with thousands of rendering particles and dynamic asteroid destruction.",
+    "detailedDescription": "Quantum Shift is a space simulator designed to stress-test Vulkan compute pipeline memory barriers. The game renders thousands of high-speed particle particles, space dust debris, and asteroids in real-time, executing dynamic geometry splitting upon laser impact.",
+    "genre": "Space Sim",
+    "image": "features/editor.png",
+    "platforms": ["Linux", "Windows"],
+    "repoUrl": "https://github.com/recastnavigation/recastnavigation",
+    "rawContentUrl": "https://raw.githubusercontent.com/recastnavigation/recastnavigation/master/README.md"
+  },
+  {
+    "id": "block-craft",
+    "name": "Block Craft",
+    "category": "community",
+    "categoryLabel": "Community Project",
+    "developer": "VoxelDevs",
+    "description": "A community-driven block builder leveraging multi-threaded terrain generation and octree sparse spatial partitioning.",
+    "detailedDescription": "Block Craft is a modular voxel building game demonstrating spatial rendering optimization. It utilizes dynamic octree nodes to index millions of block units, performing multithreaded terrain heightmap updates and ambient occlusion calculation on the CPU, running parallel mesh generation for optimal framerates.",
+    "genre": "Voxel Simulator",
+    "image": "features/materials.png",
+    "platforms": ["Windows", "Web"],
+    "repoUrl": "https://github.com/SanderMertens/flecs",
+    "rawContentUrl": "https://raw.githubusercontent.com/SanderMertens/flecs/master/README.md"
+  }
+]

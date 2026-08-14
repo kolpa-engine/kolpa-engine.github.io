@@ -1,0 +1,25 @@
+# Set the default behavior to handle all files as text and normalize line endings on checkout
+* text=auto
+
+# Explicitly declare text files to always normalize to LF on checkout (helps cross-platform compatibility)
+*.cs text eol=lf
+*.json text eol=lf
+*.liquid text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.xml text eol=lf
+*.css text eol=lf
+*.html text eol=lf
+*.js text eol=lf
+
+# Denote binary files which should not be modified
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.mp4 binary
+*.mov binary
+*.mp3 binary
+*.wav binary
+*.zip binary

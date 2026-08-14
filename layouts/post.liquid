@@ -1,0 +1,107 @@
+---
+layout: default
+---
+<article class="post">
+  <header class="post-header">
+    <div class="post-back-row">
+      <a class="post-back" href="/blog/">Back to Blog</a>
+      {% if page.date %}
+        <span class="post-date">{{ page.date | date: "%B %d, %Y" }}</span>
+      {% endif %}
+    </div>
+    <h1>{{ page.title }}</h1>
+    {% if page.description %}
+      <p class="post-lede">{{ page.description }}</p>
+    {% endif %}
+
+    <div class="post-meta-row">
+      {% if page.author %}
+        {% assign authors = page.author | split: ", " %}
+        {% for author_name in authors %}
+          <span class="post-author-chip">
+            <img class="post-author-avatar" src="https://github.com/{{ author_name | slugify }}.png?size=40" alt="{{ author_name }}" loading="lazy" width="24" height="24" />
+            <span class="post-author-name">{{ author_name }}</span>
+          </span>
+        {% endfor %}
+      {% endif %}
+      <span class="post-meta">{{ content | read_time }} min read</span>
+    </div>
+
+    {% if page.tags.size > 0 %}
+      <div class="post-tags">
+        {% for tag in page.tags %}
+          <a class="tag tag--link" href="/blog/tags/{{ tag | slugify }}/">{{ tag }}</a>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% if page.image %}
+      <figure class="post-hero-image">
+        <picture>
+          <img src="{{ page.image }}" alt="{{ page.image_alt | default: page.title }}" loading="eager" decoding="async" />
+        </picture>
+        {% if page.image_caption %}
+          <figcaption>{{ page.image_caption }}</figcaption>
+        {% endif %}
+      </figure>
+    {% endif %}
+  </header>
+
+  <div class="post-content">
+    {{ content }}
+  </div>
+
+  {% unless page.tags.size == 0 %}
+    <aside class="post-recos">
+      <h4 class="post-recos__title">Keep reading</h4>
+      <div class="post-recos__grid">
+        {% assign shown = 0 %}
+        {% for post in collections.blog %}
+          {% if post.slug == page.slug %}
+            {% continue %}
+          {% endif %}
+          {% if post.tags contains page.tags.first %}
+            <a class="post-reco" href="{{ post.url }}">
+              <span class="post-reco__meta">{{ post.date | date: "%B %d, %Y" }}</span>
+              <span class="post-reco__title">{{ post.title }}</span>
+            </a>
+            {% assign shown = shown | plus: 1 %}
+            {% if shown >= 2 %}
+              {% break %}
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+      </div>
+    </aside>
+  {% endunless %}
+
+  <nav class="post-nav" aria-label="Post navigation">
+    {% assign current = page.slug %}
+    {% assign foundNext = false %}
+    {% assign older = null %}
+    {% assign newer = null %}
+    {% for post in collections.blog %}
+      {% if foundNext %}
+        {% assign older = post %}
+        {% break %}
+      {% endif %}
+      {% if post.slug == current %}
+        {% assign foundNext = true %}
+      {% else %}
+        {% assign newer = post %}
+      {% endif %}
+    {% endfor %}
+    {% if newer %}
+      <a class="post-nav__item" href="{{ newer.url }}">
+        <span class="post-nav__dir">Newer post</span>
+        <span class="post-nav__title">{{ newer.title }}</span>
+      </a>
+    {% endif %}
+    {% if older %}
+      <a class="post-nav__item post-nav__item--end" href="{{ older.url }}">
+        <span class="post-nav__dir">Older post</span>
+        <span class="post-nav__title">{{ older.title }}</span>
+      </a>
+    {% endif %}
+  </nav>
+</article>

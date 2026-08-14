@@ -1,0 +1,118 @@
+{
+  "site": {
+    "title": "Kolpa Engine",
+    "description": "A modular, hackable open-source game engine.",
+    "url": "https://kolpa-engine.github.io",
+     "showWarningBanner": false,
+    "warningBannerText": "Warning: Almost all data shown here is mock/simulated because I'm anxious and wanted to build the website before the product is ready."
+  },
+  "paths": {
+    "pages": "pages",
+    "layouts": "layouts",
+    "content": "content",
+    "data": "data",
+    "assets": "assets",
+    "output": "dist"
+  },
+  "renderer": {
+    "engine": "liquid"
+  },
+  "markdown": {
+    "extensions": {
+      "advanced": true,
+      "tables": true,
+      "taskLists": true,
+      "footnotes": true,
+      "autoIdentifiers": true,
+      "strikethrough": true,
+      "autoLinks": true,
+      "definitionLists": false,
+      "emojiSmiles": false,
+      "mathematics": false
+    },
+    "highlighting": {
+      "enabled": true,
+      "provider": "builtin",
+      "theme": "dark",
+      "cssPrefix": "hl-",
+      "generateCss": true,
+      "cssFile": "highlight.css",
+      "customTheme": {}
+    }
+  },
+  "assets": {
+    "images": {
+      "enabled": true,
+      "processor": "imagesharp",
+      "optimize": true,
+      "generateWebP": true,
+      "generateAvif": false,
+      "quality": 85,
+      "maxWidth": 1920,
+      "preserveOriginal": true,
+      "sizes": [320, 640, 1280, 1920],
+      "include": ["png", "jpg", "jpeg", "webp"]
+    },
+    "processing": {
+      "enabled": true,
+      "minifyCss": true,
+      "minifyJs": true,
+      "fingerprint": true,
+      "manifestFile": "assets-manifest.json",
+      "hashLength": 8
+    }
+  },
+  "cache": {
+    "enabled": true,
+    "directory": ".generator-cache"
+  },
+  "rss": {
+    "enabled": true,
+    "collection": "blog",
+    "output": "feed.xml",
+    "link": "/blog/"
+  },
+  "atom": {
+    "enabled": true,
+    "collection": "blog",
+    "output": "atom.xml",
+    "link": "/blog/"
+  },
+  "json": {
+    "enabled": true,
+    "collection": "blog",
+    "output": "feed.json",
+    "link": "/blog/"
+  },
+  "seo": {
+    "robots": {
+      "enabled": true,
+      "output": "robots.txt",
+      "sitemap": true,
+      "rules": []
+    },
+    "jsonLd": {
+      "enabled": true,
+      "type": "WebSite",
+      "image": ""
+    }
+  },
+  "redirects": {
+    "enabled": true,
+    "rules": []
+  },
+  "notFound": {
+    "enabled": true,
+    "output": "404.html",
+    "title": "Page Not Found",
+    "body": "<h1>404</h1><p>The page you are looking for does not exist.</p>"
+  },
+  "collections": {
+    "blog": {
+      "source": "content/blog",
+      "pattern": "*.md",
+      "output": "/blog/{slug}/",
+      "tags": "/blog/tags/{tag}/"
+    }
+  }
+}

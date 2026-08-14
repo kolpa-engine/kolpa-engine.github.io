@@ -1,0 +1,28 @@
+---
+layout: default
+title: Tags
+description: Browse Kolpa Engine blog posts by topic.
+---
+<header class="page-header">
+  <div class="shell">
+    <a class="post-back" href="/blog/">&larr; Back to Blog</a>
+    <h1 class="page-title">TAGS</h1>
+    <p class="lede">Browse the blog by topic.</p>
+  </div>
+</header>
+
+<section class="shell blog-section">
+  {% assign tagList = tagcloud.blog %}
+  {% if tagList.size == 0 %}
+    <p class="error-message">No tags yet.</p>
+  {% else %}
+    <div class="tag-cloud">
+      {% for tag in tagList %}
+        <a class="tag-cloud__item" href="/blog/tags/{{ tag.slug }}/">
+          <span class="tag-cloud__name">{{ tag.name }}</span>
+          <span class="tag-cloud__count">{{ tag.count }}</span>
+        </a>
+      {% endfor %}
+    </div>
+  {% endif %}
+</section>

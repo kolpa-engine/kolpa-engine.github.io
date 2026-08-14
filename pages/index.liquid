@@ -1,0 +1,479 @@
+---
+layout: default
+title: Kolpa Engine - Open Source Game Engine
+description: An open source game engine with ECS, physics, audio, and optional C# scripting.
+---
+<section class="hero">
+  <div class="shell hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow">OPEN SOURCE GAME ENGINE</p>
+      <h1>KOLPA ENGINE</h1>
+      <p class="lede">
+        An open source game engine with ECS, physics, audio, and C# scripting.
+        Built in C and C++ with OpenGL. Use it as a framework or a full engine.
+      </p>
+      <div class="btn-group">
+        <a href="#features" class="btn btn-primary">Explore Features</a>
+        <a href="https://github.com/gabriel-aplok/kolpa-lib" class="btn btn-outline" target="_blank" rel="noopener noreferrer">View Source</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <figure class="shot-frame">
+        <picture>
+          <source type="image/webp" srcset="{% for s in images['features/editor.png'].sources %}{{ s.src }} {{ s.width }}w{% unless forloop.last %},{% endunless %}{% endfor %}" sizes="100vw">
+          <img src="{{ images['features/editor.png'].src }}" alt="Kolpa Engine editor viewport showing 3D scene editing" loading="eager" decoding="async" />
+        </picture>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section id="overview" class="section-block" style="padding-bottom: 0; border-bottom: none;">
+  <div class="shell">
+    <div class="section-header">
+      <h2 class="section-title">WHAT KOLPA IS</h2>
+      <p class="section-subtitle">
+        Kolpa is a game engine written in C and C++. It has a C99 framework layer for rendering, input, audio, and math,
+        and a C++20 engine layer with ECS, scene management, physics, and optional C# scripting.
+      </p>
+    </div>
+    <div class="overview-grid">
+      <div class="overview-card">
+        <h3>USE THE FRAMEWORK</h3>
+        <p>
+          The kolpa C library gives you window, input, rendering, audio, and math.
+          No ECS, no scenes, no scripting. Just a fast, readable C API for making games.
+        </p>
+      </div>
+      <div class="overview-card">
+        <h3>OR THE FULL ENGINE</h3>
+        <p>
+          The C++ engine layer adds GameObjects, Components, Behaviours, Systems, physics, audio DSP,
+          resource pipelines, and C# scripting via .NET 10 with hot reload.
+        </p>
+      </div>
+    </div>
+
+    <div class="quickstart-container">
+      <h3>Build from Source</h3>
+      <div class="code-window">
+        <div class="code-window-bar">
+          <span>Terminal</span>
+          <button class="compile-btn" onclick="copyCode(this)" style="background: transparent; border: 1px solid var(--border); color: var(--accent-light); font-size: 0.65rem; padding: 2px 8px; border-radius: 3px; cursor: pointer;">Copy</button>
+        </div>
+        <pre class="code-block" style="color: var(--text-muted);"><code><span style="color: var(--accent);">$</span> git clone https://github.com/gabriel-aplok/kolpa-lib.git
+<span style="color: var(--accent);">$</span> cd kolpa-lib
+<span style="color: var(--accent);">$</span> dotnet build build/Kine.Build
+<span style="color: var(--accent);">$</span> build/Kine.Build.exe build</code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="features" class="features">
+  <div class="shell">
+    <div class="section-header" style="text-align: center; margin-inline: auto;">
+      <h2 class="section-title">ENGINE FEATURES</h2>
+      <p class="section-subtitle" style="margin-bottom: var(--spacing-xl);">
+        Explore the sub-systems, pipelines, and frameworks built into Kolpa Engine.
+      </p>
+    </div>
+
+    <div class="features-content">
+      <article class="feature-band" id="feature-csharp">
+        <div class="feature-row">
+          <div class="feature-text">
+            <h3>C# SCRIPTING</h3>
+            <p>
+              Write gameplay logic in C# with full type safety. Direct access to .NET runtime,
+              multithreading, and high-level libraries via hot-reloaded assemblies.
+            </p>
+          </div>
+          <div class="feature-shot">
+            <div class="code-window">
+              <div class="code-window-bar">
+                <span>Game/BasePlayer.cs</span>
+                <button class="compile-btn" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre class="code-block"><code><span class="tk-k">public class</span> <span class="tk-t">BasePlayer</span> : <span class="tk-t">EntityComponent</span>
+{
+    <span class="tk-k">public float</span> <span class="tk-v">Speed</span> { <span class="tk-k">get</span>; <span class="tk-k">set</span>; } = <span class="tk-n">5.0f</span>;
+
+    <span class="tk-k">public override void</span> <span class="tk-f">OnUpdate</span>(<span class="tk-k">float</span> <span class="tk-v">deltaTime</span>)
+    {
+        <span class="tk-t">Vector3</span> <span class="tk-v">input</span> = <span class="tk-t">GameInput</span>.<span class="tk-f">GetMovementVector</span>();
+        <span class="tk-t">Transform</span>.<span class="tk-f">Translate</span>(<span class="tk-v">input</span> * <span class="tk-v">Speed</span> * <span class="tk-v">deltaTime</span>);
+    }
+}</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="feature-band feature-band--flip" id="feature-rendering">
+        <div class="feature-row">
+          <div class="feature-text">
+            <h3>FORWARD+ MSAA</h3>
+            <p>
+              Forward rendering pipeline with MSAA anti-aliasing. Supports dynamic lights,
+              shadow mapping, light probes, and depth pre-passes for efficient scene rendering.
+            </p>
+          </div>
+          <div class="feature-shot">
+            <figure class="shot-frame">
+              <picture>
+                <source type="image/webp" srcset="{% for s in images['features/msaa.png'].sources %}{{ s.src }} {{ s.width }}w{% unless forloop.last %},{% endunless %}{% endfor %}" sizes="100vw">
+                <img src="{{ images['features/msaa.png'].src }}" alt="Kolpa Engine viewport rendering with MSAA anti-aliasing" loading="lazy" />
+              </picture>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="feature-band" id="feature-hot-reload">
+        <div class="feature-row">
+          <div class="feature-text">
+            <h3>HOT RELOAD</h3>
+            <p>
+              Save code changes and see updates immediately in the running viewport.
+              The editor reloads assemblies without resetting runtime state or dropping frames.
+            </p>
+          </div>
+          <div class="feature-shot">
+            <figure class="shot-frame">
+              <picture>
+                <source type="image/webp" srcset="{% for s in images['features/hotreload.png'].sources %}{{ s.src }} {{ s.width }}w{% unless forloop.last %},{% endunless %}{% endfor %}" sizes="100vw">
+                <img src="{{ images['features/hotreload.png'].src }}" alt="Hot reload status overlay showing successful compilation" loading="lazy" />
+              </picture>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="feature-band feature-band--flip" id="feature-input">
+        <div class="feature-row">
+          <div class="feature-text">
+            <h3>INPUT</h3>
+            <p>
+              Action-based input system for controllers, keyboard, and mouse.
+              Unified input state shared between editor and standalone packages.
+            </p>
+          </div>
+          <div class="feature-shot">
+            <div class="code-window">
+              <div class="code-window-bar">
+                <span>PlayerController.cs</span>
+                <button class="compile-btn" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre class="code-block"><code><span class="tk-c">// Action-based input routing.</span>
+<span class="tk-k">if</span> (<span class="tk-v">Input</span>!.<span class="tk-f">IsActionPressed</span>(<span class="tk-s">"Jump"</span>))
+    <span class="tk-v">Velocity</span>.<span class="tk-v">Y</span> <span class="tk-k">=</span> <span class="tk-v">JumpForce</span>;
+
+<span class="tk-t">var</span> <span class="tk-v">moveDir</span> <span class="tk-k">=</span> <span class="tk-v">Input</span>.<span class="tk-f">GetAxis2D</span>(<span class="tk-s">"MoveX"</span>, <span class="tk-s">"MoveY"</span>);</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="feature-band" id="feature-materials">
+        <div class="feature-row">
+          <div class="feature-text">
+            <h3>MATERIALS</h3>
+            <p>
+              PBR material system with node-based controls or code parameters.
+              Configure reflectivity, roughness, normal maps, and emissive properties.
+            </p>
+          </div>
+          <div class="feature-shot">
+            <figure class="shot-frame">
+              <picture>
+                <source type="image/webp" srcset="{% for s in images['features/materials.png'].sources %}{{ s.src }} {{ s.width }}w{% unless forloop.last %},{% endunless %}{% endfor %}" sizes="100vw">
+                <img src="{{ images['features/materials.png'].src }}" alt="PBR material editor preview showing sphere with texture maps" loading="lazy" />
+              </picture>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="feature-band feature-band--flip" id="feature-glsl">
+        <div class="feature-row">
+          <div class="feature-text">
+            <h3>SHADERS</h3>
+            <p>
+              Write GLSL code directly for materials and fullscreen post-process passes.
+              The editor compiles shaders immediately upon saving.
+            </p>
+          </div>
+          <div class="feature-shot">
+            <div class="code-window">
+              <div class="code-window-bar">
+                <span>Shaders/CustomRim.glsl</span>
+                <button class="compile-btn" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre class="code-block"><code><span class="tk-c">// Write native GLSL directly in engine.</span>
+<span class="tk-t">vec4</span> <span class="tk-f">EvaluateUnlit</span>(<span class="tk-t">MaterialInput</span> <span class="tk-v">input</span>)
+{
+    <span class="tk-t">float</span> <span class="tk-v">rim</span> <span class="tk-k">=</span> <span class="tk-f">pow</span>(<span class="tk-n">1.0</span> <span class="tk-k">-</span> <span class="tk-f">clamp</span>(<span class="tk-f">dot</span>(
+        <span class="tk-f">normalize</span>(<span class="tk-v">input</span>.<span class="tk-v">Normal</span>), <span class="tk-v">input</span>.<span class="tk-v">ViewDir</span>), <span class="tk-n">0.0</span>, <span class="tk-n">1.0</span>), <span class="tk-n">3.0</span>);
+
+    <span class="tk-k">return</span> <span class="tk-t">vec4</span>(<span class="tk-v">input</span>.<span class="tk-v">BaseColor</span> <span class="tk-k">+</span> <span class="tk-v">rim</span> <span class="tk-k">*</span> <span class="tk-t">vec3</span>(<span class="tk-n">0.2</span>, <span class="tk-n">1.0</span>, <span class="tk-n">0.4</span>), <span class="tk-n">1.0</span>);
+}</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="feature-band" id="feature-physics">
+        <div class="feature-row">
+          <div class="feature-text">
+            <h3>PHYSICS API</h3>
+            <p>
+              Pluggable physics backend supporting multiple implementations.
+              Switch between Jolt, Box3D, or a lightweight dummy backend per project needs.
+            </p>
+          </div>
+          <div class="feature-shot">
+            <div class="mermaid-container">
+              <div class="mermaid-card">
+                <div class="mermaid-header">Physics Backend Selection</div>
+                <div class="mermaid-flow">
+                  <div class="mermaid-node mermaid-start">Game Code</div>
+                  <div class="mermaid-arrow">|</div>
+                  <div class="mermaid-node mermaid-mid">Physics API</div>
+                  <div class="mermaid-arrow">|</div>
+                  <div class="mermaid-branches">
+                    <div class="mermaid-branch">Jolt</div>
+                    <div class="mermaid-branch">Box3D</div>
+                    <div class="mermaid-branch">Dummy</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="feature-band feature-band--flip" id="feature-animation">
+        <div class="feature-row">
+          <div class="feature-text">
+            <h3>ANIMATION GRAPH</h3>
+            <p>
+              Visual state machines and blend trees for character animation.
+              GPU-accelerated skeletal skinning with real-time playback in the editor.
+            </p>
+          </div>
+          <div class="feature-shot">
+            <figure class="shot-frame">
+              <video aria-label="Animation graph editing and blend nodes screen recording" controls autoplay muted loop playsinline src="/assets/features/animgraph.mp4"></video>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="feature-band" id="feature-ui">
+        <div class="feature-row">
+          <div class="feature-text">
+            <h3>IMMEDIATE MODE UI</h3>
+            <p>
+              Hardware-accelerated immediate mode UI framework. Build HUDs, editor panels,
+              and overlays with a simple draw-call API.
+            </p>
+          </div>
+          <div class="feature-shot">
+            <div class="code-window">
+              <div class="code-window-bar">
+                <span>Inventory.UI.cs</span>
+                <button class="compile-btn" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre class="code-block"><code><span class="tk-c">// Immediate mode UI drawing.</span>
+<span class="tk-v">_UI</span>.<span class="tk-f">Draw</span>(() =>
+{
+    <span class="tk-k">using</span> (<span class="tk-t">UI</span>.<span class="tk-f">Panel</span>(<span class="tk-s">"Inventory"</span>))
+    {
+        <span class="tk-t">UI</span>.<span class="tk-f">Header</span>(<span class="tk-s">"Items"</span>);
+        <span class="tk-k">if</span> (<span class="tk-t">UI</span>.<span class="tk-f">Button</span>(<span class="tk-s">"Equip Sword"</span>))
+            <span class="tk-v">Player</span>.<span class="tk-f">Equip</span>(<span class="tk-v">ItemId</span>);
+    }
+});</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="feature-band feature-band--flip" id="feature-code-editor">
+        <div class="feature-row">
+          <div class="feature-text">
+            <h3>BUILT-IN CODE EDITOR</h3>
+            <p>
+              Edit C# and GLSL code inside the engine viewport. Syntax highlighting,
+              auto-completions, and script diagnostics without leaving the editor.
+            </p>
+          </div>
+          <div class="feature-shot">
+            <figure class="shot-frame">
+              <video aria-label="Built-in code editor rendering next to running scene viewport" controls autoplay muted loop playsinline src="/assets/features/code_editor.mp4"></video>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="feature-band" id="feature-csg">
+        <div class="feature-row">
+          <div class="feature-text">
+            <h3>CONSTRUCTIVE SOLID GEOMETRY</h3>
+            <p>
+              Level prototyping with CSG operations. Add, subtract, and intersect
+              shapes to generate static meshes for rapid level design.
+            </p>
+          </div>
+          <div class="feature-shot">
+            <a class="github-repo-card" href="https://github.com/elalish/manifold" target="_blank" rel="noopener noreferrer">
+              <div class="github-repo-card__top">
+                <span class="github-repo-card__pill">External Library</span>
+              </div>
+              <p class="github-repo-card__slug">
+                <span class="github-repo-card__owner">elalish</span><span class="github-repo-card__slash">/</span><span class="github-repo-card__repo">manifold</span>
+              </p>
+              <p class="github-repo-card__desc">
+                Geometry library for topological robustness. Provides fast CSG operations for 3D model boolean generation.
+              </p>
+              <div class="github-repo-card__footer">
+                <span class="github-repo-card__lang"><span class="github-repo-card__lang-dot"></span> C++</span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <article class="feature-band feature-band--flip" id="feature-packaging">
+        <div class="feature-row">
+          <div class="feature-text">
+            <h3>PACKAGING</h3>
+            <p>
+              One-click build pipeline. Compile code, cook assets, strip unused data,
+              and write archives into a standalone executable.
+            </p>
+          </div>
+          <div class="feature-shot">
+            <figure class="shot-frame">
+              <video aria-label="One click build pipeline and engine cook progress bar video" controls autoplay muted loop playsinline src="/assets/features/packaging.mp4"></video>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="feature-band" id="feature-pipeline">
+        <div class="feature-row">
+          <div class="feature-text">
+            <h3>ASSET PIPELINE</h3>
+            <p>
+              Import 3D models, textures, and animations. The pipeline converts assets
+              into optimized binary formats for fast loading and low memory usage.
+            </p>
+          </div>
+          <div class="feature-shot">
+            <div class="code-window">
+              <div class="code-window-bar">
+                <span>Terminal</span>
+                <button class="compile-btn" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre class="code-block"><code><span style="color: var(--accent);">$</span> kine build --assets import
+<span style="color: var(--accent);">$</span> Converting model.fbx to .kmd...
+<span style="color: var(--accent);">$</span> Converting texture.png to .ktx...
+<span style="color: var(--accent);">$</span> Asset pipeline complete (2.4s)</code></pre>
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section-block" id="showcase">
+  <div class="shell">
+    <div class="section-header">
+      <h2 class="section-title">BUILT WITH KOLPA</h2>
+      <p class="section-subtitle">
+        Discover featured games and technical prototypes created by the team and the community.
+      </p>
+    </div>
+
+    <div class="showcase-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--spacing-lg);">
+      {% for project in data.showcase %}
+        {% if forloop.index <= 3 %}
+          <div class="project-card" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; height: 100%; transition: border-color 0.15s ease, transform 0.15s ease;">
+            <div style="position: relative; width: 100%; aspect-ratio: 16 / 9; background: var(--bg-surface); overflow: hidden; border-bottom: 1px solid var(--border);">
+              <picture>
+                <source type="image/webp" srcset="{% for s in images[project.image].sources %}{{ s.src }} {{ s.width }}w{% unless forloop.last %},{% endunless %}{% endfor %}" sizes="(max-width: 768px) 100vw, 350px">
+                <img src="{{ images[project.image].src }}" alt="{{ project.name }} gameplay cover preview" style="width: 100%; height: 100%; object-fit: cover;" loading="lazy" />
+              </picture>
+              <div style="position: absolute; bottom: 8px; right: 8px; background: rgba(0, 0, 0, 0.8); border: 1px solid var(--border); color: var(--text); font-size: 0.65rem; font-weight: 600; text-transform: uppercase; padding: 2px 8px; border-radius: 2px;">{{ project.genre }}</div>
+            </div>
+            <div style="padding: var(--spacing-md); display: flex; flex-direction: column; flex-grow: 1;">
+              <div style="display: flex; flex-direction: column; gap: 2px; margin-bottom: var(--spacing-sm);">
+                <h3 style="font-size: 0.95rem; font-weight: 700; color: var(--text); margin: 0;">{{ project.name }}</h3>
+                <span style="font-size: 0.7rem; color: var(--text-dim);">by {{ project.developer }}</span>
+              </div>
+              <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.4; margin-bottom: var(--spacing-md); flex-grow: 1;">{{ project.description }}</p>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-top: auto; gap: var(--spacing-sm); border-top: 1px solid var(--border); padding-top: var(--spacing-sm);">
+                <div style="display: flex; gap: 4px; flex-wrap: wrap;">
+                  {% for platform in project.platforms %}
+                    <span style="font-size: 0.65rem; font-family: var(--font-mono); background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); color: var(--text-muted); padding: 1px 5px; border-radius: 2px;">{{ platform }}</span>
+                  {% endfor %}
+                </div>
+                <a href="/showcases/" style="font-size: 0.75rem; font-weight: 600; color: var(--accent); display: inline-flex; align-items: center; gap: 4px; transition: color 0.15s ease;">
+                  Learn More
+                  <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    <div class="section-cta">
+      <a href="/showcases/" class="btn btn-outline">Explore Full Gallery</a>
+    </div>
+  </div>
+</section>
+
+<section class="section-block" id="blog">
+  <div class="shell">
+    <div class="section-header">
+      <h2 class="section-title">FROM THE BLOG</h2>
+      <p class="section-subtitle">
+        News, tutorials, and development notes from the Kolpa Engine team.
+      </p>
+    </div>
+
+    <div class="overview-grid">
+      {% for post in collections.blog %}
+        {% if forloop.index <= 3 %}
+          <a class="blog-card blog-card--plain" href="{{ post.url }}">
+          <header class="blog-card__header">
+            {% if post.date %}
+              <time class="blog-card__date">{{ post.date | date_format: "MMMM d, yyyy" }}</time>
+            {% endif %}
+            <h3 class="blog-card__title">{{ post.title }}</h3>
+            {% if post.description %}
+              <p class="blog-card__desc">{{ post.description }}</p>
+            {% endif %}
+          </header>
+          <footer class="blog-card__footer">
+            {% if post.author %}
+              <span class="post-meta">{{ post.author }}</span>
+            {% endif %}
+          </footer>
+        </a>
+        {% endif %}
+      {% else %}
+        <p class="error-message">No posts yet. Check back soon.</p>
+      {% endfor %}
+    </div>
+
+    <div class="section-cta">
+      <a href="/blog/" class="btn btn-outline">View All Posts</a>
+    </div>
+  </div>
+</section>

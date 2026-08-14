@@ -1,0 +1,23 @@
+[
+  {
+    "username": "gabriel-aplok",
+    "name": "Gabriel Aplok",
+    "role": "Creator & Lead Maintainer",
+    "bio": "Responsible for the engine core, ECS architecture, physics, scripting, and rendering systems.",
+    "github": "https://github.com/gabriel-aplok"
+  },
+  {
+    "username": "a6xdev",
+    "name": "a6xdev",
+    "role": "AI Specialist & Core Contributor",
+    "bio": "AI systems, agents, pathfinding, and other core subsystems.",
+    "github": "https://github.com/a6xdev"
+  },
+  {
+    "username": "lima6xcn",
+    "name": "Gabriel Aplok (Secondary)",
+    "role": "Core Developer",
+    "bio": "Contributing to the engine from my Linux machine.",
+    "github": "https://github.com/lima6xcn"
+  }
+]
